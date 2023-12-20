@@ -2,8 +2,11 @@ namespace EcoFarm;
 
 public partial class RatingDisplayer : ContentView
 {
-    public static readonly BindableProperty RatingProperty = BindableProperty.CreateAttached("Rating", typeof(double), typeof(RatingDisplayer), 0);
+    public static readonly BindableProperty RatingProperty = BindableProperty.CreateAttached(nameof(Rating), typeof(double), typeof(RatingDisplayer), 0.0,
+		propertyChanged: OnRatingPropertyChanged);
+
 	private List<string> ratingStarsImages;
+
     public RatingDisplayer()
 	{
 		InitializeComponent();
@@ -17,20 +20,27 @@ public partial class RatingDisplayer : ContentView
 		{
             SetValue(RatingProperty, value);
 			if(Rating > 0)
-			{
-				// 3.5
+			{				
 				for(int i = 0; i < (int)Rating; i++)				
-					ratingStarsImages.Add("FullStar.png");
+					ratingStarsImages.Add("fullstar.png");
 				
-				if (Rating < 5 && Rating - (int)Rating > 0.3)
-					ratingStarsImages.Add("HalfStar.png");
 
-				for(int i = 0; i < 5 - ratingStarsImages.Count; i++)				
-					ratingStarsImages.Add("EmptyStar.png");				
+				if (Rating - (int)Rating > 0.3)
+					ratingStarsImages.Add("halfstar.png");
+
+				if(ratingStarsImages.Count != 5)
+					for(int i = 0; i <= 5 - ratingStarsImages.Count; i++)				
+						ratingStarsImages.Add("emptystar.png");				
 			}
 			OnPropertyChanged(nameof(RatingStarsImages));
         }
 	}
 
 	public List<string> RatingStarsImages => ratingStarsImages;
+
+    private static void OnRatingPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+    {
+        var control = (RatingDisplayer)bindable;
+        control.Rating = (double)newValue;
+    }
 }

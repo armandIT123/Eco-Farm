@@ -57,6 +57,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Picture.png" />
+	  <None Remove="Resources\AppIcon\emptystar.png" />
+	  <None Remove="Resources\AppIcon\fullstar.png" />
+	  <None Remove="Resources\AppIcon\halfstar.png" />
+	  <None Remove="Resources\AppIcon\taglocation.png" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
@@ -64,6 +72,14 @@
 
 	<ItemGroup>
 	  <Folder Include="Pages\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiImage Include="picture.png" />
+	  <MauiImage Include="Resources\AppIcon\emptystar.png" />
+	  <MauiImage Include="Resources\AppIcon\fullstar.png" />
+	  <MauiImage Include="Resources\AppIcon\halfstar.png" />
+	  <MauiImage Include="Resources\AppIcon\taglocation.png" />
 	</ItemGroup>
 
 	<ItemGroup>

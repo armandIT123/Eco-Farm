@@ -3,14 +3,17 @@ namespace EcoFarm;
 public partial class LargeImageBox : ContentView
 {
     #region Memebers & Init
-    public static readonly BindableProperty MainImageProperty = BindableProperty.CreateAttached("MainImage", typeof(string), typeof(LargeImageBox), string.Empty);
-    public static readonly BindableProperty SupplierNameProperty = BindableProperty.CreateAttached("SupplierName", typeof(string), typeof(LargeImageBox), string.Empty);
-    public static readonly BindableProperty RatingProperty = BindableProperty.CreateAttached("Rating", typeof(int), typeof(LargeImageBox), 0);
+    public static readonly BindableProperty MainImageProperty = BindableProperty.CreateAttached(nameof(MainImage), typeof(string), typeof(LargeImageBox), "",
+        propertyChanged: OnImagePropertyChanged);
+    public static readonly BindableProperty SupplierNameProperty = BindableProperty.CreateAttached(nameof(SupplierName), typeof(string), typeof(LargeImageBox), "",
+        propertyChanged: OnNamePropertyChanged);
+    public static readonly BindableProperty RatingProperty = BindableProperty.CreateAttached(nameof(Rating), typeof(double), typeof(LargeImageBox), 0.0,
+        propertyChanged: OnRatingPropertyChanged);
 
     public LargeImageBox()
 	{
 		InitializeComponent();
-		BindingContext = this;
+		
 	}
     #endregion
 
@@ -27,10 +30,30 @@ public partial class LargeImageBox : ContentView
         set => SetValue(SupplierNameProperty, value);
     }
 
-    public int Rating
+    public double Rating
     {
-        get => (int)GetValue(RatingProperty);
+        get => (double)GetValue(RatingProperty);
         set => SetValue(RatingProperty, value);
+    }
+    #endregion
+
+    #region Property Changed
+    private static void OnNamePropertyChanged(BindableObject bindable, object oldValue, object newValue)
+    {
+        var control = (LargeImageBox)bindable;
+        control.SupplierName = (string)newValue;
+    }
+
+    private static void OnImagePropertyChanged(BindableObject bindable, object oldValue, object newValue)
+    {
+        var control = (LargeImageBox)bindable;
+        control.MainImage = (string)newValue;
+    }
+
+    private static void OnRatingPropertyChanged(BindableObject bindable, object oldValue, object newValue)
+    {
+        var control = (LargeImageBox)bindable;
+        control.Rating = (double)newValue;
     }
     #endregion
 }
