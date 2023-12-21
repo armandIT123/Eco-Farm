@@ -18,7 +18,8 @@ namespace EcoFarm
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif
-
+            //To do, build httpClient here
+           // builder.Services.AddHttpClient("core", httpclient => httpclient.BaseAddress = new Uri("https://localhost:7184/WeatherForecast"));
             return builder.Build();
         }
     }

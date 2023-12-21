@@ -5,6 +5,7 @@
              x:Class="EcoFarm.MainPage" Background="LightGreen">
 
     <Grid RowDefinitions="60, 30, *" Margin="20">
+        <Button Grid.Row="0" Text="Connect" Clicked="Button_Clicked"/>
         <CollectionView ItemsSource="{Binding Suppliers}" Grid.Row="2">
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout Orientation="Vertical" />
