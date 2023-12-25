@@ -9,6 +9,8 @@
         <Grid RowDefinitions="185, 40, 30, 30">
             <Image Grid.Row="0" Source="{Binding MainImage, Source={x:Reference largeImageBoxControl}}" VerticalOptions="StartAndExpand" Aspect="AspectFill" HorizontalOptions="FillAndExpand"/>
             <local:RatingDisplayer Grid.Row="0" Margin="20, 10, 0, 0" VerticalOptions="StartAndExpand" HorizontalOptions="StartAndExpand" Rating="{Binding Rating, Mode=TwoWay}" ZIndex="1"/>
+            
+            
             <Label Grid.Row="1" Margin="10, 10, 0, 0" FontAttributes="Bold" FontSize="Large" Text="{Binding SupplierName, Source={x:Reference largeImageBoxControl}}" />
             <Label Grid.Row="2" Margin="10, 5, 0, 0" FontSize="Medium" Text="Category" />
             <HorizontalStackLayout Grid.Row="3" Margin="20, 0, 0, 0">
@@ -16,6 +18,7 @@
                 <Label Text="Location" VerticalOptions="Center"/>
                 <Label Margin="10, 0, 0, 0" Text="1.2km" VerticalOptions="Center"/>
             </HorizontalStackLayout>
+            
         </Grid>
     </Frame>
 </ContentView>

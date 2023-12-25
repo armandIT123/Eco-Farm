@@ -42,31 +42,9 @@ public partial class MainPage : ContentPage
 
     private async void Button_Clicked(object sender, EventArgs e)
     {
-
-        CallHttps();
+        var service = ServiceHelper.GetService<IServiceLink>();
+        service.GetClient();
     }
 
-    async void CallHttps()
-    {
-        try
-        {
-            var httpCLient = new HttpClientService().GetPlatformSpecificClient();
-            string baseUrl = DeviceInfo.Platform == DevicePlatform.Android ? "https://10.0.2.2:7184" : "https://localhost:7184";
-            var response = await httpCLient.GetAsync(baseUrl + "/WeatherForecast");
-
-
-            var data = await response.Content.ReadAsStringAsync();
-        }
-        catch (Exception ex) { }
-    }
-
-    async void CallHttp()
-    {
-        var httpCLient = new HttpClient();
-        string baseUrl = DeviceInfo.Platform == DevicePlatform.Android ? "http://10.0.2.2:5236" : "http://localhost:5236";
-        var response = await httpCLient.GetAsync(baseUrl + ":5236/WeatherForecast");
-
-
-        var data = await response.Content.ReadAsStringAsync();
-    }
+    
 }
