@@ -4,21 +4,27 @@
              xmlns:local="clr-namespace:EcoFarm"
              x:Class="EcoFarm.LargeImageBox" x:Name="largeImageBoxControl" >
 
-    <Frame Padding="0"  CornerRadius="30" VerticalOptions="Start" HorizontalOptions="FillAndExpand" Background="White" BorderColor="Transparent" BackgroundColor="White" IsClippedToBounds="True" >
+    <Frame Padding="0"  CornerRadius="30" VerticalOptions="Start" HorizontalOptions="FillAndExpand" BorderColor="Transparent" BackgroundColor="White" IsClippedToBounds="True" >
 
-        <Grid RowDefinitions="185, 40, 30, 30">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
             <Image Grid.Row="0" Source="{Binding MainImage, Source={x:Reference largeImageBoxControl}}" VerticalOptions="StartAndExpand" Aspect="AspectFill" HorizontalOptions="FillAndExpand"/>
             <local:RatingDisplayer Grid.Row="0" Margin="20, 10, 0, 0" VerticalOptions="StartAndExpand" HorizontalOptions="StartAndExpand" Rating="{Binding Rating, Mode=TwoWay}" ZIndex="1"/>
-            
-            
-            <Label Grid.Row="1" Margin="10, 10, 0, 0" FontAttributes="Bold" FontSize="Large" Text="{Binding SupplierName, Source={x:Reference largeImageBoxControl}}" />
-            <Label Grid.Row="2" Margin="10, 5, 0, 0" FontSize="Medium" Text="Category" />
-            <HorizontalStackLayout Grid.Row="3" Margin="20, 0, 0, 0">
-                <Image Source="taglocation.png" WidthRequest="24" VerticalOptions="Center" HeightRequest="24"/>
-                <Label Text="Location" VerticalOptions="Center"/>
-                <Label Margin="10, 0, 0, 0" Text="1.2km" VerticalOptions="Center"/>
-            </HorizontalStackLayout>
-            
+
+
+            <VerticalStackLayout Grid.Row="1">
+                <Label Grid.Row="1" Margin="10, 10, 0, 0" FontAttributes="Bold" FontSize="Medium" Text="{Binding SupplierName, Source={x:Reference largeImageBoxControl}}" />
+                <Label Grid.Row="2" Margin="10, 5, 0, 0"  Text="Category" IsVisible="{Binding IsCategoryVisible, Source={x:Reference largeImageBoxControl}}"/>
+                <HorizontalStackLayout Grid.Row="3" Margin="20, 0, 0, 10">
+                    <Image Source="taglocation.png" WidthRequest="24" VerticalOptions="Center" HeightRequest="24"/>
+                    <Label Text="Location" VerticalOptions="Center"/>
+                    <Label Margin="10, 0, 0, 0" Text="1.2km" VerticalOptions="Center"/>
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+
         </Grid>
     </Frame>
 </ContentView>

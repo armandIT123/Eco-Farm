@@ -1,16 +1,44 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Data;
+using Microsoft.AspNetCore.Mvc;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Core.Controllers;
 
-public class SupplierController : Controller
+[ApiController]
+[Route("[controller]")]
+public class SupplierController : ControllerBase
 {
-    public IActionResult Index()
+    List<Supplier> suppliers = new()
     {
-        return View();
-    }
+            new Supplier()
+            {
+                Name = "Test",
+                Image = "picture.png",
+                Rating = 3.5,
 
-    public IActionResult GetSuppliers()
+            },
+            new Supplier()
+            {
+                Name = "Test 2",
+                Image = "picture.png",
+                Rating = 5
+            },
+            new Supplier()
+            {
+                Name = "Test 3",
+                Image = "picture.png",
+                Rating = 4.5
+            }
+    };
+
+    //public IActionResult Index()
+    //{
+    //    return View();
+    //}
+
+    [HttpGet(Name = "GetSuppliers")]
+    public IEnumerable<Supplier> GetSuppliers()
     {
-        return Ok();
+        return suppliers;
     }
 }

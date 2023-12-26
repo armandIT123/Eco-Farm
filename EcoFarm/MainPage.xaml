@@ -4,29 +4,7 @@
              xmlns:local="clr-namespace:EcoFarm"
              x:Class="EcoFarm.MainPage" Background="LightGreen">
 
-    <Grid RowDefinitions="60, 30, *, *" Margin="20">
-        <Button Grid.Row="0" Text="Connect" Clicked="Button_Clicked"/>
-
-        <CollectionView ItemsSource="{Binding Suppliers}" Grid.Row="2">
-            <CollectionView.ItemsLayout>
-                <LinearItemsLayout Orientation="Horizontal" />
-            </CollectionView.ItemsLayout>
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <local:LargeImageBox MainImage="{Binding Image, Mode=TwoWay}" WidthRequest="300" SupplierName="{Binding Name, Mode=TwoWay}" Rating="{Binding Rating, Mode=TwoWay}" Margin="20, 10, 0, 10"/>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-
-        <CollectionView ItemsSource="{Binding Suppliers}" Grid.Row="3">
-            <CollectionView.ItemsLayout>
-                <LinearItemsLayout Orientation="Vertical" />
-            </CollectionView.ItemsLayout>
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <local:LargeImageBox MainImage="{Binding Image, Mode=TwoWay}" SupplierName="{Binding Name, Mode=TwoWay}" Rating="{Binding Rating, Mode=TwoWay}" Margin="0, 10, 0, 10"/>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+    <Grid RowDefinitions="60, 30, *" Margin="20">
+       
     </Grid>
 </ContentPage>

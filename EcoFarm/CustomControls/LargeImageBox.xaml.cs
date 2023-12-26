@@ -10,6 +10,8 @@ public partial class LargeImageBox : ContentView
     public static readonly BindableProperty RatingProperty = BindableProperty.CreateAttached(nameof(Rating), typeof(double), typeof(LargeImageBox), 0.0,
         propertyChanged: OnRatingPropertyChanged);
 
+    private bool isCategoryVisible = true;
+
     public LargeImageBox()
 	{
 		InitializeComponent();
@@ -34,6 +36,16 @@ public partial class LargeImageBox : ContentView
     {
         get => (double)GetValue(RatingProperty);
         set => SetValue(RatingProperty, value);
+    }
+
+    public bool IsCategoryVisible
+    {
+        get => isCategoryVisible;
+        set
+        {
+            isCategoryVisible = value;
+            OnPropertyChanged();
+        }
     }
     #endregion
 

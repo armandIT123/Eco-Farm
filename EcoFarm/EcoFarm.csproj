@@ -72,10 +72,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Pages\" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <MauiImage Include="picture.png" />
 	  <MauiImage Include="Resources\AppIcon\emptystar.png" />
 	  <MauiImage Include="Resources\AppIcon\fullstar.png" />
@@ -92,6 +88,12 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="CustomControls\RatingDisplayer.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\DiscoverPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\SupplierPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
