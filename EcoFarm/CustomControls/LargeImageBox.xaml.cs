@@ -1,21 +1,24 @@
+using System.Windows.Input;
+
 namespace EcoFarm;
 
 public partial class LargeImageBox : ContentView
 {
     #region Memebers & Init
-    public static readonly BindableProperty MainImageProperty = BindableProperty.CreateAttached(nameof(MainImage), typeof(string), typeof(LargeImageBox), "",
+    public static readonly BindableProperty MainImageProperty = BindableProperty.Create(nameof(MainImage), typeof(string), typeof(LargeImageBox), "",
         propertyChanged: OnImagePropertyChanged);
-    public static readonly BindableProperty SupplierNameProperty = BindableProperty.CreateAttached(nameof(SupplierName), typeof(string), typeof(LargeImageBox), "",
+    public static readonly BindableProperty SupplierNameProperty = BindableProperty.Create(nameof(SupplierName), typeof(string), typeof(LargeImageBox), "",
         propertyChanged: OnNamePropertyChanged);
-    public static readonly BindableProperty RatingProperty = BindableProperty.CreateAttached(nameof(Rating), typeof(double), typeof(LargeImageBox), 0.0,
+    public static readonly BindableProperty RatingProperty = BindableProperty.Create(nameof(Rating), typeof(double), typeof(LargeImageBox), 0.0,
         propertyChanged: OnRatingPropertyChanged);
+    public static readonly BindableProperty TapCommandProperty = BindableProperty.Create(nameof(TapCommand), typeof(ICommand), typeof(LargeImageBox));
+    public static readonly BindableProperty TapCommandParameterProperty = BindableProperty.Create(nameof(TapCommandParameter), typeof(object), typeof(LargeImageBox));
 
     private bool isCategoryVisible = true;
 
     public LargeImageBox()
 	{
 		InitializeComponent();
-		
 	}
     #endregion
 
@@ -47,9 +50,21 @@ public partial class LargeImageBox : ContentView
             OnPropertyChanged();
         }
     }
+
+    public ICommand TapCommand
+    {
+        get => (ICommand)GetValue(TapCommandProperty);
+        set => SetValue(TapCommandProperty, value);
+    }
+
+    public object TapCommandParameter
+    {
+        get => GetValue(TapCommandParameterProperty);
+        set => SetValue(TapCommandParameterProperty, value);
+    }
     #endregion
 
-    #region Property Changed
+    #region Events
     private static void OnNamePropertyChanged(BindableObject bindable, object oldValue, object newValue)
     {
         var control = (LargeImageBox)bindable;
@@ -66,6 +81,11 @@ public partial class LargeImageBox : ContentView
     {
         var control = (LargeImageBox)bindable;
         control.Rating = (double)newValue;
+    }
+
+    private void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
+    {
+        TapCommand?.Execute(TapCommandParameter);
     }
     #endregion
 }

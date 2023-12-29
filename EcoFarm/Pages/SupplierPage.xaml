@@ -5,8 +5,9 @@
              Title="SupplierPage">
     <VerticalStackLayout>
         <Label 
-            Text="Welcome to .NET MAUI!"
+            Text="{Binding SupplierName}"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
+        <Button Command="{Binding GoBackCommand}" Text="Go Back" CommandParameter="True"/>
     </VerticalStackLayout>
 </ContentPage>

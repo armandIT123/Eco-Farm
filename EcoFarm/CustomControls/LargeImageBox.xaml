@@ -4,7 +4,10 @@
              xmlns:local="clr-namespace:EcoFarm"
              x:Class="EcoFarm.LargeImageBox" x:Name="largeImageBoxControl" >
 
-    <Frame Padding="0"  CornerRadius="30" VerticalOptions="Start" HorizontalOptions="FillAndExpand" BorderColor="Transparent" BackgroundColor="White" IsClippedToBounds="True" >
+    <Frame Padding="0" IsEnabled="True"  CornerRadius="30" VerticalOptions="Start" HorizontalOptions="FillAndExpand" BorderColor="Transparent" BackgroundColor="White" IsClippedToBounds="True" >
+        <Frame.GestureRecognizers>
+            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
+        </Frame.GestureRecognizers>
 
         <Grid>
             <Grid.RowDefinitions>
@@ -12,8 +15,7 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Image Grid.Row="0" Source="{Binding MainImage, Source={x:Reference largeImageBoxControl}}" VerticalOptions="StartAndExpand" Aspect="AspectFill" HorizontalOptions="FillAndExpand"/>
-            <local:RatingDisplayer Grid.Row="0" Margin="20, 10, 0, 0" VerticalOptions="StartAndExpand" HorizontalOptions="StartAndExpand" Rating="{Binding Rating, Mode=TwoWay}" ZIndex="1"/>
-
+            <local:RatingDisplayer Grid.Row="0" Margin="20, 10, 0, 0" VerticalOptions="StartAndExpand" HorizontalOptions="StartAndExpand" Rating="{Binding Rating}" ZIndex="1"/>
 
             <VerticalStackLayout Grid.Row="1">
                 <Label Grid.Row="1" Margin="10, 10, 0, 0" FontAttributes="Bold" FontSize="Medium" Text="{Binding SupplierName, Source={x:Reference largeImageBoxControl}}" />

@@ -15,6 +15,17 @@ namespace EcoFarm
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
+            #region Pages
+            builder.Services.AddTransient<SupplierPage>();
+            builder.Services.AddTransient<SupplierPageViewModel>();
+
+            builder.Services.AddSingleton<DiscoverPage>();
+            builder.Services.AddSingleton<DiscoverPageViewModel>();
+
+            builder.Services.AddSingleton<MainPage>();
+            #endregion
+            
+            #region Core
             builder.Services.AddTransient<IPlatformHttpMessageHandler>(_ =>
             {
                 #if ANDROID
@@ -26,7 +37,6 @@ namespace EcoFarm
 
             builder.Services.AddSingleton<IServiceLink, ServiceLink>();
 
-
             builder.Services.AddHttpClient("localHostClient", httpClient =>
             {
                 string baseAdress = DeviceInfo.Platform == DevicePlatform.Android ? "https://10.0.2.2:7184" : "https://localhost:7184";
@@ -36,14 +46,25 @@ namespace EcoFarm
                 var platformHandler = services.GetService<IPlatformHttpMessageHandler>();
                 return platformHandler.GetHttpMessageHandler();
             });
+            #endregion
 #if DEBUG
-    		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
             var app = builder.Build();
             ServiceHelper.Initialize(app.Services);
 
 
             return app;
+        }
+
+        //Maybe usefull
+        private static void AddView<TView, TViewModel>(this IServiceCollection services)
+            where TView : ContentPage, new()
+        {
+            services.AddSingleton<TView>(serviceProvider => new TView()
+            {
+                BindingContext = serviceProvider.GetRequiredService<TViewModel>()
+            });
         }
     }
 }

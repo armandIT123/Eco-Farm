@@ -7,13 +7,15 @@
 
     <Grid RowDefinitions="60, 30, *" Margin="20">
 
-        <CollectionView ItemsSource="{Binding Suppliers}" Grid.Row="3">
+        <CollectionView x:Name="collectionVieww" ItemsSource="{Binding Suppliers}" Grid.Row="3" SelectionMode="None" IsEnabled="{Binding AreFieldsEnabled}">
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout Orientation="Vertical" />
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <local:LargeImageBox MainImage="{Binding Image, Mode=TwoWay}"  HeightRequest="250" SupplierName="{Binding Name, Mode=TwoWay}" Rating="{Binding Rating, Mode=TwoWay}" Margin="0, 10, 0, 10"/>
+                    <local:LargeImageBox TapCommand="{Binding Path=BindingContext.GoToSupplierPageCommand, Source={x:Reference collectionVieww}}" TapCommandParameter="{Binding Id}"
+                                 MainImage="{Binding Image, Mode=TwoWay}" SupplierName="{Binding Name, Mode=TwoWay}" Rating="{Binding Rating, Mode=TwoWay}" 
+                                 HeightRequest="250" Margin="0, 10, 0, 10"/>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>

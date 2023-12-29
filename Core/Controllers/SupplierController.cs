@@ -12,6 +12,7 @@ public class SupplierController : ControllerBase
     {
             new Supplier()
             {
+                Id = 1,
                 Name = "Test",
                 Image = "picture.png",
                 Rating = 3.5,
@@ -19,12 +20,14 @@ public class SupplierController : ControllerBase
             },
             new Supplier()
             {
+                Id = 2,
                 Name = "Test 2",
                 Image = "picture.png",
                 Rating = 5
             },
             new Supplier()
             {
+                Id = 3,
                 Name = "Test 3",
                 Image = "picture.png",
                 Rating = 4.5

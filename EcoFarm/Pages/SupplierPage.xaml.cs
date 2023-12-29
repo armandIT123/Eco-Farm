@@ -1,35 +1,72 @@
+using Data;
+using System.Windows.Input;
+
 namespace EcoFarm;
 
-public class SupplierPageViewModel : DataContextBase
+public class SupplierPageViewModel : DataContextBase, IQueryAttributable
 {
-	private SupplierPage currentSupplier = null;
+    #region Members & Init
+    private Supplier currentSupplier = null;
 
 	public SupplierPageViewModel()
 	{
 		
 	}
+    #endregion
 
-	public SupplierPage CurrentSupplier
+    #region Accessors
+    public Supplier CurrentSupplier
 	{
 		get => currentSupplier;
 		set
 		{
 			currentSupplier = value;
 			OnPropertyChanged();
-            //Shell.Current.GoToAsync
-
+			OnPropertyChanged(nameof(SupplierName));
         }
 	}
+
+	public string SupplierName => CurrentSupplier?.Name;
+
+
+    #endregion
+
+    #region Methods
+    public void ApplyQueryAttributes(IDictionary<string, object> query)
+    {
+        if (query.ContainsKey("CurrentSupplier"))
+        {
+            CurrentSupplier = query["CurrentSupplier"] as Supplier;
+        }
+    }
+
+    public ICommand GoBackCommand => new CommandHelper((param) =>
+    {
+        GoBack();
+    });
+
+    async Task GoBack()
+	{
+        await Shell.Current.GoToAsync("..");
+    }
+
+    #endregion
 }
 
 public partial class SupplierPage : ContentPage
 {
 	private SupplierPageViewModel dataContext = null;
 
-	public SupplierPage()
+    public SupplierPage()
 	{
 		InitializeComponent();
 		dataContext = new SupplierPageViewModel();
-		BindingContext = dataContext;
-	}
+        BindingContext = dataContext;
+        
+    }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+    }
 }

@@ -13,13 +13,4 @@
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
 
-    <ShellContent
-    Title="Ceva"
-    ContentTemplate="{DataTemplate local:MainPage}"
-    Route="MainPage" />
-    <ShellContent
-    Title="Ceva"
-    ContentTemplate="{DataTemplate local:MainPage}"
-    Route="MainPage" />
-
 </Shell>
