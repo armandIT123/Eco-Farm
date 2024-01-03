@@ -1,13 +1,30 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="EcoFarm.SupplierPage"
-             Title="SupplierPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="{Binding SupplierName}"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-        <Button Command="{Binding GoBackCommand}" Text="Go Back" CommandParameter="True"/>
-    </VerticalStackLayout>
+             x:Class="EcoFarm.SupplierPage" 
+             xmlns:local="clr-namespace:EcoFarm"
+             Background="#E4EEEF"
+             Shell.NavBarIsVisible="False">
+
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Imaginea care se întinde pe ambele rânduri -->
+        <Image Source="{Binding MainImage}" Aspect="AspectFill" Grid.Row="0" HeightRequest="200" HorizontalOptions="FillAndExpand" VerticalOptions="Start"/>
+        <local:RatingDisplayer Grid.Row="0" HorizontalOptions="End" VerticalOptions="Center" Margin="0,10,25,0" Rating="{Binding Rating}" ZIndex="1"/>
+        <ImageButton Source="back.png" Grid.Row="0" HorizontalOptions="Start" VerticalOptions="Start" WidthRequest="35" HeightRequest="35" Margin="10" Command="{Binding GoBackCommand}"/>
+        <!-- Banda albă care începe de la jumătatea imaginii în jos -->
+        <Frame Grid.Row="0" BackgroundColor="White" Padding="10" Margin="0,150,0,0" CornerRadius="10" HorizontalOptions="Center" VerticalOptions="End" HeightRequest="100" WidthRequest="320">
+            <StackLayout Orientation="Vertical">
+                <!-- Conținutul bandei albe -->
+                <Label Text="{Binding SupplierName}" FontAttributes="Bold" FontSize="Medium" HorizontalOptions="Center" VerticalOptions="Center"/>
+                <Label Text="Category" HorizontalOptions="Center" VerticalOptions="Center" FontSize="Small"/>
+            </StackLayout>
+        </Frame>
+    </Grid>
+
 </ContentPage>

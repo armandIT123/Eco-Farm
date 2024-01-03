@@ -58,6 +58,7 @@
 
 	<ItemGroup>
 		<None Remove="Resources\AppIcon\apple.png" />
+		<None Remove="Resources\AppIcon\back.png" />
 		<None Remove="Resources\AppIcon\cereale.png" />
 		<None Remove="Resources\AppIcon\cos.png" />
 		<None Remove="Resources\AppIcon\facebook.png" />
@@ -92,6 +93,7 @@
 
 	<ItemGroup>
 		<MauiImage Include="Resources\AppIcon\apple.png" />
+		<MauiImage Include="Resources\AppIcon\back.png" />
 		<MauiImage Include="Resources\AppIcon\cereale.png" />
 		<MauiImage Include="Resources\AppIcon\cos.png" />
 		<MauiImage Include="Resources\AppIcon\facebook.png" />

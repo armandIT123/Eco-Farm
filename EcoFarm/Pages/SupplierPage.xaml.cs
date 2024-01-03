@@ -8,25 +8,30 @@ public class SupplierPageViewModel : DataContextBase, IQueryAttributable
     #region Members & Init
     private Supplier currentSupplier = null;
 
-	public SupplierPageViewModel()
-	{
-		
-	}
+    public SupplierPageViewModel()
+    {
+
+    }
     #endregion
 
     #region Accessors
     public Supplier CurrentSupplier
-	{
-		get => currentSupplier;
-		set
-		{
-			currentSupplier = value;
-			OnPropertyChanged();
-			OnPropertyChanged(nameof(SupplierName));
+    {
+        get => currentSupplier;
+        set
+        {
+            currentSupplier = value;
+            OnPropertyChanged();
+            OnPropertyChanged(nameof(SupplierName));
+            OnPropertyChanged(nameof(Rating));
+            OnPropertyChanged(nameof(MainImage));
         }
-	}
+    }
 
-	public string SupplierName => CurrentSupplier?.Name;
+    public string SupplierName => CurrentSupplier?.Name;
+
+    public double Rating => CurrentSupplier?.Rating ?? 0;
+    public string MainImage => CurrentSupplier?.Image;
 
 
     #endregion
@@ -46,7 +51,7 @@ public class SupplierPageViewModel : DataContextBase, IQueryAttributable
     });
 
     async Task GoBack()
-	{
+    {
         await Shell.Current.GoToAsync("..");
     }
 
@@ -55,14 +60,14 @@ public class SupplierPageViewModel : DataContextBase, IQueryAttributable
 
 public partial class SupplierPage : ContentPage
 {
-	private SupplierPageViewModel dataContext = null;
+    private SupplierPageViewModel dataContext = null;
 
     public SupplierPage()
-	{
-		InitializeComponent();
-		dataContext = new SupplierPageViewModel();
+    {
+        InitializeComponent();
+        dataContext = new SupplierPageViewModel();
         BindingContext = dataContext;
-        
+
     }
 
     protected override void OnAppearing()
