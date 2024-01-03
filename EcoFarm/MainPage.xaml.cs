@@ -4,13 +4,18 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace EcoFarm;
 
+public class HomeViewModel : DataContextBase
+{
+
+}
+
 public partial class MainPage : ContentPage
 {
-    DiscoverPageViewModel viewModel;
+    HomeViewModel viewModel;
     public MainPage()
     {
         InitializeComponent();
-        viewModel = new DiscoverPageViewModel();
+        viewModel = new HomeViewModel();
         BindingContext = viewModel;
     }
 

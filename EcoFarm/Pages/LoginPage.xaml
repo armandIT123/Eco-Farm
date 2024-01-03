@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="EcoFarm.LoginPage"
+             Title="LoginPage">
+    <Grid>
+        <StackLayout Margin="20" VerticalOptions="StartAndExpand">
+            <StackLayout Margin="0,20">
+                <Label FontFamily="bold" FontSize="25" HorizontalOptions="Center" Text="Welcome!"/>
+                <Label HorizontalOptions="Center" FontSize="16" Text="Please login with your account to continue"/>
+            </StackLayout>
+
+            <StackLayout>
+                <Grid Margin="0, 30, 0, 20">
+                    <Frame Opacity="0.5" BackgroundColor="White" CornerRadius="10" WidthRequest="345" HeightRequest="50"/>
+                    <Entry BackgroundColor="Transparent" Placeholder="E-mail address" TextColor="Black" PlaceholderColor="Black" WidthRequest="310" HeightRequest="50"/>
+                </Grid>
+
+                <Grid Margin="0,5">
+                    <Frame Opacity="0.5" BackgroundColor="White" CornerRadius="10" WidthRequest="345" HeightRequest="50"/>
+                    <Entry BackgroundColor="Transparent" Placeholder="Password" TextColor="Black" PlaceholderColor="Black" WidthRequest="310" HeightRequest="50" IsPassword="True"/>
+                </Grid>
+            </StackLayout>
+
+            <Label FontFamily="OpenSansRegular" TextColor="#4B8E4B" FontSize="14" Text="Forgot Password?" VerticalOptions="EndAndExpand" HorizontalOptions="EndAndExpand"/>
+
+            <Button Margin="0,15" Text="Sign in" TextColor="White" BackgroundColor="#4B8E4B" WidthRequest="345" HeightRequest="50" FontFamily="bold"/>
+
+            <Label FontFamily="bold" TextColor="Black" FontSize="14" Text="Or sign in with" VerticalOptions="Center" HorizontalOptions="Center"/>
+
+            <HorizontalStackLayout Grid.Row="3" Spacing="50" Margin="0, 20, 0, 20" HorizontalOptions="Center" Padding="10">
+                <Grid>
+                    <Frame WidthRequest="50" HeightRequest="50" Opacity="0.8" BackgroundColor="White" CornerRadius="50"/>
+                    <ImageButton Source="google.png"   HorizontalOptions="Center" WidthRequest="25" HeightRequest="25"/>
+                </Grid>
+                <Grid>
+                    <Frame WidthRequest="50" HeightRequest="50" Opacity="0.8" BackgroundColor="White" CornerRadius="50"/>
+                    <ImageButton Source="facebook.png" HorizontalOptions="Center" WidthRequest="25" HeightRequest="25"/>
+                </Grid>
+                <Grid>
+                    <Frame  WidthRequest="50" HeightRequest="50" Opacity="0.8" BackgroundColor="White" CornerRadius="30"/>
+                    <ImageButton Source="apple.png"    HorizontalOptions="Center" WidthRequest="25" HeightRequest="25" />
+                </Grid>
+            </HorizontalStackLayout>
+
+            <Label FontFamily="bold" TextColor="Black" FontSize="16" Text="Don't have an accoount? Sing up" VerticalOptions="Center" HorizontalOptions="Center" Margin="0, 0, 0, 0"/>
+        </StackLayout>
+    </Grid>
+</ContentPage>

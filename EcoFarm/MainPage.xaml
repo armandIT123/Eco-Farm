@@ -1,23 +1,50 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:EcoFarm"
-             x:Class="EcoFarm.MainPage" Background="LightGreen" 
-             x:Name="mainPage">
+              xmlns:local="clr-namespace:EcoFarm"
+             x:Class="EcoFarm.MainPage" Background="#E4EEEF">
 
-    <Grid RowDefinitions="60, 30, *" Margin="20">
+    <!--SearchBar-->
+    <Grid RowDefinitions="60, 30, Auto, Auto, Auto, Auto">
+        <VerticalStackLayout Padding="30" Spacing="25" Background="#F3FAF9" Grid.Row="0">
+            <Frame CornerRadius="20" BackgroundColor="White" BorderColor="White" Padding="0" HorizontalOptions="FillAndExpand" HasShadow="False">
+                <SearchBar Placeholder="Caută produsele dorite..." BackgroundColor="White" HorizontalOptions="FillAndExpand" VerticalOptions="Center"/>
+            </Frame>
+        </VerticalStackLayout>
 
-        <CollectionView x:Name="collectionView" ItemsSource="{Binding Suppliers}" Grid.Row="3" SelectionMode="None" IsEnabled="{Binding AreFieldsEnabled}">
+        <Label Text="Categorii" FontSize="16" Margin="25, 10, 0, 5" FontAttributes="Bold" HorizontalOptions="Start" VerticalOptions="End" Grid.Row="2"/>
+
+        <HorizontalStackLayout Grid.Row="3" Spacing="40" HorizontalOptions="Center" Padding="10">
+            <VerticalStackLayout>
+                <ImageButton Source="cereale.png" HorizontalOptions="Center" WidthRequest="51" HeightRequest="51"/>
+                <Label Text="Cereale" Margin="0, 5, 0, 0" FontFamily="demibold" HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+            <VerticalStackLayout>
+                <ImageButton Source="ierburi.png" HorizontalOptions="Center" WidthRequest="51" HeightRequest="51"/>
+                <Label Text="Ierburi" Margin="0, 5, 0, 0" FontFamily="demibold" HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+            <VerticalStackLayout>
+                <ImageButton Source="oua.png"     HorizontalOptions="Center" WidthRequest="51" HeightRequest="51" />
+                <Label Text="Ouă"     Margin="0, 5, 0, 0" FontFamily="demibold" HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+            <VerticalStackLayout>
+                <ImageButton Source="more.png"    HorizontalOptions="Center" WidthRequest="51" HeightRequest="51"/>
+                <Label Text="Altele" Margin="0, 5, 0, 0" FontFamily="demibold" HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+        </HorizontalStackLayout>
+
+        <Label Text="Producători Populari" FontSize="16" Margin="25, 10, 0, 30" FontAttributes="Bold" HorizontalOptions="Start" VerticalOptions="End" Grid.Row="4"/>
+
+        <CollectionView ItemsSource="{Binding Suppliers}" Grid.Row="5">
             <CollectionView.ItemsLayout>
-                <LinearItemsLayout Orientation="Vertical" />
+                <LinearItemsLayout Orientation="Horizontal" />
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <local:LargeImageBox TapCommand="{Binding Path=BindingContext.GoToSupplierPageCommand, Source={x:Reference collectionView}}" TapCommandParameter="{Binding Id}"
-                                         MainImage="{Binding Image, Mode=TwoWay}" SupplierName="{Binding Name, Mode=TwoWay}" Rating="{Binding Rating, Mode=TwoWay}" 
-                                         HeightRequest="250" Margin="0, 10, 0, 10"/>
+                    <local:LargeImageBox MainImage="{Binding Image, Mode=TwoWay}" IsCategoryVisible="False" WidthRequest="300" HeightRequest="200" SupplierName="{Binding Name, Mode=TwoWay}" Rating="{Binding Rating, Mode=TwoWay}" Margin="0, 10, 20, 10"/>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
     </Grid>
+
 </ContentPage>

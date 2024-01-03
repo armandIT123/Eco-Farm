@@ -24,15 +24,16 @@ namespace EcoFarm
 
             builder.Services.AddSingleton<MainPage>();
             #endregion
-            
+
             #region Core
             builder.Services.AddTransient<IPlatformHttpMessageHandler>(_ =>
             {
-                #if ANDROID
+#if ANDROID
                 return new Platforms.Android.AndroidHttpMessageHandler();
-                #else
-                return new Platforms.iOS.IosHttpMessageHandler();
-                #endif
+#else
+                //return new Platforms.iOS.IosHttpMessageHandler();
+                return null;
+#endif
             });
 
             builder.Services.AddSingleton<IServiceLink, ServiceLink>();

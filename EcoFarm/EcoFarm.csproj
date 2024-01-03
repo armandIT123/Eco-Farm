@@ -57,11 +57,26 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Remove="Picture.png" />
-	  <None Remove="Resources\AppIcon\emptystar.png" />
-	  <None Remove="Resources\AppIcon\fullstar.png" />
-	  <None Remove="Resources\AppIcon\halfstar.png" />
-	  <None Remove="Resources\AppIcon\taglocation.png" />
+		<None Remove="Resources\AppIcon\apple.png" />
+		<None Remove="Resources\AppIcon\cereale.png" />
+		<None Remove="Resources\AppIcon\cos.png" />
+		<None Remove="Resources\AppIcon\facebook.png" />
+		<None Remove="Resources\AppIcon\google.png" />
+		<None Remove="Resources\AppIcon\heart.png" />
+		<None Remove="Resources\AppIcon\home.png" />
+		<None Remove="Resources\AppIcon\ierburi.png" />
+		<None Remove="Resources\AppIcon\more.png" />
+		<None Remove="Resources\AppIcon\oua.png" />
+		<None Remove="Resources\AppIcon\search.png" />
+		<None Remove="Resources\AppIcon\user.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Remove="Picture.png" />
+		<None Remove="Resources\AppIcon\emptystar.png" />
+		<None Remove="Resources\AppIcon\fullstar.png" />
+		<None Remove="Resources\AppIcon\halfstar.png" />
+		<None Remove="Resources\AppIcon\taglocation.png" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -71,31 +86,59 @@
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
 	</ItemGroup>
 
+	<!--<ItemGroup>
+	  <Folder Include="Pages\" />
+	</ItemGroup>-->
+
 	<ItemGroup>
-	  <MauiImage Include="picture.png" />
-	  <MauiImage Include="Resources\AppIcon\emptystar.png" />
-	  <MauiImage Include="Resources\AppIcon\fullstar.png" />
-	  <MauiImage Include="Resources\AppIcon\halfstar.png" />
-	  <MauiImage Include="Resources\AppIcon\taglocation.png" />
+		<MauiImage Include="Resources\AppIcon\apple.png" />
+		<MauiImage Include="Resources\AppIcon\cereale.png" />
+		<MauiImage Include="Resources\AppIcon\cos.png" />
+		<MauiImage Include="Resources\AppIcon\facebook.png" />
+		<MauiImage Include="Resources\AppIcon\google.png" />
+		<MauiImage Include="Resources\AppIcon\heart.png" />
+		<MauiImage Include="Resources\AppIcon\home.png" />
+		<MauiImage Include="Resources\AppIcon\ierburi.png" />
+		<MauiImage Include="Resources\AppIcon\more.png" />
+		<MauiImage Include="Resources\AppIcon\oua.png" />
+		<MauiImage Include="Resources\AppIcon\search.png" />
+		<MauiImage Include="Resources\AppIcon\user.png" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Data\Data.csproj" />
+		<MauiImage Include="picture.png" />
+		<MauiImage Include="Resources\AppIcon\emptystar.png" />
+		<MauiImage Include="Resources\AppIcon\fullstar.png" />
+		<MauiImage Include="Resources\AppIcon\halfstar.png" />
+		<MauiImage Include="Resources\AppIcon\taglocation.png" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="CustomControls\LargeImageBox.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="CustomControls\RatingDisplayer.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\DiscoverPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\SupplierPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
+		<ProjectReference Include="..\Data\Data.csproj" />
 	</ItemGroup>
+
+	<ItemGroup>
+		<MauiXaml Update="CustomControls\LargeImageBox.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="CustomControls\RatingDisplayer.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Pages\DiscoverPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Pages\LoginPage.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Pages\SupplierPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+	</ItemGroup>
+
+	<ProjectExtensions>
+		<VisualStudio>
+			<UserProperties XamarinHotReloadDebuggerTimeoutExceptionEcoFarmHideInfoBar="True" />
+		</VisualStudio>
+	</ProjectExtensions>
 
 </Project>

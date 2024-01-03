@@ -49,7 +49,7 @@ public class DiscoverPageViewModel : DataContextBase
 
     public ICommand GoToSupplierPageCommand => new CommandHelper((param) =>
     {
-        AreFieldsEnabled = false; 
+        AreFieldsEnabled = false;
         GoToSupplierPage(Convert.ToInt32(param));
     });
     #endregion
@@ -75,9 +75,9 @@ public class DiscoverPageViewModel : DataContextBase
 public partial class DiscoverPage : ContentPage
 {
     DiscoverPageViewModel dataBinding = null;
-	public DiscoverPage()
-	{
-		InitializeComponent();
+    public DiscoverPage()
+    {
+        InitializeComponent();
         dataBinding = new DiscoverPageViewModel();
         BindingContext = dataBinding;
     }

@@ -1,0 +1,9 @@
+namespace EcoFarm;
+
+public partial class LoginPage : ContentPage
+{
+    public LoginPage()
+    {
+        InitializeComponent();
+    }
+}
