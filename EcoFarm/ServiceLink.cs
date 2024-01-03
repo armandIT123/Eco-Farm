@@ -34,7 +34,7 @@ internal class ServiceLink : IServiceLink
 
     public ServiceLink()
     {
-
+        //to be deleted
     }
 
     public async Task GetClient()
