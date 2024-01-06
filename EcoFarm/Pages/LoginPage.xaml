@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="EcoFarm.LoginPage"
-             Title="LoginPage">
+             x:Class="EcoFarm.LoginPage" Shell.NavBarIsVisible="False">
     <Grid>
-        <StackLayout Margin="20" VerticalOptions="StartAndExpand">
+        <StackLayout Margin="20, 0, 20, 0" VerticalOptions="StartAndExpand">
+            <Button Text="Treci Peste" HorizontalOptions="End" CornerRadius="50" Background="#4B8E4B" Command="{Binding Skip}"/>
             <StackLayout Margin="0,20">
-                <Label FontFamily="bold" FontSize="25" HorizontalOptions="Center" Text="Welcome!"/>
+                <Label FontFamily="bold" FontSize="25" HorizontalOptions="Center" Text="Bine ai venit!"/>
                 <Label HorizontalOptions="Center" FontSize="16" Text="Please login with your account to continue"/>
             </StackLayout>
 
             <StackLayout>
                 <Grid Margin="0, 30, 0, 20">
                     <Frame Opacity="0.5" BackgroundColor="White" CornerRadius="10" WidthRequest="345" HeightRequest="50"/>
-                    <Entry BackgroundColor="Transparent" Placeholder="E-mail address" TextColor="Black" PlaceholderColor="Black" WidthRequest="310" HeightRequest="50"/>
+                    <Entry BackgroundColor="Transparent" Placeholder="Adresă e-mail" TextColor="Black" PlaceholderColor="Black" WidthRequest="310" HeightRequest="50"/>
                 </Grid>
 
                 <Grid Margin="0,5">
                     <Frame Opacity="0.5" BackgroundColor="White" CornerRadius="10" WidthRequest="345" HeightRequest="50"/>
-                    <Entry BackgroundColor="Transparent" Placeholder="Password" TextColor="Black" PlaceholderColor="Black" WidthRequest="310" HeightRequest="50" IsPassword="True"/>
+                    <Entry BackgroundColor="Transparent" Placeholder="Parolă" TextColor="Black" PlaceholderColor="Black" WidthRequest="310" HeightRequest="50" IsPassword="True"/>
                 </Grid>
             </StackLayout>
 

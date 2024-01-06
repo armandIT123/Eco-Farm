@@ -32,22 +32,7 @@ internal class ServiceLink : IServiceLink
 
     }
 
-    public ServiceLink()
-    {
-        //to be deleted
-    }
-
-    public async Task GetClient()
-    {
-        try
-        {
-            var client = _clientFactory.CreateClient(localHostClient);
-            var data = await client.GetAsync("/WeatherForecast");
-            
-        }
-        catch (Exception ex) { }
-    }
-
+    #region Supplier
     public async Task<List<Supplier>> GetSuppliers()
     {
         try
@@ -70,4 +55,25 @@ internal class ServiceLink : IServiceLink
             return null;
         }
     }
+
+    #endregion
+
+    #region Login
+    public async Task<string> RegisterUser(RegisterDTO registerDTO)
+    {
+        try
+        {
+            var client = _clientFactory.CreateClient(localHostClient);
+            var content = new StringContent(JsonSerializer.Serialize(registerDTO));
+            var response = await client.PostAsync("/User", content);
+            string responseMessage = await response.Content.ReadAsStringAsync();
+            return responseMessage;
+        }
+        catch(Exception ex)
+        {
+            return "Error";
+        }
+    }
+
+    #endregion
 }

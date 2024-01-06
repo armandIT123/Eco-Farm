@@ -5,7 +5,7 @@ namespace EcoFarm;
 public partial class LargeImageBox : ContentView
 {
     #region Memebers & Init
-    public static readonly BindableProperty MainImageProperty = BindableProperty.Create(nameof(MainImage), typeof(string), typeof(LargeImageBox), "",
+    public static readonly BindableProperty MainImageProperty = BindableProperty.Create(nameof(MainImage), typeof(byte[]), typeof(LargeImageBox), null,
         propertyChanged: OnImagePropertyChanged);
     public static readonly BindableProperty SupplierNameProperty = BindableProperty.Create(nameof(SupplierName), typeof(string), typeof(LargeImageBox), "",
         propertyChanged: OnNamePropertyChanged);
@@ -23,9 +23,9 @@ public partial class LargeImageBox : ContentView
     #endregion
 
     #region Accessors
-    public string MainImage
+    public byte[] MainImage
     {
-        get => (string)GetValue(MainImageProperty);
+        get => (byte[])GetValue(MainImageProperty);
         set => SetValue(MainImageProperty, value);
     }
 
@@ -74,7 +74,7 @@ public partial class LargeImageBox : ContentView
     private static void OnImagePropertyChanged(BindableObject bindable, object oldValue, object newValue)
     {
         var control = (LargeImageBox)bindable;
-        control.MainImage = (string)newValue;
+        control.MainImage = (byte[])newValue;
     }
 
     private static void OnRatingPropertyChanged(BindableObject bindable, object oldValue, object newValue)

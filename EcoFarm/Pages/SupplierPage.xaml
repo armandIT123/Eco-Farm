@@ -14,7 +14,7 @@
         </Grid.RowDefinitions>
 
         <!-- Imaginea care se întinde pe ambele rânduri -->
-        <Image Source="{Binding MainImage}" Aspect="AspectFill" Grid.Row="0" HeightRequest="200" HorizontalOptions="FillAndExpand" VerticalOptions="Start"/>
+        <Image Source="{Binding MainImage, Converter={local:ByteArrayToImageSourceConverter}}" Aspect="AspectFill" Grid.Row="0" HeightRequest="200" HorizontalOptions="FillAndExpand" VerticalOptions="Start"/>
         <local:RatingDisplayer Grid.Row="0" HorizontalOptions="End" VerticalOptions="Center" Margin="0,10,25,0" Rating="{Binding Rating}" ZIndex="1"/>
         <ImageButton Source="back.png" Grid.Row="0" HorizontalOptions="Start" VerticalOptions="Start" WidthRequest="35" HeightRequest="35" Margin="10" Command="{Binding GoBackCommand}"/>
         <!-- Banda albă care începe de la jumătatea imaginii în jos -->

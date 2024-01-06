@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="EcoFarm.DiscoverPage"
              xmlns:local="clr-namespace:EcoFarm"
-             Title="DiscoverPage">
+             Background="#E4EEEF" Title="Descoperă">
 
     <Grid RowDefinitions="60, 30, *" Margin="20">
 

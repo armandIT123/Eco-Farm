@@ -14,7 +14,7 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <Image Grid.Row="0" Source="{Binding MainImage, Source={x:Reference largeImageBoxControl}}" VerticalOptions="StartAndExpand" Aspect="AspectFill" HorizontalOptions="FillAndExpand"/>
+            <Image Grid.Row="0" Source="{Binding MainImage, Source={x:Reference largeImageBoxControl}, Converter={local:ByteArrayToImageSourceConverter}}" VerticalOptions="StartAndExpand" Aspect="AspectFill" HorizontalOptions="FillAndExpand"/>
             <local:RatingDisplayer Grid.Row="0" Margin="20, 10, 0, 0" VerticalOptions="StartAndExpand" HorizontalOptions="StartAndExpand" Rating="{Binding Rating}" ZIndex="1"/>
 
             <VerticalStackLayout Grid.Row="1">

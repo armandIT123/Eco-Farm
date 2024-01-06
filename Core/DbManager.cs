@@ -104,6 +104,22 @@ public class DbManager
         }
     }
 
+    public static bool EmailExists(string connectionString, string table, string email)
+    {
+        string query = $"SELECT COUNT(1) FROM {table} WHERE (Email) = @Email";
+
+        using (SqlConnection connection = new SqlConnection(connectionString))
+        {
+            using (var command = new SqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@Email", email);
+                connection.Open();
+                int count = (int)command.ExecuteScalar();
+                return count > 0;
+            }
+        }
+    }
+
     public static bool Delete(string connectionString, string table)
     {
         try

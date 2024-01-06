@@ -12,6 +12,6 @@ internal interface IServiceLink
     string localHostClient { get; }
     string mainClient { get; }
 
-    internal Task GetClient();
     internal Task<List<Supplier>> GetSuppliers();
+    internal Task<string> RegisterUser(RegisterDTO registerDTO);
 }

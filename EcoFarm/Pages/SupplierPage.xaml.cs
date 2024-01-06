@@ -31,7 +31,7 @@ public class SupplierPageViewModel : DataContextBase, IQueryAttributable
     public string SupplierName => CurrentSupplier?.Name;
 
     public double Rating => CurrentSupplier?.Rating ?? 0;
-    public string MainImage => CurrentSupplier?.Image;
+    public byte[] MainImage => CurrentSupplier?.Image;
 
 
     #endregion
