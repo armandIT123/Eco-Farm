@@ -6,10 +6,18 @@
              Background="#E4EEEF"
              Shell.NavBarIsVisible="False">
 
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:TextColorConverter x:Key="TextColorConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
     <Grid>
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="60" />
+            <RowDefinition Height="*" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
@@ -23,8 +31,95 @@
                 <!-- Conținutul bandei albe -->
                 <Label Text="{Binding SupplierName}" FontAttributes="Bold" FontSize="Medium" HorizontalOptions="Center" VerticalOptions="Center"/>
                 <Label Text="Category" HorizontalOptions="Center" VerticalOptions="Center" FontSize="Small"/>
+                <StackLayout Orientation="Horizontal">
+                    <Image Source="taglocation.png" WidthRequest="32" HeightRequest="32" HorizontalOptions="Start" Margin="10,5,0,0"/>
+                    <Label Text="București" HorizontalOptions="Center" FontSize="14" VerticalOptions="Center" Margin="0,5,0,0"/>
+                    <Image Source="available.png" WidthRequest="25" HeightRequest="25" HorizontalOptions="End" Margin="90,5,0,0"/>
+                    <Label Text="Deschis" HorizontalOptions="End" FontSize="14" VerticalOptions="Center" Margin="0,5,0,0"/>
+                </StackLayout>
             </StackLayout>
         </Frame>
+
+        <StackLayout Orientation="Horizontal" Grid.Row="1" Spacing="20" Margin="0,20,0,0" VerticalOptions="Start" HorizontalOptions="Center">
+            <Button x:Name="AboutButton" Text="Despre" TextColor="Black" Command="{Binding PressedButtonsCommand}" CommandParameter="0" FontAttributes="Bold" CornerRadius="19" HeightRequest="40" BackgroundColor="White">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button" Binding="{Binding PressedButton}" Value="0">
+                        <Setter Property="BackgroundColor" Value="#4b8e4b" />
+                        <Setter Property="TextColor" Value="#FFFFFF" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
+            <!-- Butonul Products -->
+            <Button x:Name="ProductButton" Text="Produse" TextColor="Black" Command="{Binding PressedButtonsCommand}" CommandParameter="1" FontAttributes="Bold" CornerRadius="19" HeightRequest="40" BackgroundColor="White">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button" Binding="{Binding PressedButton}" Value="1">
+                        <Setter Property="BackgroundColor" Value="#4b8e4b" />
+                        <Setter Property="TextColor" Value="#FFFFFF" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
+            <!-- Butonul Reviews -->
+            <Button x:Name="ReviewsButton" Text="Reviews" TextColor="Black" Command="{Binding PressedButtonsCommand}" CommandParameter="2" FontAttributes="Bold" CornerRadius="19" HeightRequest="40" BackgroundColor="White">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button" Binding="{Binding PressedButton}" Value="2">
+                        <Setter Property="BackgroundColor" Value="#4b8e4b" />
+                        <Setter Property="TextColor" Value="#FFFFFF" />
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
+        </StackLayout>
+
+        <local:ReviewsSupplier Margin="0,20,0,0" Grid.Row="2" IsVisible="{Binding IsReviewsSupplierVisible}"/>
+
+
+        <!--ABOUT TAB-->
+        <StackLayout Grid.Row="2" IsVisible="{Binding IsAboutSupplierVisible}">
+            <Label Text="{Binding AboutFerm}" Margin="10,20,0,0"/>
+            <CarouselView ItemsSource="{Binding Pictures, Mode=TwoWay}" PeekAreaInsets="100" Margin="0,20,0,0" HeightRequest="200" >
+                <CarouselView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Horizontal" ItemSpacing="10" />
+                </CarouselView.ItemsLayout>
+                <CarouselView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout>
+                            <Image Source="{Binding}" HeightRequest="190" WidthRequest="250" HorizontalOptions="Center" />
+                        </StackLayout>
+                    </DataTemplate>
+                </CarouselView.ItemTemplate>
+            </CarouselView>
+        </StackLayout>
+
+        <!--PRODUCT TAB-->
+        <!--<CollectionView x:Name="productsCategoryView" Grid.Row="2" ItemsSource="{Binding ProductsCategory}" IsVisible="{Binding IsProductSupplierVisible}" ItemsLayout="HorizontalList">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="{Binding}" TextDecorations="Underline" TextColor="{Binding Path=BindingContext.PressedCategoriesCommand, Source={x:Reference productsCategoryView},Converter={local:TextColorConverter}}" Margin="35,15,0,0" FontFamily="OpenSansRegular" FontSize="15">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Path=BindingContext.PressedCategoriesCommand, Source={x:Reference productsCategoryView}}" CommandParameter="{Binding}"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>-->
+
+        <CollectionView ItemsSource="{Binding Legume}"  IsVisible="{Binding IsProductSupplierVisible}"  Grid.Row="2" ItemsLayout="{StaticResource VerticalGridItemsLayout}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame CornerRadius="20" Padding="10" Margin="10" BackgroundColor="White">
+                        <Grid RowDefinitions="*, Auto, Auto" ColumnDefinitions="*">
+                            <Image Grid.Row="0" Source="{Binding .}"  Aspect="AspectFit" HeightRequest="100"/>
+                            <StackLayout Grid.Row="2" Orientation="Horizontal" Spacing="10">
+                                <Label Text="{Binding Price}"   FontSize="Large" TextColor="Green"/>
+                                <Button Text="+"  CornerRadius="15"  WidthRequest="30" HeightRequest="30" Command="{Binding AddCommand}" BackgroundColor="LightGreen"/>
+                            </StackLayout>
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
     </Grid>
 
 </ContentPage>

@@ -46,8 +46,6 @@
 		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
 
 		<!-- Images -->
-		<MauiImage Include="Resources\Images\*" />
-		<MauiImage Update="Resources\Images\dotnet_bot.png" Resize="True" BaseSize="300,185" />
 
 		<!-- Custom Fonts -->
 		<MauiFont Include="Resources\Fonts\*" />
@@ -58,6 +56,7 @@
 
 	<ItemGroup>
 		<None Remove="Resources\AppIcon\apple.png" />
+		<None Remove="Resources\AppIcon\available.png" />
 		<None Remove="Resources\AppIcon\back.png" />
 		<None Remove="Resources\AppIcon\cereale.png" />
 		<None Remove="Resources\AppIcon\cos.png" />
@@ -67,6 +66,7 @@
 		<None Remove="Resources\AppIcon\home.png" />
 		<None Remove="Resources\AppIcon\ierburi.png" />
 		<None Remove="Resources\AppIcon\loading.png" />
+		<None Remove="Resources\AppIcon\main.png" />
 		<None Remove="Resources\AppIcon\more.png" />
 		<None Remove="Resources\AppIcon\oua.png" />
 		<None Remove="Resources\AppIcon\search.png" />
@@ -78,6 +78,9 @@
 		<None Remove="Resources\AppIcon\fullstar.png" />
 		<None Remove="Resources\AppIcon\halfstar.png" />
 		<None Remove="Resources\AppIcon\taglocation.png" />
+		<None Remove="Resources\Images\ferm1.png" />
+		<None Remove="Resources\Images\ferm2.png" />
+		<None Remove="Resources\Images\ferm3.png" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -93,6 +96,7 @@
 
 	<ItemGroup>
 		<MauiImage Include="Resources\AppIcon\apple.png" />
+		<MauiImage Include="Resources\AppIcon\available.png" />
 		<MauiImage Include="Resources\AppIcon\back.png" />
 		<MauiImage Include="Resources\AppIcon\cereale.png" />
 		<MauiImage Include="Resources\AppIcon\cos.png" />
@@ -102,6 +106,7 @@
 		<MauiImage Include="Resources\AppIcon\home.png" />
 		<MauiImage Include="Resources\AppIcon\ierburi.png" />
 		<MauiImage Include="Resources\AppIcon\loading.png" />
+		<MauiImage Include="Resources\AppIcon\main.png" />
 		<MauiImage Include="Resources\AppIcon\more.png" />
 		<MauiImage Include="Resources\AppIcon\oua.png" />
 		<MauiImage Include="Resources\AppIcon\search.png" />
@@ -113,6 +118,9 @@
 		<MauiImage Include="Resources\AppIcon\fullstar.png" />
 		<MauiImage Include="Resources\AppIcon\halfstar.png" />
 		<MauiImage Include="Resources\AppIcon\taglocation.png" />
+		<MauiImage Include="Resources\Images\ferm1.png" />
+		<MauiImage Include="Resources\Images\ferm2.png" />
+		<MauiImage Include="Resources\Images\ferm3.png" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -120,11 +128,20 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<MauiXaml Update="CustomControls\AboutSupplier.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 		<MauiXaml Update="CustomControls\LargeImageBox.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
+		<MauiXaml Update="CustomControls\ProductSupplier.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 		<MauiXaml Update="CustomControls\RatingDisplayer.xaml">
 			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="CustomControls\ReviewsSupplier.xaml">
+		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
 		<MauiXaml Update="Pages\DiscoverPage.xaml">
 			<Generator>MSBuild:Compile</Generator>

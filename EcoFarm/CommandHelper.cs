@@ -7,59 +7,46 @@ using System.Windows.Input;
 
 namespace EcoFarm
 {
-    public class CommandHelper<T> : System.Windows.Input.ICommand where T : class
+    public class CommandHelper<T> : ICommand
     {
-        protected Action<T> _execute;
-        protected Func<T, bool> _canExecute;
+        private Action<T> executeMethod;
+        private Func<T, bool> canExecuteMethod;
 
-        public CommandHelper(Action<T> exe = null, Func<T, bool> canExecute = null)
+        public CommandHelper(Action<T> executeMethod, Func<T, bool> canExecuteMethod = null)
         {
-            this._execute = exe;
-            this._canExecute = canExecute;
-        }
-
-        public Action<T> ExecuteMethod
-        {
-            get { return _execute; }
-        }
-
-        public Func<T, bool> CanExecuteMethod
-        {
-            get { return _canExecute; }
-        }
-
-        bool System.Windows.Input.ICommand.CanExecute(object parameter)
-        {
-            if (this._canExecute != null)
-            {
-                try
-                {
-                    return this._canExecute(parameter as T);
-                }
-                catch
-                {
-                    return false;
-                }
-            }
-            return true;
+            this.executeMethod = executeMethod;
+            this.canExecuteMethod = canExecuteMethod;
         }
 
         public event EventHandler CanExecuteChanged;
 
-        public void OnCanExecuteChanged()
+        bool ICommand.CanExecute(object parameter)
         {
-            if (CanExecuteChanged != null)
-            {
-                CanExecuteChanged(this, EventArgs.Empty);
-            }
+            canExecuteMethod?.Invoke((T)parameter);
+
+            if (executeMethod != null)
+                return true;
+
+            return false;
         }
 
-        void System.Windows.Input.ICommand.Execute(object parameter)
+        public void RaiseCanExecuteChanged()
         {
-            if (this._execute != null)
-            {
-                this._execute(parameter as T);
-            }
+            CanExecuteChanged(this, EventArgs.Empty);
+        }
+
+        void ICommand.Execute(object parameter)
+        {
+            if (parameter is T t)
+                executeMethod?.Invoke(t);
+            else if (typeof(T) == typeof(bool) && parameter?.ToString() != null && bool.TryParse(parameter.ToString(), out bool boolResult))
+                executeMethod?.Invoke((T)(object)boolResult);
+            else if (typeof(T) == typeof(int) && parameter?.ToString() != null && int.TryParse(parameter.ToString(), out int intResult))
+                executeMethod?.Invoke((T)(object)intResult);
+            else if (typeof(T) == typeof(double) && parameter?.ToString() != null && double.TryParse(parameter.ToString(), out double doubleResult))
+                executeMethod?.Invoke((T)(object)doubleResult);
+            else
+                executeMethod?.Invoke(default(T));
         }
     }
 
