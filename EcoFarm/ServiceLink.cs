@@ -29,7 +29,6 @@ internal class ServiceLink : IServiceLink
     public ServiceLink(IHttpClientFactory clientFactory)
 	{
         _clientFactory = clientFactory;
-
     }
 
     #region Supplier
@@ -51,6 +50,72 @@ internal class ServiceLink : IServiceLink
 
         }
         catch (Exception ex) 
+        {
+            return null;
+        }
+    }
+
+    public async Task<SupplierAbout> GetSupplierDesciption(int supplierId)
+    {
+        try
+        {
+            var client = _clientFactory.CreateClient(localHostClient);
+            var data = await client.GetAsync($"/Supplier/GetDescription?id={supplierId}");
+            if (data.IsSuccessStatusCode)
+            {
+                var response = await data.Content.ReadAsStringAsync();
+                return JsonSerializer.Deserialize<SupplierAbout> (response, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+            }
+            return null;
+        }
+        catch (Exception ex)
+        {
+            return null;
+        }
+    }
+
+    public async Task<List<Product>> GetProducts(int supplierId)
+    {
+        try
+        {
+            var client = _clientFactory.CreateClient(localHostClient);
+            var data = await client.GetAsync($"/Product?supplierId={supplierId}");
+            if(data.IsSuccessStatusCode)
+            {
+                var response = await data.Content.ReadAsStringAsync();
+                return JsonSerializer.Deserialize<List<Product>>(response, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+            }
+            return null;
+        }
+        catch (Exception ex)
+        {
+            return null;
+        }
+    }
+
+    public async Task<List<Review>> GetReviews(int supplierId)
+    {
+        try
+        {
+            var client = _clientFactory.CreateClient(localHostClient);
+            var data = await client.GetAsync($"/Review?supplierId={supplierId}");
+            if (data.IsSuccessStatusCode)
+            {
+                var response = await data.Content.ReadAsStringAsync();
+                return JsonSerializer.Deserialize<List<Review>>(response, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+            }
+            return null;
+        }
+        catch (Exception ex)
         {
             return null;
         }

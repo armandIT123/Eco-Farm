@@ -85,6 +85,7 @@ public class UserController : Controller
         }
     }
 
+    #region Methods
     private string GenerateToken(string email)
     {
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
@@ -108,5 +109,5 @@ public class UserController : Controller
             passwordHash = Encoding.UTF8.GetString(bytesPasswordHash);            
         }
     }
-
+    #endregion
 }

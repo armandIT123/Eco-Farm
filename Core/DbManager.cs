@@ -8,16 +8,16 @@ public class DbManager
     {
         try
         {
-            if (columns == null)
+            if (string.IsNullOrEmpty(connctionString))
                 return null;
 
             List<List<object>> retVal = new List<List<object>>();
 
             string commandString = $"SELECT * From {table}";
             if (!string.IsNullOrEmpty(sqlFilter))
-                commandString += $"WHERE {sqlFilter}";
-            if (!string.IsNullOrEmpty(sqlFilter))
-                commandString += $"ORDER BY {orderBy}";
+                commandString += $" WHERE {sqlFilter}";
+            if (!string.IsNullOrEmpty(orderBy))
+                commandString += $" ORDER BY {orderBy}";
 
             using (SqlConnection connection = new SqlConnection(connctionString))
             {

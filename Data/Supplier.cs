@@ -13,7 +13,23 @@ public class Supplier
     public byte[]? Image { get; set; } // temporary
     public DateTime? RegisterDate { get; set; }
     public double Rating { get; set; }
-    public ICollection<Review>? Reviews { get; set; }
+}
+
+public class SupplierAbout
+{
+    public string? Description { get; set; }
+    public byte[][]? Images {  get; set; }
+}
+
+public class Product
+{
+    public int Id { get; set; }
+    public int SupplierId {  get; set; }
+    public string? Name { get; set; }
+    public string? Description { get; set; }
+    public double Price {  get; set; }
+    public int Category { get; set; }
+    public byte[]? Image { get; set; }
 }
 
 public class Review

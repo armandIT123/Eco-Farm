@@ -13,5 +13,9 @@ internal interface IServiceLink
     string mainClient { get; }
 
     internal Task<List<Supplier>> GetSuppliers();
+    internal Task<List<Product>> GetProducts(int supplierId);
+    internal Task<List<Review>> GetReviews(int supplierId);
+    internal Task<SupplierAbout> GetSupplierDesciption(int supplierId);
+
     internal Task<string> RegisterUser(RegisterDTO registerDTO);
 }
