@@ -20,6 +20,11 @@ public static class ServiceHelper
 
 internal class ServiceLink : IServiceLink
 {
+    public delegate void DataUpdated();
+    public static DataUpdated SuppliersUpdated;
+
+    internal static List<Supplier>? Suppliers { get; private set; }
+
     private readonly IHttpClientFactory _clientFactory;
 
     public string localHostClient => "localHostClient";
@@ -32,7 +37,7 @@ internal class ServiceLink : IServiceLink
     }
 
     #region Supplier
-    public async Task<List<Supplier>> GetSuppliers()
+    public async Task GetSuppliers()
     {
         try
         {
@@ -41,17 +46,16 @@ internal class ServiceLink : IServiceLink
             if(data.IsSuccessStatusCode)
             {
                 var response = await data.Content.ReadAsStringAsync();
-                return JsonSerializer.Deserialize<List<Supplier>>(response, new JsonSerializerOptions
+                Suppliers = JsonSerializer.Deserialize<List<Supplier>>(response, new JsonSerializerOptions
                 {
                     PropertyNameCaseInsensitive = true
                 });
+                SuppliersUpdated?.Invoke();
             }
-            return null;
-
         }
         catch (Exception ex) 
         {
-            return null;
+            
         }
     }
 

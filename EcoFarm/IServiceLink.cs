@@ -12,7 +12,7 @@ internal interface IServiceLink
     string localHostClient { get; }
     string mainClient { get; }
 
-    internal Task<List<Supplier>> GetSuppliers();
+    internal Task GetSuppliers();
     internal Task<List<Product>> GetProducts(int supplierId);
     internal Task<List<Review>> GetReviews(int supplierId);
     internal Task<SupplierAbout> GetSupplierDesciption(int supplierId);

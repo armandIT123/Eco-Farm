@@ -1,6 +1,8 @@
 ﻿using EcoFarm;
 using Microsoft.Maui.Platform;
 using EcoFarm.Handlers;
+using Data;
+using System.Collections.ObjectModel;
 
 namespace EcoFarm;
 
@@ -21,7 +23,19 @@ public partial class App : Application
             }
         });
         MainPage = new LoadingPage();
+
+        GetData();
         CheckTokenAndNavigate();
+    }
+
+    private async Task GetData()
+    {
+        Task.Run(() =>
+        {
+            var service = ServiceHelper.GetService<IServiceLink>();
+            service.GetSuppliers();
+        });
+       
     }
 
     private async void CheckTokenAndNavigate()

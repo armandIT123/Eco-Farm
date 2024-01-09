@@ -3,11 +3,48 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="EcoFarm.DiscoverPage"
              xmlns:local="clr-namespace:EcoFarm"
-             Background="#E4EEEF" Title="Descoperă">
+             Background="#E4EEEF" Title="Descoperă" Shell.NavBarIsVisible="{Binding IsSearchMode, Converter={local:InvBool}}">
 
-    <Grid RowDefinitions="60, 30, *" Margin="20">
+    <Grid RowDefinitions="50, *" Margin="20">
 
-        <CollectionView x:Name="collectionVieww" ItemsSource="{Binding Suppliers}" Grid.Row="3" SelectionMode="None" IsEnabled="{Binding AreFieldsEnabled}">
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <Frame CornerRadius="20" Grid.Column="0" Margin="0, 0, 0, 10" BackgroundColor="White" BorderColor="White" Padding="0" HorizontalOptions="FillAndExpand" HasShadow="False">
+                <SearchBar x:Name="searchBar" Placeholder="Caută..." BackgroundColor="Transparent" Text="{Binding SearchTerm}" SearchCommand="{Binding SearchCommand}" HorizontalOptions="FillAndExpand" VerticalOptions="Center">
+                    <SearchBar.Behaviors>
+                        <local:SearchBarBehaviour IsFocused="{Binding Path=BindingContext.IsSearchMode, Source={x:Reference searchBar}, Mode=TwoWay}"/>
+                    </SearchBar.Behaviors>
+                </SearchBar>
+            </Frame>
+            <Label Text="închide" Margin="10, 0, 0, 0" VerticalOptions="Center" Grid.Column="1" IsVisible="{Binding IsSearchMode}">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SearchBarPressed}" CommandParameter="closed"/>
+                </Label.GestureRecognizers>
+            </Label>
+        </Grid>
+        
+        <!--Display list of suppliers name-->
+        <Frame Grid.Row="2" VerticalOptions="StartAndExpand" Background="White" IsVisible="{Binding IsSearchMode}">
+            <CollectionView x:Name="listVieww" ItemsSource="{Binding SearchResults}" SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <HorizontalStackLayout Margin="0, 5, 0, 5">
+                            <HorizontalStackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Path=BindingContext.GoToSupplierPageCommand, Source={x:Reference listVieww}}" CommandParameter="{Binding Id}"/>
+                            </HorizontalStackLayout.GestureRecognizers>
+                            <Image Source="search.png" HeightRequest="24" WidthRequest="24" Margin="5, 0, 10, 0"/>
+                            <Label Text="{Binding Name}" FontSize="Medium"/>
+                        </HorizontalStackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Frame>
+       
+       
+        <CollectionView x:Name="collectionVieww" ItemsSource="{Binding Suppliers}" Grid.Row="3" SelectionMode="None" IsVisible="{Binding IsSearchMode, Converter={local:InvBool}}" IsEnabled="{Binding AreFieldsEnabled}">
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout Orientation="Vertical" />
             </CollectionView.ItemsLayout>

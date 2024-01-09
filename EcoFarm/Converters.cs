@@ -215,6 +215,23 @@ public class ByteArrayToImageSourceConverter : BaseConverter<byte[]?, ImageSourc
     }
 }
 
+public class InvBool : IValueConverter
+{
+    object? IValueConverter.Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        if (targetType != typeof(bool))
+            throw new InvalidOperationException("The target must be a boolean");
+
+        return !(bool)value;
+    }
+
+    object? IValueConverter.ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
+    }
+}
+
+
 //public class TextColorConverter : IValueConverter
 //{
 //    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

@@ -6,12 +6,6 @@
              Background="#E4EEEF"
              Shell.NavBarIsVisible="False">
 
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <local:TextColorConverter x:Key="TextColorConverter"/>
-        </ResourceDictionary>
-    </ContentPage.Resources>
-
     <Grid>
 
         <Grid.RowDefinitions>
