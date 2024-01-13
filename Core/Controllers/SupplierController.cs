@@ -52,12 +52,12 @@ public class SupplierController : ControllerBase
 
     [Route("GetDescription")]
     [HttpGet]
-    public IActionResult GetSupplierDescription(int supplierId)
+    public IActionResult GetSupplierDescription(int id)
     {
-        if (!(supplierId > 0))
-            return BadRequest();
+        if (!(id > 0))
+            return BadRequest("Invalid Id");
 
-        string sqlFilter = $"Id={supplierId}";
+        string sqlFilter = $"Id={id}";
         var rawData = DbManager.Select(_configuration.GetConnectionString("SqlServerDb") ?? "", nameof(Tabels.Suppliers), new string[] { "Description" }, sqlFilter);
 
         if (rawData == null || rawData.Count == 0)
@@ -67,14 +67,17 @@ public class SupplierController : ControllerBase
         {
             SupplierAbout supplierAbout = new SupplierAbout() { Description = rawData[0][0] as string };
 
-            string imagesPath = $"C:\\Data\\Suppliers-Images\\{100 + supplierId}\\About";
-            var images = Directory.GetFiles(imagesPath);
-            List<byte[]> imageList = new List<byte[]>();
-            foreach ( var image in images)
+            string imagesPath = $"C:\\Data\\Suppliers-Images\\{100 + id}\\About";
+            if (Directory.Exists(imagesPath))
             {
-                imageList.Add(Tools.ImageToByteArray(image));
+                var images = Directory.GetFiles(imagesPath);
+                List<byte[]> imageList = new List<byte[]>();
+                foreach (var image in images)
+                {
+                    imageList.Add(Tools.ImageToByteArray(image));
+                }
+                supplierAbout.Images = imageList.ToArray();
             }
-            supplierAbout.Images = imageList.ToArray();
 
             return Ok(supplierAbout);
         }

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="EcoFarm.DragView"  x:Name="dragViewRoot">
+
+    <ContentView.Content>
+        <Frame
+            x:Name="dragViewRootFrame"
+            BindingContext="{x:Reference dragViewRoot}"
+            VerticalOptions="FillAndExpand"
+            HorizontalOptions="FillAndExpand"
+            CornerRadius="{Binding CornerRadius}"
+            BorderColor="Transparent">
+
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="DragDirection">
+                    <VisualState x:Name="Up">
+                        <VisualState.Setters>
+                            <Setter Property="Padding" Value="15, 0" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Down">
+                        <VisualState.Setters>
+                            <Setter Property="Padding" Value="15, 0" />
+                        </VisualState.Setters>
+                    </VisualState>
+
+                    <VisualState x:Name="Left">
+                        <VisualState.Setters>
+                            <Setter Property="Padding" Value="0, 15" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Right">
+                        <VisualState.Setters>
+                            <Setter Property="Padding" Value="0, 15" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+
+            <Grid
+                ColumnSpacing="0"
+                RowSpacing="0">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <ContentPresenter
+                    Grid.Column="1"
+                    Grid.Row="1"
+                    Content="{Binding ViewContent}"
+                    IsClippedToBounds="True"
+                    x:Name="contentPresenter"/>
+
+                <StackLayout
+                    x:Name="dragViewDragArea"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="FillAndExpand">
+
+                    <StackLayout.GestureRecognizers>
+                        <PanGestureRecognizer PanUpdated="MessagesPanel_PanUpdated" />
+                    </StackLayout.GestureRecognizers>
+
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup x:Name="DragDirection">
+                            <VisualState x:Name="Up">
+                                <VisualState.Setters>
+                                    <Setter Property="Grid.Column" Value="1" />
+                                    <Setter Property="Grid.Row" Value="0" />
+
+                                    <Setter Property="Padding" Value="0, 15" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Down">
+                                <VisualState.Setters>
+                                    <Setter Property="Grid.Column" Value="1" />
+                                    <Setter Property="Grid.Row" Value="2" />
+
+                                    <Setter Property="Padding" Value="0, 15" />
+                                </VisualState.Setters>
+                            </VisualState>
+
+                            <VisualState x:Name="Left">
+                                <VisualState.Setters>
+                                    <Setter Property="Grid.Column" Value="0" />
+                                    <Setter Property="Grid.Row" Value="1" />
+
+                                    <Setter Property="Padding" Value="15, 0" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Right">
+                                <VisualState.Setters>
+                                    <Setter Property="Grid.Column" Value="2" />
+                                    <Setter Property="Grid.Row" Value="1" />
+
+                                    <Setter Property="Padding" Value="15, 0" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
+
+                    <BoxView
+                        x:Name="dragViewDragKnob"
+                        CornerRadius="3"
+                        VerticalOptions="Center"
+                        HorizontalOptions="Center"
+                        BackgroundColor="LightGray">
+
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="DragDirection">
+                                <VisualState x:Name="Up">
+                                    <VisualState.Setters>
+                                        <Setter Property="WidthRequest" Value="50" />
+                                        <Setter Property="HeightRequest" Value="6" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Down">
+                                    <VisualState.Setters>
+                                        <Setter Property="WidthRequest" Value="50" />
+                                        <Setter Property="HeightRequest" Value="6" />
+                                    </VisualState.Setters>
+                                </VisualState>
+
+                                <VisualState x:Name="Left">
+                                    <VisualState.Setters>
+                                        <Setter Property="WidthRequest" Value="6" />
+                                        <Setter Property="HeightRequest" Value="50" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Right">
+                                    <VisualState.Setters>
+                                        <Setter Property="WidthRequest" Value="6" />
+                                        <Setter Property="HeightRequest" Value="50" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </BoxView>
+                </StackLayout>
+            </Grid>
+        </Frame>
+    </ContentView.Content>
+</ContentView>

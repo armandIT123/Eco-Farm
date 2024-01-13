@@ -230,21 +230,3 @@ public class InvBool : IValueConverter
         throw new NotImplementedException();
     }
 }
-
-
-//public class TextColorConverter : IValueConverter
-//{
-//    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-//    {
-//        // 'value' este categoria curentă din label, iar 'parameter' este categoria selectată
-//        if (value == null || parameter == null) return Colors.Black;
-
-//        var isSelected = value.ToString().Equals(parameter.ToString());
-//        return isSelected ? Colors.Green : Colors.Black;
-//    }
-
-//    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-//    {
-//        throw new NotImplementedException();
-//    }
-//}

@@ -40,7 +40,9 @@ public class LoginViewModel : DataContextBase
 
     public ICommand Skip => new CommandHelper((param) =>
     {
-        Application.Current.MainPage = new AppShell();
+        if (App.Current == null)
+            ;
+        App.Current.MainPage = new AppShell();
     });
 
     internal async Task RegisterUser() //maybe move to register page

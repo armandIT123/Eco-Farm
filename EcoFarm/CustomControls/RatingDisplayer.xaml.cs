@@ -10,6 +10,7 @@ public partial class RatingDisplayer : ContentView
     public RatingDisplayer()
     {
         InitializeComponent();
+        this.BindingContext = this;
     }
 
     public double Rating

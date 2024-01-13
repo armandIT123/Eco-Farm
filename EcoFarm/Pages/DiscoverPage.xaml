@@ -3,6 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="EcoFarm.DiscoverPage"
              xmlns:local="clr-namespace:EcoFarm"
+             xmlns:models="clr-namespace:Data;assembly=Data"
+             x:DataType="local:DiscoverPageViewModel"
              Background="#E4EEEF" Title="Descoperă" Shell.NavBarIsVisible="{Binding IsSearchMode, Converter={local:InvBool}}">
 
     <Grid RowDefinitions="50, *" Margin="20">
@@ -30,7 +32,7 @@
         <Frame Grid.Row="2" VerticalOptions="StartAndExpand" Background="White" IsVisible="{Binding IsSearchMode}">
             <CollectionView x:Name="listVieww" ItemsSource="{Binding SearchResults}" SelectionMode="None">
                 <CollectionView.ItemTemplate>
-                    <DataTemplate>
+                    <DataTemplate x:DataType="{x:Type local:SearchData}" >
                         <HorizontalStackLayout Margin="0, 5, 0, 5">
                             <HorizontalStackLayout.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding Path=BindingContext.GoToSupplierPageCommand, Source={x:Reference listVieww}}" CommandParameter="{Binding Id}"/>
@@ -49,7 +51,7 @@
                 <LinearItemsLayout Orientation="Vertical" />
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
-                <DataTemplate>
+                <DataTemplate x:DataType="{x:Type models:Supplier}" >
                     <local:LargeImageBox TapCommand="{Binding Path=BindingContext.GoToSupplierPageCommand, Source={x:Reference collectionVieww}}" TapCommandParameter="{Binding Id}"
                                  MainImage="{Binding Image, Mode=TwoWay}" SupplierName="{Binding Name, Mode=TwoWay}" Rating="{Binding Rating, Mode=TwoWay}" 
                                  HeightRequest="250" Margin="0, 10, 0, 10"/>

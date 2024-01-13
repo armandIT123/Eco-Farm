@@ -19,6 +19,7 @@ public partial class LargeImageBox : ContentView
     public LargeImageBox()
 	{
 		InitializeComponent();
+        this.BindingContext = this;
 	}
     #endregion
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using The49.Maui.BottomSheet;
 
 namespace EcoFarm
 {
@@ -9,6 +10,7 @@ namespace EcoFarm
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .UseBottomSheet()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -16,6 +18,9 @@ namespace EcoFarm
                 });
 
             #region Pages
+            builder.Services.AddTransient<LoginPage>();
+            builder.Services.AddTransient<LoginViewModel>();
+
             builder.Services.AddTransient<SupplierPage>();
             builder.Services.AddTransient<SupplierPageViewModel>();
 
@@ -23,6 +28,7 @@ namespace EcoFarm
             builder.Services.AddSingleton<DiscoverPageViewModel>();
 
             builder.Services.AddSingleton<MainPage>();
+            builder.Services.AddSingleton<HomeViewModel>();
             #endregion
 
             #region Core

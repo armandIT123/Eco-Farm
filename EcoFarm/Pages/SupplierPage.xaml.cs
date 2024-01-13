@@ -1,95 +1,36 @@
 ﻿using Data;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 
 namespace EcoFarm;
 
-public enum SupplierButtonsEnum
-{
-    About = 0,
-    Products = 1,
-    Reviews = 2
-}
+
 
 public class SupplierPageViewModel : DataContextBase, IQueryAttributable
 {
+    public enum SupplierButtonsEnum
+    {
+        About = 0,
+        Products = 1,
+        Reviews = 2
+    }
+
     #region Members & Init
     private Supplier currentSupplier = null;
-
-    private string aboutFerm = string.Empty;
-    private string selectedCategory;
-
-    private List<string> pictures;
-    private List<string> legume;
-    private List<string> productsCategory;
+    private ObservableCollection<Product> products;
+    private ObservableCollection<Review> reviews;
+    private SupplierAbout info;
+    private string? selectedCategory;
 
     private SupplierButtonsEnum pressedButton = SupplierButtonsEnum.About;
 
     public SupplierPageViewModel()
     {
-        AboutFerm = "   Produsele noastre sunt cultivate cu grijă și pasiune, asigurându-ți gustul autentic al alimentelor proaspete și sănătoase. Vizitează-ne pentru a te bucura de legume crocante, fructe zemoase și produse lactate cremoase, toate proaspete de la fermă. Experiența la ferma noastră nu este doar o escapadă, ci o călătorie înapoi la originile gustului. " +
-            "Vino să descoperi frumusețea simplă a vieții la țară!";
 
-        Pictures = new List<string>() { "ferm1.png", "ferm2.png", "ferm3.png" };
-        Legume = new List<string>() { "ferm1.png", "ferm2.png", "ferm3.png"};
-        ProductsCategory = new List<string>() { "Fructe", "Legume", "Cereale" };
     }
     #endregion
 
     #region Accessors
-    public List<string> ProductsCategory
-    {
-        get => productsCategory;
-        set
-        {
-            productsCategory = value;
-            OnPropertyChanged(nameof(ProductsCategory));
-
-        }
-    }
-
-    public string SelectedProductCategory
-    {
-        get => selectedCategory;
-        set
-        {
-            if (selectedCategory != value)
-            {
-                selectedCategory = value;
-                OnPropertyChanged(nameof(SelectedProductCategory));
-            }
-        }
-    }
-
-    public List<string> Legume
-    {
-        get => legume;
-        set
-        {
-            legume = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public List<string> Pictures
-    {
-        get => pictures;
-        set
-        {
-            pictures = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public string AboutFerm
-    {
-        get => aboutFerm;
-        set
-        {
-            aboutFerm = value;
-            OnPropertyChanged();
-        }
-    }
-
     public Supplier CurrentSupplier
     {
         get => currentSupplier;
@@ -103,41 +44,61 @@ public class SupplierPageViewModel : DataContextBase, IQueryAttributable
         }
     }
 
+    public ObservableCollection<Product>? DisplayedProducts
+    {
+        get
+        {
+            products ??= new();
+            return new(products.Where(x => x.Category == selectedCategory));
+        }
+    }
     public string SupplierName => CurrentSupplier?.Name;
-
     public double Rating => CurrentSupplier?.Rating ?? 0;
     public byte[] MainImage => CurrentSupplier?.Image;
+
+
+    public List<string?> ProductsCategory => products?.Select(x => x.Category)?.Distinct().ToList();
+
+    public string? SelectedProductCategory
+    {
+        get => selectedCategory;
+        set
+        {
+            if (selectedCategory != value)
+            {
+                selectedCategory = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(DisplayedProducts));
+            }
+        }
+    }
+   
+    public string Description => info?.Description;
+    public byte[][] Pictures => info?.Images;
 
     public SupplierButtonsEnum PressedButton
     {
         get => pressedButton;
         set
         {
-            pressedButton = value;
-            OnPropertyChanged();
-            OnPropertyChanged(nameof(IsAboutSupplierVisible));
-            OnPropertyChanged(nameof(IsProductSupplierVisible));
-            OnPropertyChanged(nameof(IsReviewsSupplierVisible));
+            if(pressedButton != value)
+            {
+                pressedButton = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(IsAboutSupplierVisible));
+                OnPropertyChanged(nameof(IsProductSupplierVisible));
+                OnPropertyChanged(nameof(IsReviewsSupplierVisible));
+            }
         }
     }
 
-    public bool IsAboutSupplierVisible => PressedButton  == SupplierButtonsEnum.About;
-    public bool IsProductSupplierVisible => PressedButton  == SupplierButtonsEnum.Products;
-    public bool IsReviewsSupplierVisible => PressedButton  == SupplierButtonsEnum.Reviews;
-    #endregion
+    public bool IsAboutSupplierVisible => PressedButton == SupplierButtonsEnum.About;
+    public bool IsProductSupplierVisible => PressedButton == SupplierButtonsEnum.Products;
+    public bool IsReviewsSupplierVisible => PressedButton == SupplierButtonsEnum.Reviews;
 
-    #region Methods
-    public void ApplyQueryAttributes(IDictionary<string, object> query)
+    public ICommand GoBackCommand => new CommandHelper( async (param) =>
     {
-        if (query.ContainsKey("CurrentSupplier"))
-        {
-            CurrentSupplier = query["CurrentSupplier"] as Supplier;
-        }
-    }
-
-    public ICommand GoBackCommand => new CommandHelper((param) =>
-    {
-        GoBack();
+        await GoBack();
     });
 
     public ICommand PressedCategoriesCommand => new CommandHelper<string>((param) =>
@@ -149,12 +110,39 @@ public class SupplierPageViewModel : DataContextBase, IQueryAttributable
     {
         PressedButton = (SupplierButtonsEnum)param;
     });
+    #endregion
+
+    #region Methods
+    public void ApplyQueryAttributes(IDictionary<string, object> query)
+    {
+        if (query.ContainsKey("CurrentSupplier"))
+        {
+            CurrentSupplier = query["CurrentSupplier"] as Supplier;
+        }
+    }
+
+    public async Task GetSupplierProducts()
+    {
+        var service = ServiceHelper.GetService<IServiceLink>();
+        products = new ObservableCollection<Product>( await service.GetProducts(CurrentSupplier?.Id ?? 0) );
+
+        OnPropertyChanged(nameof(DisplayedProducts));
+        OnPropertyChanged(nameof(ProductsCategory));
+        SelectedProductCategory = ProductsCategory?.Count > 0 ? ProductsCategory[0] : "";
+    }
+
+    public async Task GetSupplierInfo()
+    {
+        var service = ServiceHelper.GetService<IServiceLink>();
+        info = await service.GetSupplierDesciption(CurrentSupplier?.Id ?? 0);
+        OnPropertyChanged(nameof(Pictures));
+        OnPropertyChanged(nameof(Description));
+    }
 
     async Task GoBack()
     {
         await Shell.Current.GoToAsync("..");
     }
-
     #endregion
 }
 
@@ -167,11 +155,12 @@ public partial class SupplierPage : ContentPage
         InitializeComponent();
         dataContext = new SupplierPageViewModel();
         BindingContext = dataContext;
-
     }
 
     protected override void OnAppearing()
     {
         base.OnAppearing();
+        dataContext?.GetSupplierInfo();
+        dataContext?.GetSupplierProducts();
     }
 }

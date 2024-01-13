@@ -3,7 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="EcoFarm.SupplierPage" 
              xmlns:local="clr-namespace:EcoFarm"
-             Background="#E4EEEF"
+             xmlns:models="clr-namespace:Data;assembly=Data"
+             x:DataType="local:SupplierPageViewModel"
+             Background="#F3FAF9"
              Shell.NavBarIsVisible="False">
 
     <Grid>
@@ -16,11 +18,13 @@
         </Grid.RowDefinitions>
 
         <!-- Imaginea care se întinde pe ambele rânduri -->
-        <Image Source="{Binding MainImage, Converter={local:ByteArrayToImageSourceConverter}}" Aspect="AspectFill" Grid.Row="0" HeightRequest="200" HorizontalOptions="FillAndExpand" VerticalOptions="Start"/>
+        <Border Grid.Row="0" VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand" StrokeShape="RoundRectangle 0, 0, 15, 15" >
+            <Image Source="{Binding MainImage, Converter={local:ByteArrayToImageSourceConverter}}" Aspect="AspectFill" HeightRequest="200" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
+        </Border>
         <local:RatingDisplayer Grid.Row="0" HorizontalOptions="End" VerticalOptions="Center" Margin="0,10,25,0" Rating="{Binding Rating}" ZIndex="1"/>
         <ImageButton Source="back.png" Grid.Row="0" HorizontalOptions="Start" VerticalOptions="Start" WidthRequest="35" HeightRequest="35" Margin="10" Command="{Binding GoBackCommand}"/>
         <!-- Banda albă care începe de la jumătatea imaginii în jos -->
-        <Frame Grid.Row="0" BackgroundColor="White" Padding="10" Margin="0,150,0,0" CornerRadius="10" HorizontalOptions="Center" VerticalOptions="End" HeightRequest="100" WidthRequest="320">
+        <Frame Grid.Row="0" BackgroundColor="White" Padding="10" Margin="0,150,0,0" CornerRadius="10" HorizontalOptions="Center" VerticalOptions="End" HeightRequest="100" WidthRequest="320" BorderColor="White">
             <StackLayout Orientation="Vertical">
                 <!-- Conținutul bandei albe -->
                 <Label Text="{Binding SupplierName}" FontAttributes="Bold" FontSize="Medium" HorizontalOptions="Center" VerticalOptions="Center"/>
@@ -33,7 +37,7 @@
                 </StackLayout>
             </StackLayout>
         </Frame>
-
+        
         <StackLayout Orientation="Horizontal" Grid.Row="1" Spacing="20" Margin="0,20,0,0" VerticalOptions="Start" HorizontalOptions="Center">
             <Button x:Name="AboutButton" Text="Despre" TextColor="Black" Command="{Binding PressedButtonsCommand}" CommandParameter="0" FontAttributes="Bold" CornerRadius="19" HeightRequest="40" BackgroundColor="White">
                 <Button.Triggers>
@@ -65,18 +69,30 @@
 
         <local:ReviewsSupplier Margin="0,20,0,0" Grid.Row="2" IsVisible="{Binding IsReviewsSupplierVisible}"/>
 
+        <!--<AbsoluteLayout Grid.Row="3" HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="200">
+            <local:DragView
+        DragDirection="Up"
+        MaxBounds="0.5"
+        MinBounds="0.1"
+        AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional"
+        AbsoluteLayout.LayoutBounds="0.5, 1, 1, AutoSize">
+
+                <Label Text="ceva"/>
+            </local:DragView>
+        </AbsoluteLayout>-->
+
 
         <!--ABOUT TAB-->
         <StackLayout Grid.Row="2" IsVisible="{Binding IsAboutSupplierVisible}">
-            <Label Text="{Binding AboutFerm}" Margin="10,20,0,0"/>
-            <CarouselView ItemsSource="{Binding Pictures, Mode=TwoWay}" PeekAreaInsets="100" Margin="0,20,0,0" HeightRequest="200" >
+            <Label Text="{Binding Description}" Margin="10,20,0,0"/>
+            <CarouselView ItemsSource="{Binding Pictures}" PeekAreaInsets="100" Margin="0,20,0,0" HeightRequest="200" >
                 <CarouselView.ItemsLayout>
                     <LinearItemsLayout Orientation="Horizontal" ItemSpacing="10" />
                 </CarouselView.ItemsLayout>
                 <CarouselView.ItemTemplate>
                     <DataTemplate>
                         <StackLayout>
-                            <Image Source="{Binding}" HeightRequest="190" WidthRequest="250" HorizontalOptions="Center" />
+                            <Image Source="{Binding ., Converter={local:ByteArrayToImageSourceConverter}}" HeightRequest="190" WidthRequest="250" HorizontalOptions="Center" />
                         </StackLayout>
                     </DataTemplate>
                 </CarouselView.ItemTemplate>
@@ -84,35 +100,60 @@
         </StackLayout>
 
         <!--PRODUCT TAB-->
-        <!--<CollectionView x:Name="productsCategoryView" Grid.Row="2" ItemsSource="{Binding ProductsCategory}" IsVisible="{Binding IsProductSupplierVisible}" ItemsLayout="HorizontalList">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <StackLayout Orientation="Horizontal">
-                        <Label Text="{Binding}" TextDecorations="Underline" TextColor="{Binding Path=BindingContext.PressedCategoriesCommand, Source={x:Reference productsCategoryView},Converter={local:TextColorConverter}}" Margin="35,15,0,0" FontFamily="OpenSansRegular" FontSize="15">
-                            <Label.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding Path=BindingContext.PressedCategoriesCommand, Source={x:Reference productsCategoryView}}" CommandParameter="{Binding}"/>
-                            </Label.GestureRecognizers>
-                        </Label>
-                    </StackLayout>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>-->
+        <Grid IsVisible="{Binding IsProductSupplierVisible}" Grid.Row="2" Grid.RowSpan="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="64"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-        <CollectionView ItemsSource="{Binding Legume}"  IsVisible="{Binding IsProductSupplierVisible}"  Grid.Row="2" ItemsLayout="{StaticResource VerticalGridItemsLayout}">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Frame CornerRadius="20" Padding="10" Margin="10" BackgroundColor="White">
-                        <Grid RowDefinitions="*, Auto, Auto" ColumnDefinitions="*">
-                            <Image Grid.Row="0" Source="{Binding .}"  Aspect="AspectFit" HeightRequest="100"/>
-                            <StackLayout Grid.Row="2" Orientation="Horizontal" Spacing="10">
-                                <Label Text="{Binding Price}"   FontSize="Large" TextColor="Green"/>
-                                <Button Text="+"  CornerRadius="15"  WidthRequest="30" HeightRequest="30" Command="{Binding AddCommand}" BackgroundColor="LightGreen"/>
-                            </StackLayout>
-                        </Grid>
-                    </Frame>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+            <ScrollView Orientation="Horizontal">
+                <HorizontalStackLayout x:Name="horizontalStck" BindableLayout.ItemsSource="{Binding ProductsCategory}" HorizontalOptions="Start" Margin="8, 16, 0, 0" >
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="x:String">
+                            <Label Text="{Binding .}" Margin="4, 8, 4, 0" FontSize="Medium">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Path=BindingContext.PressedCategoriesCommand, Source={x:Reference horizontalStck}}" CommandParameter="{Binding}" />
+                                </Label.GestureRecognizers>
+                                <Label.Behaviors>
+                                    <local:CategoryLabelBehaviour SelectedCategory="{Binding Path=BindingContext.SelectedProductCategory, Source={x:Reference horizontalStck}, Mode=TwoWay}"/>
+                                </Label.Behaviors>
+                            </Label>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </HorizontalStackLayout>
+            </ScrollView>
+
+            <CollectionView x:Name="productCollectionVieww" Grid.Row="1" ItemsSource="{Binding DisplayedProducts}" HorizontalOptions="FillAndExpand" IsVisible="{Binding IsProductSupplierVisible}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Product" >
+                        <Border Margin="16, 8, 16, 8" Background="White" StrokeThickness="0" StrokeShape="RoundRectangle 15, 15, 15, 15">
+                            <Grid Margin="16">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="128"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="32"/>
+                                    <RowDefinition Height="72"/>
+                                    <RowDefinition Height="24"/>
+                                </Grid.RowDefinitions>
+                                <Label Text="{Binding Name}" Grid.Row="0" Grid.Column="0" FontSize="Body" Margin="0, 0, 8, 0" FontAttributes="Bold"/>
+                                <Label Text="{Binding Description}" Grid.Row="1" Grid.Column="0" FontSize="Body" Margin="0, 0, 8, 0" TextColor="Gray"/>
+                                <Label Text="{Binding Price, StringFormat='{0} lei'}" Grid.Row="2" Grid.Column="0" Margin="0, 8, 0, 0" FontAttributes="Bold" HorizontalOptions="Start" />
+
+                                <Border Grid.Column="1" Grid.Row="0" Grid.RowSpan="3" StrokeThickness="0" StrokeShape="RoundRectangle 10, 10, 10, 10">
+                                    <Image Source="{Binding Image, Converter={local:ByteArrayToImageSourceConverter}}"  Aspect="AspectFill"/>
+                                </Border>
+                               
+                            </Grid>
+                        </Border>
+
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+        </Grid>
+
 
     </Grid>
 

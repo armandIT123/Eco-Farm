@@ -39,7 +39,7 @@ public class ProductController : ControllerBase
                     Name = data[pos++] as string,
                     Description = data[pos++] as string,
                     Price = Convert.ToDouble(data[pos++]),
-                    Category = Convert.ToInt32(data[pos])
+                    Category = data[pos] as string,
                 };
 
                 string imagePath = $"C:\\Data\\Suppliers-Images\\{100 + supplierId}\\Products\\{product.Id}.jpg";

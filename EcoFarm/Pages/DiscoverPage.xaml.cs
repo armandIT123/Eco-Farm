@@ -203,14 +203,5 @@ public partial class DiscoverPage : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        //Task.Run(() =>
-        //{
-        //    dataBinding.GetSuppliersList();
-        //});
     }
-
-    //private void SearchBar_Focused(object sender, FocusEventArgs e)
-    //{
-    //    dataBinding.IsSearchMode = true;
-    //}
 }

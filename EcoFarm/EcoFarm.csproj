@@ -88,6 +88,7 @@
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
+		<PackageReference Include="The49.Maui.BottomSheet" Version="1.0.4" />
 	</ItemGroup>
 
 	<!--<ItemGroup>
@@ -154,6 +155,9 @@
 		</MauiXaml>
 		<MauiXaml Update="Pages\SupplierPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Test\Drawer.xaml">
+		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
 	</ItemGroup>
 

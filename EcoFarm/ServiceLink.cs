@@ -61,6 +61,8 @@ internal class ServiceLink : IServiceLink
 
     public async Task<SupplierAbout> GetSupplierDesciption(int supplierId)
     {
+        if (!(supplierId > 0))
+            return null;
         try
         {
             var client = _clientFactory.CreateClient(localHostClient);
@@ -81,8 +83,10 @@ internal class ServiceLink : IServiceLink
         }
     }
 
-    public async Task<List<Product>> GetProducts(int supplierId)
+    public async Task<IEnumerable<Product>> GetProducts(int supplierId)
     {
+        if (!(supplierId > 0))
+            return null;
         try
         {
             var client = _clientFactory.CreateClient(localHostClient);
@@ -90,7 +94,7 @@ internal class ServiceLink : IServiceLink
             if(data.IsSuccessStatusCode)
             {
                 var response = await data.Content.ReadAsStringAsync();
-                return JsonSerializer.Deserialize<List<Product>>(response, new JsonSerializerOptions
+                return JsonSerializer.Deserialize<IEnumerable<Product>>(response, new JsonSerializerOptions
                 {
                     PropertyNameCaseInsensitive = true
                 });
@@ -103,7 +107,7 @@ internal class ServiceLink : IServiceLink
         }
     }
 
-    public async Task<List<Review>> GetReviews(int supplierId)
+    public async Task<IEnumerable<Review>> GetReviews(int supplierId)
     {
         try
         {
@@ -112,7 +116,7 @@ internal class ServiceLink : IServiceLink
             if (data.IsSuccessStatusCode)
             {
                 var response = await data.Content.ReadAsStringAsync();
-                return JsonSerializer.Deserialize<List<Review>>(response, new JsonSerializerOptions
+                return JsonSerializer.Deserialize<IEnumerable<Review>>(response, new JsonSerializerOptions
                 {
                     PropertyNameCaseInsensitive = true
                 });
