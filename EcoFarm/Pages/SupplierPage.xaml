@@ -5,7 +5,7 @@
              xmlns:local="clr-namespace:EcoFarm"
              xmlns:models="clr-namespace:Data;assembly=Data"
              x:DataType="local:SupplierPageViewModel"
-             Background="#F3FAF9"
+             Background="{StaticResource Background}"
              Shell.NavBarIsVisible="False">
 
     <Grid>
@@ -42,7 +42,7 @@
             <Button x:Name="AboutButton" Text="Despre" TextColor="Black" Command="{Binding PressedButtonsCommand}" CommandParameter="0" FontAttributes="Bold" CornerRadius="19" HeightRequest="40" BackgroundColor="White">
                 <Button.Triggers>
                     <DataTrigger TargetType="Button" Binding="{Binding PressedButton}" Value="0">
-                        <Setter Property="BackgroundColor" Value="#4b8e4b" />
+                        <Setter Property="BackgroundColor" Value="{StaticResource MainColor}" />
                         <Setter Property="TextColor" Value="#FFFFFF" />
                     </DataTrigger>
                 </Button.Triggers>
@@ -51,7 +51,7 @@
             <Button x:Name="ProductButton" Text="Produse" TextColor="Black" Command="{Binding PressedButtonsCommand}" CommandParameter="1" FontAttributes="Bold" CornerRadius="19" HeightRequest="40" BackgroundColor="White">
                 <Button.Triggers>
                     <DataTrigger TargetType="Button" Binding="{Binding PressedButton}" Value="1">
-                        <Setter Property="BackgroundColor" Value="#4b8e4b" />
+                        <Setter Property="BackgroundColor" Value="{StaticResource MainColor}" />
                         <Setter Property="TextColor" Value="#FFFFFF" />
                     </DataTrigger>
                 </Button.Triggers>
@@ -60,7 +60,7 @@
             <Button x:Name="ReviewsButton" Text="Reviews" TextColor="Black" Command="{Binding PressedButtonsCommand}" CommandParameter="2" FontAttributes="Bold" CornerRadius="19" HeightRequest="40" BackgroundColor="White">
                 <Button.Triggers>
                     <DataTrigger TargetType="Button" Binding="{Binding PressedButton}" Value="2">
-                        <Setter Property="BackgroundColor" Value="#4b8e4b" />
+                        <Setter Property="BackgroundColor" Value="{StaticResource MainColor}" />
                         <Setter Property="TextColor" Value="#FFFFFF" />
                     </DataTrigger>
                 </Button.Triggers>
@@ -68,19 +68,6 @@
         </StackLayout>
 
         <local:ReviewsSupplier Margin="0,20,0,0" Grid.Row="2" IsVisible="{Binding IsReviewsSupplierVisible}"/>
-
-        <!--<AbsoluteLayout Grid.Row="3" HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="200">
-            <local:DragView
-        DragDirection="Up"
-        MaxBounds="0.5"
-        MinBounds="0.1"
-        AbsoluteLayout.LayoutFlags="PositionProportional, WidthProportional"
-        AbsoluteLayout.LayoutBounds="0.5, 1, 1, AutoSize">
-
-                <Label Text="ceva"/>
-            </local:DragView>
-        </AbsoluteLayout>-->
-
 
         <!--ABOUT TAB-->
         <StackLayout Grid.Row="2" IsVisible="{Binding IsAboutSupplierVisible}">
@@ -139,7 +126,7 @@
                                 </Grid.RowDefinitions>
                                 <Label Text="{Binding Name}" Grid.Row="0" Grid.Column="0" FontSize="Body" Margin="0, 0, 8, 0" FontAttributes="Bold"/>
                                 <Label Text="{Binding Description}" Grid.Row="1" Grid.Column="0" FontSize="Body" Margin="0, 0, 8, 0" TextColor="Gray"/>
-                                <Label Text="{Binding Price, StringFormat='{0} lei'}" Grid.Row="2" Grid.Column="0" Margin="0, 8, 0, 0" FontAttributes="Bold" HorizontalOptions="Start" />
+                                <Label Text="{Binding Price, StringFormat='{0} lei'}" Grid.Row="2" Grid.Column="0" TextColor="{StaticResource SecondaryColor}" Margin="0, 8, 0, 0" FontAttributes="Bold" HorizontalOptions="Start" />
 
                                 <Border Grid.Column="1" Grid.Row="0" Grid.RowSpan="3" StrokeThickness="0" StrokeShape="RoundRectangle 10, 10, 10, 10">
                                     <Image Source="{Binding Image, Converter={local:ByteArrayToImageSourceConverter}}"  Aspect="AspectFill"/>

@@ -7,6 +7,18 @@ using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace EcoFarm;
+internal interface IServiceLink
+{
+    string localHostClient { get; }
+    string mainClient { get; }
+
+    internal Task GetSuppliers();
+    internal Task<IEnumerable<Product>> GetProducts(int supplierId);
+    internal Task<IEnumerable<Review>> GetReviews(int supplierId);
+    internal Task<SupplierAbout> GetSupplierDesciption(int supplierId);
+
+    internal Task<string> RegisterUser(RegisterDTO registerDTO);
+}
 
 public static class ServiceHelper
 {

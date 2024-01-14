@@ -135,6 +135,9 @@
 		<MauiXaml Update="CustomControls\LargeImageBox.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
+		<MauiXaml Update="CustomControls\ProductBottomSheet.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 		<MauiXaml Update="CustomControls\ProductSupplier.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
@@ -155,9 +158,6 @@
 		</MauiXaml>
 		<MauiXaml Update="Pages\SupplierPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
-		</MauiXaml>
-		<MauiXaml Update="Test\Drawer.xaml">
-		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
 	</ItemGroup>
 

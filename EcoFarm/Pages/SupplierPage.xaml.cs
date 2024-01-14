@@ -4,8 +4,6 @@ using System.Windows.Input;
 
 namespace EcoFarm;
 
-
-
 public class SupplierPageViewModel : DataContextBase, IQueryAttributable
 {
     public enum SupplierButtonsEnum
@@ -55,7 +53,6 @@ public class SupplierPageViewModel : DataContextBase, IQueryAttributable
     public string SupplierName => CurrentSupplier?.Name;
     public double Rating => CurrentSupplier?.Rating ?? 0;
     public byte[] MainImage => CurrentSupplier?.Image;
-
 
     public List<string?> ProductsCategory => products?.Select(x => x.Category)?.Distinct().ToList();
 
@@ -162,5 +159,7 @@ public partial class SupplierPage : ContentPage
         base.OnAppearing();
         dataContext?.GetSupplierInfo();
         dataContext?.GetSupplierProducts();
+
+        
     }
 }

@@ -5,7 +5,10 @@
              xmlns:local="clr-namespace:EcoFarm"
              xmlns:models="clr-namespace:Data;assembly=Data"
              x:DataType="local:DiscoverPageViewModel"
-             Background="#E4EEEF" Title="Descoperă" Shell.NavBarIsVisible="{Binding IsSearchMode, Converter={local:InvBool}}">
+             Background="{StaticResource Background}" Title="Descoperă" 
+             Shell.NavBarIsVisible="{Binding IsSearchMode, Converter={local:InvBool}}"
+             Shell.BackgroundColor="{StaticResource Background}" 
+             Shell.TitleColor="{StaticResource MainTextColor}">
 
     <Grid RowDefinitions="50, *" Margin="20">
 

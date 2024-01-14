@@ -48,6 +48,5 @@ namespace EcoFarm
             var control = (CategoryLabelBehaviour)bindable;
             control.SelectedCategory = (string)newValue;
         }
-
     }
 }

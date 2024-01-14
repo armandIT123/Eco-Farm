@@ -3,32 +3,34 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:EcoFarm"
              x:DataType="local:LoginViewModel"
-             x:Class="EcoFarm.LoginPage" Shell.NavBarIsVisible="False">
+             x:Class="EcoFarm.LoginPage" 
+             Shell.NavBarIsVisible="False"
+             Background="{StaticResource Background}">
     <Grid>
         <StackLayout Margin="20, 0, 20, 0" VerticalOptions="StartAndExpand">
-            <Button Text="Treci Peste" HorizontalOptions="End" CornerRadius="50" Background="#4B8E4B" Command="{Binding Skip}"/>
+            <Button Text="Treci Peste" HorizontalOptions="End" CornerRadius="50" Background="{StaticResource MainColor}" Command="{Binding Skip}"/>
             <StackLayout Margin="0,20">
-                <Label FontFamily="bold" FontSize="25" HorizontalOptions="Center" Text="Bine ai venit!"/>
+                <Label FontFamily="bold" FontSize="25" HorizontalOptions="Center" FontAttributes="Bold" Text="Bine ai venit!"/>
                 <Label HorizontalOptions="Center" FontSize="16" Text="Please login with your account to continue"/>
             </StackLayout>
 
             <StackLayout>
                 <Grid Margin="0, 30, 0, 20">
-                    <Frame Opacity="0.5" BackgroundColor="White" CornerRadius="10" WidthRequest="345" HeightRequest="50"/>
+                    <Frame Opacity="0.5" BackgroundColor="White" CornerRadius="10" BorderColor="White" WidthRequest="345" HeightRequest="50"/>
                     <Entry BackgroundColor="Transparent" Placeholder="Adresă e-mail" TextColor="Black" PlaceholderColor="Black" WidthRequest="310" HeightRequest="50"/>
                 </Grid>
 
                 <Grid Margin="0,5">
-                    <Frame Opacity="0.5" BackgroundColor="White" CornerRadius="10" WidthRequest="345" HeightRequest="50"/>
+                    <Frame Opacity="0.5" BackgroundColor="White" BorderColor="White" CornerRadius="10" WidthRequest="345" HeightRequest="50"/>
                     <Entry BackgroundColor="Transparent" Placeholder="Parolă" TextColor="Black" PlaceholderColor="Black" WidthRequest="310" HeightRequest="50" IsPassword="True"/>
                 </Grid>
             </StackLayout>
 
-            <Label FontFamily="OpenSansRegular" TextColor="#4B8E4B" FontSize="14" Text="Forgot Password?" VerticalOptions="EndAndExpand" HorizontalOptions="EndAndExpand"/>
+            <Label FontFamily="OpenSansRegular" FontSize="14" Text="Forgot Password?" VerticalOptions="EndAndExpand" HorizontalOptions="EndAndExpand"/>
 
-            <Button Margin="0,15" Text="Sign in" TextColor="White" BackgroundColor="#4B8E4B" WidthRequest="345" HeightRequest="50" FontFamily="bold"/>
+            <Button Margin="0,15" Text="Sign in" TextColor="White" CornerRadius="15" BackgroundColor="{StaticResource MainColor}" WidthRequest="345" HeightRequest="50" FontFamily="bold"/>
 
-            <Label FontFamily="bold" TextColor="Black" FontSize="14" Text="Or sign in with" VerticalOptions="Center" HorizontalOptions="Center"/>
+            <Label FontFamily="bold" FontSize="14" Text="Or sign in with" VerticalOptions="Center" HorizontalOptions="Center"/>
 
             <HorizontalStackLayout Grid.Row="3" Spacing="50" Margin="0, 20, 0, 20" HorizontalOptions="Center" Padding="10">
                 <Grid>
