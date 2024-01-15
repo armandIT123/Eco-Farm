@@ -67,8 +67,10 @@
 		<None Remove="Resources\AppIcon\ierburi.png" />
 		<None Remove="Resources\AppIcon\loading.png" />
 		<None Remove="Resources\AppIcon\main.png" />
+		<None Remove="Resources\AppIcon\minus.png" />
 		<None Remove="Resources\AppIcon\more.png" />
 		<None Remove="Resources\AppIcon\oua.png" />
+		<None Remove="Resources\AppIcon\plus.png" />
 		<None Remove="Resources\AppIcon\search.png" />
 		<None Remove="Resources\AppIcon\user.png" />
 	</ItemGroup>
@@ -108,8 +110,10 @@
 		<MauiImage Include="Resources\AppIcon\ierburi.png" />
 		<MauiImage Include="Resources\AppIcon\loading.png" />
 		<MauiImage Include="Resources\AppIcon\main.png" />
+		<MauiImage Include="Resources\AppIcon\minus.png" />
 		<MauiImage Include="Resources\AppIcon\more.png" />
 		<MauiImage Include="Resources\AppIcon\oua.png" />
+		<MauiImage Include="Resources\AppIcon\plus.png" />
 		<MauiImage Include="Resources\AppIcon\search.png" />
 		<MauiImage Include="Resources\AppIcon\user.png" />
 	</ItemGroup>

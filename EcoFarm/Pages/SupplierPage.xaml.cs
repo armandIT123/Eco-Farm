@@ -14,6 +14,8 @@ public class SupplierPageViewModel : DataContextBase, IQueryAttributable
     }
 
     #region Members & Init
+    private ProductBottomSheet bottomSheet;
+
     private Supplier currentSupplier = null;
     private ObservableCollection<Product> products;
     private ObservableCollection<Review> reviews;
@@ -24,7 +26,6 @@ public class SupplierPageViewModel : DataContextBase, IQueryAttributable
 
     public SupplierPageViewModel()
     {
-
     }
     #endregion
 
@@ -106,6 +107,13 @@ public class SupplierPageViewModel : DataContextBase, IQueryAttributable
     public ICommand PressedButtonsCommand => new CommandHelper<int>((param) =>
     {
         PressedButton = (SupplierButtonsEnum)param;
+    });
+
+    public ICommand ProductSelected => new CommandHelper<int>((param) =>
+    {
+        bottomSheet = new ProductBottomSheet();
+        bottomSheet.DisplayProduct(products.FirstOrDefault(x => x.Id == param));
+        bottomSheet.ShowAsync();
     });
     #endregion
 

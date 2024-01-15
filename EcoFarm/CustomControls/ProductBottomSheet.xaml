@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<the49:BottomSheet xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:the49="https://schemas.the49.com/dotnet/2023/maui"
+             xmlns:local="clr-namespace:EcoFarm"
+             x:Class="EcoFarm.ProductBottomSheet"
+             x:DataType="local:ProductBottomSheetViewModel"
+             Background="White">
+
+    <the49:BottomSheet.Detents>
+        <the49:RatioDetent Ratio="0.8" />
+    </the49:BottomSheet.Detents>
+
+    <AbsoluteLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+
+        <ImageButton Grid.Row="0" Clicked="CloseButton_Clicked" Margin="10" Source="back.png" ZIndex="1" WidthRequest="32" HeightRequest="32" CornerRadius="16"
+                     AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds="0, 0, AutoSize, AutoSize" VerticalOptions="Start" HorizontalOptions="Start">
+            <ImageButton.Shadow>
+                <Shadow Brush="Black" Opacity="0.8" Radius="10" />
+            </ImageButton.Shadow>
+        </ImageButton>
+
+        <ScrollView Orientation="Vertical" AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="32"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Image Grid.Row="0" Source="{Binding Image, Converter={local:ByteArrayToImageSourceConverter}}" Aspect="Fill"/>
+                <Label Grid.Row="1" Text="{Binding Name}" FontAttributes="Bold"    Margin="16, 8, 16, 0" FontSize="Large"  TextColor="{StaticResource MainTextColor}"/>
+                <Label Grid.Row="2" Text="{Binding Price, StringFormat='{0} lei'}" Margin="16, 8, 16, 0" FontSize="Medium" TextColor="{StaticResource MainTextColor}"/>
+                <Label Grid.Row="3" Text="{Binding Description}"                   Margin="16, 8, 16, 0" FontSize="Body"/>
+                <HorizontalStackLayout Grid.Row="4" HorizontalOptions="Center" VerticalOptions="Center" Margin="0, 16, 0, 96">
+                    <ImageButton Source="minus.png" HeightRequest="32" WidthRequest="32" CornerRadius="16" Background="{StaticResource MainColor}" Command="{Binding ChangeQuantity}" CommandParameter="-"
+                         Margin="0, 0, 16, 0" IsEnabled="{Binding IsDecreaseQuantityBtnEnabled}"/>
+                    <Label Text="{Binding Quantity}" FontSize="Medium" VerticalOptions="Center"/>
+                    <ImageButton Source="plus.png"  HeightRequest="32" WidthRequest="32" CornerRadius="16" Background="{StaticResource MainColor}" Command="{Binding ChangeQuantity}" CommandParameter="+"
+                         Margin="16, 0, 0, 0"/>
+                </HorizontalStackLayout>
+            </Grid>
+        </ScrollView>
+
+        <Button Text="{Binding ButtonText}" Background="{StaticResource MainColor}" TextColor="White" FontAttributes="Bold" FontSize="Medium" VerticalOptions="End" HorizontalOptions="Center"  CornerRadius="15" Margin="0, 0, 0, 24"
+                 AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds="0.5, 1, AutoSize, AutoSize">
+            <Button.Shadow>
+                <Shadow Brush="Black" Opacity="0.8" Radius="10" />
+            </Button.Shadow>
+        </Button>
+
+    </AbsoluteLayout>
+</the49:BottomSheet>
