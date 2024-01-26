@@ -37,9 +37,9 @@ public class UserController : Controller
         try
         {
             object[] values = { identityUser.Email, identityUser.PasswordHash,  identityUser.UserName};
-            bool success = DbManager.Insert(_configuration.GetConnectionString("SqlServerDb") ?? "", nameof(Tabels.Users), Tabels.Users(post: true), values);
+            int? success = DbManager.InsertAndReturnId(_configuration.GetConnectionString("SqlServerDb") ?? "", nameof(Tabels.Users), Tabels.Users(post: true), values);
 
-            if (success)
+            if (success > 0)
             {
                 string jwt = GenerateToken(user.Email);
                 return Ok(jwt);

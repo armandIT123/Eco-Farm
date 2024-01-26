@@ -11,7 +11,7 @@ namespace Core.Controllers
         public static void Insert(string message, LoggerMessageType messageType, string location)
         {
             object[] values = {0 , message, messageType, location, DateTime.UtcNow };
-            DbManager.Insert("", nameof(Tabels.Logger), Tabels.Logger, values);
+            DbManager.InsertAndReturnId("", nameof(Tabels.Logger), Tabels.Logger, values);
         }
     }
 }
