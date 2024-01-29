@@ -13,11 +13,11 @@
     Title="EcoFarm">
 
     <TabBar>
-        <ShellContent Title="Acasă"     ContentTemplate="{DataTemplate local:MainPage}" Route="MainPage" Icon="home.png" Style="{x:StaticResource Key=TabBar}"/>
-        <ShellContent Title="Descoperă" ContentTemplate="{DataTemplate local:DiscoverPage}" Route="DiscoverPage" Icon="search.png"/>
-        <ShellContent Title="Coș"       ContentTemplate="{DataTemplate local:MainPage}" Route="BasketPage" Icon="cos.png"/>
-        <ShellContent Title="Favorite"  ContentTemplate="{DataTemplate local:MainPage}" Route="FavoritePage" Icon="heart.png"/>
-        <ShellContent Title="Profil"    ContentTemplate="{DataTemplate local:MainPage}" Route="ProfilePage" Icon="user.png"/>
+        <ShellContent Title="Acasă"     ContentTemplate="{DataTemplate local:MainPage}"     Route="MainPage"     Icon="home.png"   Style="{x:StaticResource Key=TabBar}"/>
+        <ShellContent Title="Descoperă" ContentTemplate="{DataTemplate local:DiscoverPage}" Route="DiscoverPage" Icon="search.png" />
+        <ShellContent Title="Coș"       ContentTemplate="{DataTemplate local:BasketPage}"   Route="BasketPage"   Icon="cos.png"   />
+        <ShellContent Title="Favorite"  ContentTemplate="{DataTemplate local:MainPage}"     Route="FavoritePage" Icon="heart.png"/>
+        <ShellContent Title="Profil"    ContentTemplate="{DataTemplate local:MainPage}"     Route="ProfilePage"  Icon="user.png"/>
     </TabBar>
 
 </Shell>

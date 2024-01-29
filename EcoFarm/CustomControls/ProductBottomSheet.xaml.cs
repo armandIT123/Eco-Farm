@@ -20,7 +20,7 @@ public class ProductBottomSheetViewModel : DataContextBase
     public byte[] Image => product?.Image;
     public string Name => product?.Name;
     public string Description => product?.Description;
-    public double Price => product?.Price ?? 0;
+    public decimal Price => product?.Price ?? 0;
 
     public int Quantity
     {
@@ -44,6 +44,15 @@ public class ProductBottomSheetViewModel : DataContextBase
         Quantity += param == "+" ? 1 : -1;
     });
 
+    public ICommand AddToBasket => new CommandHelper((param) =>
+    {
+        var basketVM = ServiceHelper.GetService<BasketPageViewModel>();
+        if(basketVM != null)
+        {
+            basketVM.AddToBasket(product, quantity);
+        }
+    });
+
     public void DisplayProduct(Product product)
     {
         this.product = product;
@@ -55,7 +64,7 @@ public class ProductBottomSheetViewModel : DataContextBase
     }
 }
 
-public partial class ProductBottomSheet : BottomSheet, INotifyPropertyChanged
+public partial class ProductBottomSheet : BottomSheet
 {
 	private ProductBottomSheetViewModel viewModel;
 

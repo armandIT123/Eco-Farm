@@ -38,7 +38,7 @@ public class ProductController : ControllerBase
                     SupplierId = Convert.ToInt32(data[pos++]),
                     Name = data[pos++] as string,
                     Description = data[pos++] as string,
-                    Price = Convert.ToDouble(data[pos++]),
+                    Price = (decimal)data[pos++],
                     Category = data[pos] as string,
                 };
 

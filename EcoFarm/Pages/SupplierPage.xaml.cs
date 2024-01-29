@@ -153,21 +153,24 @@ public class SupplierPageViewModel : DataContextBase, IQueryAttributable
 
 public partial class SupplierPage : ContentPage
 {
-    private SupplierPageViewModel dataContext = null;
-
-    public SupplierPage()
+    private SupplierPageViewModel supplierPageViewModel = null;
+    private int previousSupplierId;
+    public SupplierPage(SupplierPageViewModel viewModel)
     {
         InitializeComponent();
-        dataContext = new SupplierPageViewModel();
-        BindingContext = dataContext;
+        supplierPageViewModel = viewModel;
+        BindingContext = supplierPageViewModel;
     }
 
-    protected override void OnAppearing()
+    protected override async void OnAppearing()
     {
+        //Thread.Sleep(500);
         base.OnAppearing();
-        dataContext?.GetSupplierInfo();
-        dataContext?.GetSupplierProducts();
-
-        
+        if (supplierPageViewModel.CurrentSupplier?.Id != previousSupplierId)
+        {
+            await supplierPageViewModel.GetSupplierInfo();
+            supplierPageViewModel.GetSupplierProducts();
+        }
+        previousSupplierId = supplierPageViewModel.CurrentSupplier?.Id ?? 0;
     }
 }

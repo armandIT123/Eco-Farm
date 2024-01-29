@@ -29,6 +29,9 @@ namespace EcoFarm
 
             builder.Services.AddSingleton<MainPage>();
             builder.Services.AddSingleton<HomeViewModel>();
+
+            builder.Services.AddSingleton<BasketPage>();
+            builder.Services.AddSingleton<BasketPageViewModel>();
             #endregion
 
             #region Core
@@ -59,7 +62,6 @@ namespace EcoFarm
 #endif
             var app = builder.Build();
             ServiceHelper.Initialize(app.Services);
-
 
             return app;
         }

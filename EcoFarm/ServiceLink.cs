@@ -7,6 +7,17 @@ using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace EcoFarm;
+
+public static class ServiceHelper
+{
+    public static IServiceProvider Services { get; private set; }
+
+    public static void Initialize(IServiceProvider serviceProvider) =>
+        Services = serviceProvider;
+
+    public static T GetService<T>() => Services.GetService<T>();
+}
+
 internal interface IServiceLink
 {
     string localHostClient { get; }
@@ -18,16 +29,6 @@ internal interface IServiceLink
     internal Task<SupplierAbout> GetSupplierDesciption(int supplierId);
 
     internal Task<string> RegisterUser(RegisterDTO registerDTO);
-}
-
-public static class ServiceHelper
-{
-    public static IServiceProvider Services { get; private set; }
-
-    public static void Initialize(IServiceProvider serviceProvider) =>
-        Services = serviceProvider;
-
-    public static T GetService<T>() => Services.GetService<T>();
 }
 
 internal class ServiceLink : IServiceLink
@@ -140,7 +141,48 @@ internal class ServiceLink : IServiceLink
             return null;
         }
     }
+    #endregion
 
+    #region Order
+    public async Task PlaceOrder(Order order)
+    {
+        try
+        {
+            var client = _clientFactory.CreateClient(localHostClient);
+            var content = new StringContent(JsonSerializer.Serialize(order),Encoding.UTF8);
+            var response = await client.PostAsync("/Order", content);
+            if(response.IsSuccessStatusCode)
+            {
+                string result = response.Content.ReadAsStringAsync().Result;
+            }
+        }
+        catch(Exception ex)
+        {
+            // logger
+        }
+    }
+
+    public async Task<IEnumerable<Order>> GetOrders(int userId)
+    {
+        try
+        {
+            var client = _clientFactory.CreateClient(localHostClient);
+            var data = await client.GetAsync($"/Order?userId={userId}");
+            if (data.IsSuccessStatusCode)
+            {
+                var response = await data.Content.ReadAsStringAsync();
+                return JsonSerializer.Deserialize<IEnumerable<Order>>(response, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+            }
+            return null;
+        }
+        catch (Exception ex)
+        {
+            return null;
+        }
+    }
     #endregion
 
     #region Login

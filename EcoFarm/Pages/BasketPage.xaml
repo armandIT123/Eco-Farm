@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="EcoFarm.BasketPage"
+             xmlns:local="clr-namespace:EcoFarm"
+             xmlns:models="clr-namespace:Data;assembly=Data"
+             x:DataType="local:BasketPageViewModel"
+             Background="{StaticResource Background}"
+             Title="Cos">
+
+    <Grid>
+        <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" IsVisible="{Binding AreItemsInBasket,Converter={local:InvBool}}">
+            <Label Text="Empty :(((" FontSize="25"/>
+        </VerticalStackLayout>
+
+        <VerticalStackLayout IsVisible="{Binding AreItemsInBasket}">
+            <Border HorizontalOptions="FillAndExpand" MinimumHeightRequest="100" Margin="16" VerticalOptions="Start" StrokeThickness="0" StrokeShape="RoundRectangle 15, 15, 15, 15" Background="White">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding GoToSupplier}"/>
+                </Border.GestureRecognizers>
+
+                <CollectionView x:Name="colectionVieww" ItemsSource="{Binding Products}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="{x:Type local:BasketItems}" >
+                            <Grid Margin="16, 2, 16, 2" ColumnDefinitions="104,*" RowDefinitions="32,32,32">
+
+                                <Border Grid.Row="0" Grid.Column="0" StrokeThickness="0" StrokeShape="RoundRectangle 10, 10, 10, 10" Grid.RowSpan="3" Margin="0, 0, 8, 0" VerticalOptions="Center">
+                                    <Image Source="{Binding Product.Image, Converter={local:ByteArrayToImageSourceConverter}}" HeightRequest="88" WidthRequest="88" Aspect="AspectFill"/>
+                                </Border>
+
+                                <Label Grid.Row="0" Grid.Column="1" Text="{Binding Product.Name}" FontAttributes="Bold" FontSize="16" VerticalOptions="End"/>
+                                <Label Grid.Row="1" Grid.Column="1" Text="{Binding Product.Price, StringFormat='{0} lei'}" VerticalOptions="Center" TextColor="{StaticResource SecondaryColor}"/>
+                                <HorizontalStackLayout Grid.Row="2" Grid.Column="1" HorizontalOptions="Start" VerticalOptions="Center">
+                                    <ImageButton Source="minus.png" HeightRequest="16" WidthRequest="16" CornerRadius="8" Background="{StaticResource MainColor}" Command="{Binding ChangeQuantity}" CommandParameter="-"
+                                                Margin="0, 0, 8, 0" IsEnabled="{Binding IsDecreaseBtnEnabled}"/>
+                                    <Label Text="{Binding Quantity}" FontSize="16" VerticalOptions="Center"/>
+                                    <ImageButton Source="plus.png"  HeightRequest="16" WidthRequest="16" CornerRadius="8" Background="{StaticResource MainColor}" Command="{Binding ChangeQuantity}" CommandParameter="+"
+                                                Margin="8, 0, 0, 0"/>
+                                </HorizontalStackLayout>
+                                <ImageButton Grid.Row="2" Grid.Column="1" WidthRequest="24" HeightRequest="24" HorizontalOptions="End" Source="trashcan.png" Command="{Binding Path=BindingContext.DeleteProduct, Source={x:Reference colectionVieww}}" CommandParameter="{Binding Product.Id}"/>
+
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Border>
+
+            <Label Text="Sumar comanda" Margin="16, 16, 16, 4" FontSize="20" FontAttributes="Bold"/>
+            <Border HorizontalOptions="FillAndExpand" Margin="16, 0, 16, 16" StrokeThickness="0" StrokeShape="RoundRectangle 15, 15, 15, 15" Background="White">
+                <Grid Margin="16" RowDefinitions="*,*,*,*,*" ColumnDefinitions="*, *">
+                    <Label Grid.Row="0" Grid.Column="0" Margin="8" FontSize="16" Text="Subtotal"  />
+                    <Label Grid.Row="1" Grid.Column="0" Margin="8" FontSize="16" Text="Transport"/>
+                    <Label Grid.Row="2" Grid.Column="0" Margin="8" FontSize="16" Text="Discount" TextColor="{StaticResource SecondaryColor}"/>
+                    <Label Grid.Row="4" Grid.Column="0" Margin="8" FontSize="18" Text="Total" FontAttributes="Bold"/>
+
+                    <Label Grid.Row="0" Grid.Column="1" Margin="8" FontSize="16" HorizontalOptions="End" Text="{Binding Subtotal, StringFormat='{0} lei'}" />
+                    <Label Grid.Row="1" Grid.Column="1" Margin="8" FontSize="16" HorizontalOptions="End" Text="{Binding DeliveryFee, StringFormat='{0} lei'}" />
+                    <Label Grid.Row="2" Grid.Column="1" Margin="8" FontSize="16" HorizontalOptions="End" Text="{Binding Subtotal, StringFormat='{0} lei'}" TextColor="{StaticResource SecondaryColor}"/>
+                    <Label Grid.Row="4" Grid.Column="1" Margin="8" FontSize="18" HorizontalOptions="End" Text="{Binding Total, StringFormat='{0} lei'}" FontAttributes="Bold"/>
+                </Grid>
+            </Border>
+
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>
