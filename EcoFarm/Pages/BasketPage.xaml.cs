@@ -25,17 +25,31 @@ public class BasketItems : DataContextBase
 
 public class BasketPageViewModel : DataContextBase
 {
+	#region Members & Init
 	private ObservableCollection<BasketItems> products;
 	private string notes;
+	private string supplierName;
 	private decimal subtotal;
 
 	public BasketPageViewModel()
 	{
 		products = new();
 	}
+	#endregion
 
-	public ObservableCollection<BasketItems> Products => products;
+    #region Accessors
+    public ObservableCollection<BasketItems> Products => products;
 	public bool AreItemsInBasket => products?.Count > 0;
+
+	public string SupplierName
+	{
+		get => supplierName;
+		set
+		{
+			supplierName = value;
+			OnPropertyChanged();
+		}
+	}
 
 	public string Notes
 	{
@@ -52,7 +66,6 @@ public class BasketPageViewModel : DataContextBase
 		get => subtotal;
 		set
 		{
-			
 			subtotal = value;
 			OnPropertyChanged();
 			OnPropertyChanged(nameof(Total));
@@ -60,14 +73,6 @@ public class BasketPageViewModel : DataContextBase
 	}
 	public decimal DeliveryFee => 10;
 	public decimal Total => subtotal + DeliveryFee;
-
-	public ICommand GoToSupplier => new CommandHelper(async (n) =>
-	{
-        await Shell.Current.GoToAsync(nameof(SupplierPage), new Dictionary<string, object>
-        {
-            {"CurrentSupplier", ServiceLink.Suppliers.FirstOrDefault(x => x.Id == 1) } // supplier Id
-        });
-    });
 
 	public ICommand DeleteProduct => new CommandHelper<int>((prodId) =>
 	{
@@ -81,12 +86,37 @@ public class BasketPageViewModel : DataContextBase
         OnPropertyChanged(nameof(AreItemsInBasket));
 	});
 
-	public void QuantityChanged(decimal changedAmount)
+    public ICommand GoToSupplier => new CommandHelper(async (n) =>
+    {
+        int supId = products[0]?.Product.SupplierId ?? 0;
+
+        if (supId > 0)
+        {
+            await Shell.Current.GoToAsync(nameof(SupplierPage), new Dictionary<string, object>
+            {
+                {"CurrentSupplier", ServiceLink.Suppliers.FirstOrDefault(x => x.Id == supId) }
+            });
+        }
+    });
+
+    public ICommand GoToDiscoverPage => new CommandHelper( async (n) =>
+	{
+        await Shell.Current.GoToAsync($"///{nameof(DiscoverPage)}");
+    });
+
+	public ICommand GoToNextStep => new CommandHelper((n) =>
+	{
+
+	});
+    #endregion
+
+    #region Methods
+    public void QuantityChanged(decimal changedAmount)
 	{
 		Subtotal += changedAmount;
 	}
 
-	public void AddToBasket(Product product, int quantity)
+	public void AddToBasket(Product product, int quantity, string supplierName)
 	{
 		var prod = products.FirstOrDefault(x => x.Product.Id == product.Id);
 		if (prod != null)
@@ -98,11 +128,14 @@ public class BasketPageViewModel : DataContextBase
             products.Add(newProduct);
         }
 
+		SupplierName = supplierName;
         Subtotal += product.Price * quantity;
 
 		OnPropertyChanged(nameof(AreItemsInBasket));
 		OnPropertyChanged(nameof(Products));
+		OnPropertyChanged(nameof(SupplierName));
 	}
+    #endregion
 }
 
 public partial class BasketPage : ContentPage
@@ -111,7 +144,6 @@ public partial class BasketPage : ContentPage
 	public BasketPage(BasketPageViewModel viewModel)
 	{
 		InitializeComponent();
-        //viewModel = ServiceHelper.GetService<BasketPageViewModel>();
         basketPageViewModel = viewModel;
         BindingContext = basketPageViewModel;
 	}

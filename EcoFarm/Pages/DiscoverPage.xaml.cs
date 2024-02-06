@@ -202,6 +202,7 @@ public partial class DiscoverPage : ContentPage
 
     protected override async void OnAppearing()
     {
+        //Thread.Sleep(500);
         base.OnAppearing();
     }
 }

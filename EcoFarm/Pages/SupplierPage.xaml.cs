@@ -112,7 +112,7 @@ public class SupplierPageViewModel : DataContextBase, IQueryAttributable
     public ICommand ProductSelected => new CommandHelper<int>((param) =>
     {
         bottomSheet = new ProductBottomSheet();
-        bottomSheet.DisplayProduct(products.FirstOrDefault(x => x.Id == param));
+        bottomSheet.DisplayProduct(products.FirstOrDefault(x => x.Id == param), SupplierName);
         bottomSheet.ShowAsync();
     });
     #endregion
@@ -153,8 +153,9 @@ public class SupplierPageViewModel : DataContextBase, IQueryAttributable
 
 public partial class SupplierPage : ContentPage
 {
-    private SupplierPageViewModel supplierPageViewModel = null;
+    private readonly SupplierPageViewModel supplierPageViewModel = null;
     private int previousSupplierId;
+
     public SupplierPage(SupplierPageViewModel viewModel)
     {
         InitializeComponent();

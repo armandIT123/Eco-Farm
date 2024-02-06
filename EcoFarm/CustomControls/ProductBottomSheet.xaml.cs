@@ -9,6 +9,7 @@ namespace EcoFarm;
 public class ProductBottomSheetViewModel : DataContextBase
 {
     private Product product;
+    private string supplierName;
     private int quantity = 1;
     private string buttonTextTemplate = "Adaugă în coș - {0} lei";
 
@@ -49,13 +50,14 @@ public class ProductBottomSheetViewModel : DataContextBase
         var basketVM = ServiceHelper.GetService<BasketPageViewModel>();
         if(basketVM != null)
         {
-            basketVM.AddToBasket(product, quantity);
+            basketVM.AddToBasket(product, quantity, supplierName);
         }
     });
 
-    public void DisplayProduct(Product product)
+    public void DisplayProduct(Product product, string supplierName)
     {
         this.product = product;
+        this.supplierName = supplierName;
         Quantity = 1;
         OnPropertyChanged(nameof(Image));
         OnPropertyChanged(nameof(Name));
@@ -77,9 +79,9 @@ public partial class ProductBottomSheet : BottomSheet
 		CornerRadius = 15;
 	}
 
-    public void DisplayProduct(Product product)
+    public void DisplayProduct(Product product, string supplierName)
     {
-        viewModel.DisplayProduct(product);
+        viewModel.DisplayProduct(product, supplierName);
     }
 
     private void CloseButton_Clicked(object sender, EventArgs e)
