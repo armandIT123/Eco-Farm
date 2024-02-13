@@ -37,7 +37,7 @@ public class SupplierController : ControllerBase
                     Rating = Convert.ToDouble(data[pos++]),
                     RegisterDate = Convert.ToDateTime(data[pos++]),
                 };
-                string imagePath = $"C:\\Data\\Suppliers-Images\\{100 + supplier.Id}\\main.png";
+                string imagePath = $"C:\\Data\\Suppliers-Images\\{100 + supplier.Id}\\main.jpeg";
                 supplier.Image = Tools.ImageToByteArray(imagePath);
                 suppliers.Add(supplier);
             }
