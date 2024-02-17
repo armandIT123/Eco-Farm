@@ -8,7 +8,14 @@ function Navbar() {
     const [click, setClick] = useState(false);
     const [button, setButton] = useState(true);
 
-    const handleClick = () => setClick(!click);
+    const handleClick = () => {
+        setClick(!click);
+        if (click) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+        }
+    }
     const closeMobileMenu = () => setClick(false);
 
     const showButton = () => {

@@ -50,6 +50,42 @@ public class SupplierController : ControllerBase
         return Ok(suppliers);
     }
 
+    [Route("GetSupplier")]
+    [HttpGet]    
+    public IActionResult GetSupplier(int supplierId)
+    {
+        if (!(supplierId > 0))
+            return BadRequest("Invalid Id");
+
+        string sqlFilter = $"Id={supplierId}";
+        var rawData = DbManager.Select(_configuration.GetConnectionString("SqlServerDb") ?? "", nameof(Tabels.Suppliers), Tabels.Suppliers, sqlFilter);
+
+        if (rawData == null || rawData.Count == 0)
+            return NotFound();
+
+        Supplier supplier = null;
+        try
+        {
+            int pos = 0;
+            supplier = new Supplier()
+            {
+                Id = Convert.ToInt32(rawData[0][pos++]),
+                Name = rawData[0][pos++] as string,
+                Rating = Convert.ToDouble(rawData[0][pos++]),
+                RegisterDate = Convert.ToDateTime(rawData[0][pos++]),
+            };
+            string imagePath = $"C:\\Data\\Suppliers-Images\\{100 + supplier.Id}\\main.jpeg";
+            supplier.Image = Tools.ImageToByteArray(imagePath);
+        }
+        catch (Exception ex)
+        {
+            // logg exception
+        }
+
+
+        return Ok(supplier);
+    }
+
     [Route("GetDescription")]
     [HttpGet]
     public IActionResult GetSupplierDescription(int id)
