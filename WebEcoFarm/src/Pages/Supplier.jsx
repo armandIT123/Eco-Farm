@@ -5,10 +5,12 @@ import Spinner from 'react-bootstrap/Spinner';
 import ProductCard from "../Components/ProductCard";
 import ProductModal from "../Components/ProductModal";
 import CartPreview from "../Components/CartPreview";
+import SearchBar from "../Components/SearchBar";
 
 
 export default function Supplier() {
 
+    const [unfilteredProducts, setUnfilteredProducts] = useState([])
     const [products, setProducts] = useState([]);
 
     const [supplier, setSupplier] = useState(null);
@@ -18,7 +20,26 @@ export default function Supplier() {
     const [isLoading, setIsLoading] = useState(true);
 
     const [clickedProductIndex, setClickedProductIndex] = useState(-1);
+    const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(0);
+
     const { slug, id } = useParams();
+
+    const [categories, setCategories] = useState([]);
+
+    const handleSearch = (query) => {
+
+        if (query === "") {
+            if (products.length === unfilteredProducts.length)
+                return;
+            setProducts(unfilteredProducts);
+        }
+        else
+            setProducts(unfilteredProducts.filter(x => x.name.toLowerCase().includes(query.toLowerCase())));
+    };
+
+    const handleCategoryChanged = (categoryIndex) => {
+        setSelectedCategoryIndex(categoryIndex);
+    }
 
     const fetchSupplier = async () => {
         try {
@@ -45,11 +66,12 @@ export default function Supplier() {
             if (!response.ok)
                 throw new Error(`Error: ${response.status}`);
             const data = await response.json();
+            setUnfilteredProducts(data);
             setProducts(data);
             setError(null);
         }
         catch (error) {
-            /*console.log(error.message);*/
+            console.log(error.message);
         }
         finally {
             setIsLoading(false);
@@ -61,9 +83,15 @@ export default function Supplier() {
         fetchSupplier();
     }, []);
 
+    useEffect(() => {
+        const categorySet = new Set();
+        products.forEach(product => categorySet.add(product.category));
+        setCategories(Array.from(categorySet));
+    }, [products])
+
     return (
         <>
-            {isLoading ? <Spinner animation="border" /> :
+            {isLoading ? <Spinner className="spinner" animation="border" /> :
                 <div className="supplier-page-container">
                     { // Top Part
                         supplier &&
@@ -77,17 +105,36 @@ export default function Supplier() {
                         </div>
                     }
 
-                    <div className="products-container">
-                        {products.map((product, index) => (
-                            <ProductCard key={index}
-                                product={product}
-                                onClick={() => setClickedProductIndex(index)} />
+                    <div className="category-displayer">
+                        <div className="category-displayer-title">
+                            <i className="bi bi-card-list" />
+                            <h4>Categorii</h4>
+                        </div>
+                        {categories.map((category, index) => ( // method to navigate to this (<LINK to=/#category-name/>)
+                            <div key={index} onClick={() => handleCategoryChanged(index)}>
+                                <p className={selectedCategoryIndex === index ? "selected-category" : ""}>{category}</p>
+                            </div>
                         ))}
                     </div>
-                    <CartPreview className='supplier-cart-preview' />
+
+                    <div className="category-parent">
+                        <SearchBar onSearch={handleSearch} />
+                        {categories?.map((category, index) => (
+                            <div key={index} className="category-container">
+                                <h4>{category}</h4>
+                                <div className="products-container">
+                                    {products.filter(product => product.category === category).map((product, index) => (
+                                        <ProductCard key={index}
+                                            product={product}
+                                            onClick={() => setClickedProductIndex(index)} />
+                                    ))}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                    <CartPreview supplierId={supplier?.id} className='supplier-cart-preview' />
                 </div>
             }
-
 
             {clickedProductIndex > -1 && <ProductModal
                 show={clickedProductIndex > -1}

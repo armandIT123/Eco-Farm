@@ -7,18 +7,19 @@ import { addToCart } from '../Features/cartSlice';
 export default function ProductCard({ product, onClick }) {
 
     const [quantity, setQuantity] = useState(1);
-
     const dispatch = useDispatch();
 
     const handleAddToCart = (event) => {
         /*also need to add the quantity. Modify function*/
         event.stopPropagation();
-        dispatch(addToCart(product));
+        dispatch(addToCart({ ...product, quantity }));
     }
 
     const handleQuantityChange = (newQuantity) => {
-        if (parseInt(newQuantity) >= 1)
-            setQuantity(newQuantity);
+        if (parseInt(newQuantity) >= 1) {
+            const intQuantity = parseInt(newQuantity);
+            setQuantity(intQuantity);
+        }
     };
 
     return (

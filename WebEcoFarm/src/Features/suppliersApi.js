@@ -7,7 +7,12 @@ export const suppliersApi = createApi({
         getAllSuppliers: builder.query({
             query: () => "supplier",
         }),
+        getSupplierById: builder.query({
+            query: (id) => "GetSupplier?supplierId=" + id,
+        }),
     }),
 });
+
+
 
 export const { useGetAllSuppliersQuery } = suppliersApi;

@@ -16,12 +16,11 @@ function useSlug(name) {
 function Cards() {
 
     const { data, error, isLoading } = useGetAllSuppliersQuery();
-
     return (
         <>
             <div className='cards'>
-                {isLoading && <Spinner animation="border" />}
-                {error && <p>{"A aparut o eroare: " + error.error}</p>}
+                {isLoading ? <Spinner animation="border" /> :
+                    error && <p>{"A aparut o eroare: " + error.error}</p>}
 
                 <div className='cards__container'>
                     <div className='cards__wrapper'>

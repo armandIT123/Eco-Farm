@@ -2,11 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import Button from "./Button";
+import { useSelector } from "react-redux";
 
 
 function Navbar() {
     const [click, setClick] = useState(false);
     const [button, setButton] = useState(true);
+    const [cartCount, setCartCount] = useState(0);
 
     const handleClick = () => {
         setClick(!click);
@@ -25,6 +27,8 @@ function Navbar() {
             setButton(true);
         }
     };
+
+    const cart = useSelector((state) => state.cart);
 
     useEffect(() => {
         showButton();
@@ -53,10 +57,18 @@ function Navbar() {
                                 Descoperă
                             </Link>
                         </li>
+                        <li className="nav-item">
+                            <Link to='/cos' className="nav-links" onClick={closeMobileMenu}>
+                                <div className="nav-cart-icon">
+                                    <i className="bi bi-bag-fill" />
+                                    <p>{cartCount}</p>
+                                </div>
+                            </Link>
+                        </li>
                     </ul>
                     {button && <Button buttonStyle='btn--outline'>Sign up</Button>}
                 </div>
-            </nav>
+            </nav >
         </>
     );
 }
