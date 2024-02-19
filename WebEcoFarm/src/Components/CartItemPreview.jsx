@@ -1,7 +1,7 @@
 import React from 'react'
 import QuantityControl from './QuantityControl'
 import { useDispatch } from 'react-redux';
-import { addToCart, removeFromCart } from '../Features/cartSlice';
+import { changeQuantity, removeFromCart } from '../Features/cartSlice';
 
 function CartItemPreview({ product }) {
 
@@ -12,7 +12,7 @@ function CartItemPreview({ product }) {
 
         if (intQuantity >= 1) {
             const updatedProduct = { ...product, quantity: intQuantity };
-            dispatch(addToCart(updatedProduct));
+            dispatch(changeQuantity(updatedProduct));
         }
         else if (intQuantity === 0) {
             dispatch(removeFromCart(product.id));

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useFetcher } from "react-router-dom";
 
 const SIZES = ['qc-big', 'qc-small']
 
@@ -43,6 +44,9 @@ export default function QuantityControl({ onQuantityChange, size, startValue = 1
         }
     };
 
+    useEffect(() => {
+        setQuantity(startValue);
+    }, [startValue])
 
     return (
         <div className={"quantity-control-container " + checkSize}>

@@ -10,7 +10,6 @@ export default function Cart() {
         const subtotal = cart.cartItems.reduce((accumulator, product) => {
             return accumulator + (product.quantity * product.price);
         }, 0);
-        console.log(cart);
         setSubTotal(subtotal);
     }, [cart])
 
@@ -22,7 +21,7 @@ export default function Cart() {
                     <h1>Supplier Name</h1>
                     {cart.cartItems.map((product, index) => (
                         <div key={index}>
-
+                            {product.name}
                         </div>
                     ))}
                 </div>
