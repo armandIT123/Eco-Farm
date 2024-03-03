@@ -198,19 +198,26 @@ public class DbManager
         }
     }
 
-    public static bool EmailExists(string connectionString, string table, string email)
+    public static bool? EmailExists(string connectionString, string table, string email)
     {
         string query = $"SELECT COUNT(1) FROM {table} WHERE (Email) = @Email";
 
-        using (SqlConnection connection = new SqlConnection(connectionString))
+        try
         {
-            using (var command = new SqlCommand(query, connection))
+            using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                command.Parameters.AddWithValue("@Email", email);
-                connection.Open();
-                int count = (int)command.ExecuteScalar();
-                return count > 0;
+                using (var command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@Email", email);
+                    connection.Open();
+                    int count = (int)command.ExecuteScalar();
+                    return count > 0;
+                }
             }
+        }
+        catch (Exception ex)
+        {
+            return null;
         }
     }
 

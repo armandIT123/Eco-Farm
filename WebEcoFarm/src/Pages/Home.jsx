@@ -1,4 +1,5 @@
 import Button from "../Components/Button"
+import FloatingInput from "../Components/FloatingInput";
 import Slider from "../Components/Slider"
 
 const Home = () => {

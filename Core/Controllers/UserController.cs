@@ -21,11 +21,8 @@ public class UserController : Controller
     [HttpPost]
     public IActionResult Register(RegisterDTO user)
     {
-        if(user == null)
+        if (user == null)
             return BadRequest();
-
-        if (DbManager.EmailExists(_configuration.GetConnectionString("SqlServerDb") ?? "", nameof(Tabels.Users), user.Email))
-            return BadRequest("Acest email este deja folosit");
 
         CreatePasswordHash(user.Password, out string passwordHash, out string salt);
         IdentityUser identityUser = new IdentityUser();
@@ -36,8 +33,8 @@ public class UserController : Controller
 
         try
         {
-            object[] values = { identityUser.Email, identityUser.PasswordHash,  identityUser.UserName};
-            int? success = DbManager.InsertAndReturnId(_configuration.GetConnectionString("SqlServerDb") ?? "", nameof(Tabels.Users), Tabels.Users(post: true), values);
+            object[] values = { identityUser.Email, identityUser.PasswordHash, identityUser.UserName };
+            int? success = DbManager.InsertAndReturnId(_configuration.GetConnectionString("SqlServerDb") ?? "", nameof(Tabels.Users), Tabels.Users, values);
 
             if (success > 0)
             {
@@ -47,41 +44,68 @@ public class UserController : Controller
 
             return BadRequest();
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             Logger.Insert(ex.Message, LoggerMessageType.Error, ex.StackTrace ?? nameof(UserController) + ". -->" + nameof(Register));
             return BadRequest(ex);
         }
     }
 
+    [Route("CheckEmail")]
+    [HttpPost]
+    public IActionResult CheckEmail([FromBody] string email)
+    {
+        return Ok(email);
+        if (string.IsNullOrEmpty(email))
+            return BadRequest(false);
+
+        bool? existingUser = DbManager.EmailExists(_configuration.GetConnectionString("SqlServerDb"), nameof(Tabels.Users), email);
+        return existingUser != null ? Ok(existingUser) : BadRequest(false);
+    }
+
     [HttpGet]
     public IActionResult Login(string email, string password)
     {
-        if(string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
-            return BadRequest();
+        if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
+            return BadRequest(null);
 
         try
         {
-            string sqlFilter = $"Email={email} and Password={password}";
-            var values = DbManager.Select(_configuration.GetConnectionString("SqlServerDb") ?? "", nameof(Tabels.Users), Tabels.Users(get: true), sqlFilter).FirstOrDefault();
+            string sqlFilter = $"Email={email}";
+            var values = DbManager.Select(_configuration.GetConnectionString("SqlServerDb") ?? "", nameof(Tabels.Users), Tabels.Users, sqlFilter).FirstOrDefault();
 
-            if(values?.Count > 0)
+            if (values?.Count > 0)
             {
-                IdentityUser currentlyLogedUser = new IdentityUser()
-                {
-                    Id = Convert.ToInt32(values[0]),
-                    Email = values[1] as string,
-                    
-                };
-                values = null;
-            }
+                string storedHashedPassword = values[2] as string;
+                string salt = values[3] as string;
 
-            return BadRequest();
+                if (CheckPassword(password, storedHashedPassword, salt))
+                {
+                    IdentityUser currentlyLogedUser = new IdentityUser()
+                    {
+                        Id = Convert.ToInt32(values[0]),
+                        Email = values[1] as string,
+                    };
+
+                    values = null;
+                    storedHashedPassword = null;
+                    salt = null;
+                    return Ok(currentlyLogedUser);
+                }
+                else
+                {
+                    values = null;
+                    storedHashedPassword = null;
+                    salt = null;
+                    return StatusCode(401);
+                }
+            }
+            return NotFound();
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             Logger.Insert(ex.Message, LoggerMessageType.Error, ex.StackTrace ?? nameof(UserController) + "." + nameof(Login));
-            return BadRequest(ex);
+            return BadRequest();
         }
     }
 
@@ -102,11 +126,21 @@ public class UserController : Controller
 
     private void CreatePasswordHash(string password, out string passwordHash, out string passwordSalt)
     {
-        using(var hmac = new HMACSHA512())
+        using (var hmac = new HMACSHA512())
         {
             passwordSalt = Encoding.UTF8.GetString(hmac.Key);
             var bytesPasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
-            passwordHash = Encoding.UTF8.GetString(bytesPasswordHash);            
+            passwordHash = Encoding.UTF8.GetString(bytesPasswordHash);
+        }
+    }
+
+    private bool CheckPassword(string password, string hashedPassword, string passwordSalt)
+    {
+        using (var hmac = new HMACSHA512(Encoding.UTF8.GetBytes(passwordSalt)))
+        {
+            var bytesPasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+            string passwordHash = Encoding.UTF8.GetString(bytesPasswordHash);
+            return string.Equals(hashedPassword, passwordHash);
         }
     }
     #endregion

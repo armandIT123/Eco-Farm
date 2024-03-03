@@ -15,7 +15,7 @@ export default function QuantityControl({ onQuantityChange, size, startValue = 1
             setQuantity(quantity + 1);
             onQuantityChange(quantity + 1);
         }
-        else if (event.target.className === '-') {
+        else if (event.target.className === '-' || event.target.className === "bi bi-trash3-fill") {
             if (quantity === 1) {
                 onQuantityChange(0);
             }
@@ -50,7 +50,11 @@ export default function QuantityControl({ onQuantityChange, size, startValue = 1
 
     return (
         <div className={"quantity-control-container " + checkSize}>
-            <button className="-" onClick={handleButtonClick}>-</button>
+            {canDelete && quantity === 1 ?
+                <i className="bi bi-trash3-fill" onClick={handleButtonClick}></i> :
+                <button className="-" onClick={handleButtonClick}>-</button>
+            }
+
             <input onClick={(event) => event.stopPropagation()} value={quantity} onChange={handleChange} onBlur={handleBlur} />
             <button className="+" onClick={handleButtonClick}>+</button>
         </div>

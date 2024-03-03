@@ -1,19 +1,26 @@
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { addToCart } from '../Features/cartSlice';
+
+import Modal from 'react-bootstrap/Modal';
 import QuantityControl from './QuantityControl';
 
 export default function ProductModal(props) {
 
     const [quantity, setQuantity] = useState(1);
+    const dispatch = useDispatch();
+
     const product = props.product;
 
     const handleQuantityChange = (newQuantity) => {
-        if (parseInt(newQuantity) >= 1)
-            setQuantity(newQuantity);
+        if (parseInt(newQuantity) >= 1) {
+            const intQuantity = parseInt(newQuantity);
+            setQuantity(intQuantity);
+        }
     };
 
     const handleAddToCart = () => {
+        dispatch(addToCart({ ...product, quantity }));
         props.onHide();
     }
 

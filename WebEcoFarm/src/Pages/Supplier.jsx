@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useParams } from 'react-router-dom';
 
 import Spinner from 'react-bootstrap/Spinner';
+import Ratio from 'react-bootstrap/Ratio';
+
 import ProductCard from "../Components/ProductCard";
 import ProductModal from "../Components/ProductModal";
 import CartPreview from "../Components/CartPreview";
@@ -96,10 +98,11 @@ export default function Supplier() {
                     { // Top Part
                         supplier &&
                         <div className="supplier-top-container">
-                            <img src={"data:image/jpeg;base64," + supplier.image} />
+                            <Ratio aspectRatio="21x9">
+                                <img src={"data:image/jpeg;base64," + supplier.image} />
+                            </Ratio>
                             <div className="supplier-white-board">
                                 <h2>{supplier.name}</h2>
-                                <p>asdasdasdasdasd ads ASd A dasd AS dASd as DASD a dasd ASD ASD sd dasd asd </p>
                                 <p>asdasdasdasdasd ads ASd A dasd AS dASd as DASD a dasd ASD ASD sd dasd asd </p>
                             </div>
                         </div>

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
+import CartItemPreview from '../Components/CartItemPreview';
 
 export default function Cart() {
 
@@ -17,11 +18,11 @@ export default function Cart() {
         <>
             <div className='cart-page-container'>
 
-                <div className=''>
+                <div className='cart-page-products-container'>
                     <h1>Supplier Name</h1>
                     {cart.cartItems.map((product, index) => (
-                        <div key={index}>
-                            {product.name}
+                        <div className='cart-page-item-preview'>
+                            <CartItemPreview key={index} product={product} />
                         </div>
                     ))}
                 </div>
@@ -33,7 +34,7 @@ export default function Cart() {
                     </div>
                     <div>
                         <p>Produse</p>
-                        <p>{subTotal + " lei"}</p>
+                        <p>{subTotal.toFixed(2) + " lei"}</p>
                     </div>
                     <div>
                         <p>Livrare</p>
@@ -41,7 +42,7 @@ export default function Cart() {
                     </div>
                     <div>
                         <p>TOTAL</p>
-                        <p>{subTotal + 15}</p>
+                        <p>{(subTotal + 15).toFixed(2)}</p>
                     </div>
                     <button>Confirma Comanda</button>
                 </div>

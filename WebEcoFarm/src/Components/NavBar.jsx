@@ -1,76 +1,50 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import "bootstrap-icons/font/bootstrap-icons.css";
-import Button from "./Button";
-import { useSelector } from "react-redux";
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import Offcanvas from 'react-bootstrap/Offcanvas';
 
+import LoginModal from '../LoginComponents/Login';
+import { useState } from 'react';
 
-function Navbar() {
-    const [click, setClick] = useState(false);
-    const [button, setButton] = useState(true);
-    const [cartCount, setCartCount] = useState(0);
+export default function NavBar() {
 
-    const handleClick = () => {
-        setClick(!click);
-        if (click) {
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = 'unset';
-        }
-    }
-    const closeMobileMenu = () => setClick(false);
-
-    const showButton = () => {
-        if (window.innerWidth <= 768) {
-            setButton(false);
-        } else {
-            setButton(true);
-        }
-    };
-
-    const cart = useSelector((state) => state.cart);
-
-    useEffect(() => {
-        showButton();
-    }, []);
-
-    window.addEventListener('resize', showButton);
+    const userLogged = false;
+    const [showModal, setShowModal] = useState(false);
 
     return (
         <>
-            <nav className="navbar">
-                <div className="navbar-container">
-                    <Link to="/" className="navbar-logo" onClick={closeMobileMenu}>
-                        Eco Farm
-                    </Link>
-                    <div className={click ? "menu-icon active" : "menu-icon"} onClick={handleClick}>
-                        <i className={click ? "bi bi-x-square-fill" : "bi bi-card-text"}></i>
-                    </div>
-                    <ul className={click ? "nav-menu active" : "nav-menu"}>
-                        <li className="nav-item">
-                            <Link to='/' className="nav-links" onClick={closeMobileMenu}>
-                                Acasă
-                            </Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link to='/descopera' className="nav-links" onClick={closeMobileMenu}>
-                                Descoperă
-                            </Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link to='/cos' className="nav-links" onClick={closeMobileMenu}>
-                                <div className="nav-cart-icon">
-                                    <i className="bi bi-bag-fill" />
-                                    <p>{cartCount}</p>
-                                </div>
-                            </Link>
-                        </li>
-                    </ul>
-                    {button && <Button buttonStyle='btn--outline'>Sign up</Button>}
-                </div>
-            </nav >
-        </>
-    );
-}
+            <Navbar key='md' expand='md' className="bg-body-tertiary mb-3 navbar">
+                <Container fluid className='navbar-container'>
+                    <Navbar.Brand href="/">Eco Farm</Navbar.Brand>
+                    <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-md`} />
+                    <Navbar.Offcanvas
+                        id={`offcanvasNavbar-expand-md`}
+                        aria-labelledby={`offcanvasNavbarLabel-expand-md`}
+                        placement="end"
+                    >
+                        <Offcanvas.Header closeButton>
+                            <Offcanvas.Title id={`offcanvasNavbarLabel-expand-md`}>
+                                Eco Farm
+                            </Offcanvas.Title>
+                        </Offcanvas.Header>
+                        <Offcanvas.Body>
+                            <Nav className="justify-content-end flex-grow-1 pe-3">
+                                <Nav.Link href="/" className='nav-links'>Acasă</Nav.Link>
+                                <Nav.Link href="/descopera" className='nav-links'>Descoperă</Nav.Link>
+                                {
+                                    userLogged ?
+                                        <Nav.Link href="/descopera" className='nav-links'><i className="bi bi-person-circle nav-links" /></Nav.Link> :
+                                        <i onClick={() => setShowModal(true)} className="bi bi-person-circle nav-links" />
+                                }
 
-export default Navbar;
+                            </Nav>
+
+                        </Offcanvas.Body>
+                    </Navbar.Offcanvas>
+                </Container>
+            </Navbar>
+
+            <LoginModal show={showModal} onHide={() => setShowModal(false)} />
+        </>
+    )
+}

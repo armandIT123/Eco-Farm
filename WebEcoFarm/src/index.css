@@ -4,9 +4,11 @@
 }
 
 body {
-  margin: 0px !important;
-  padding: 0px !important;
   background-color: var(--background-color);
+  width: 100%;
+  max-width: 1900px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .container {
@@ -36,46 +38,15 @@ body {
   align-items: center;
   font-size: 1.2rem;
   position: sticky;
+  margin-bottom: 0;
   top: 0;
   z-index: 999;
 }
 
-.navbar-container {
-  display: flex;
+.navbar-container{
+  background: var(--background-color);
   justify-content: center;
   align-items: center;
-  height: 80px;
-  max-width: 1500px;
-}
-
-.navbar-logo {
-  color: var(--primary-color);
-  justify-self: start;
-  margin-left: 20px;
-  cursor: pointer;
-  text-decoration: none;
-  font-size: 2rem;
-  display: flex;
-  align-items: center;
-}
-
-.fa-typo3 {
-  margin-left: 0.5rem;
-  font-size: 1.8rem;
-}
-
-.nav-menu {
-  display: grid;
-  grid-template-columns: repeat(4, auto);
-  grid-gap: 10px;
-  list-style: none;
-  text-align: center;
-  width: 60vw;
-  justify-content: end;
-  margin-right: 2rem;
-}
-
-.nav-item {
   height: 80px;
 }
 
@@ -83,69 +54,31 @@ body {
   color: var(--primary-color);
   display: flex;
   align-items: center;
-  text-decoration: none;
-  padding: 0.5rem 1rem;
-  height: 100%;
   font-weight: 500;
+}
+
+.bi-person-circle{
+  top: 0%;
+  z-index: 100;
+  right: 0%;
+  margin-right: 0.5rem;
+  margin-top: 0.5rem;
+  scale: 2;
+  cursor: pointer;
 }
 
 .nav-links:hover {
   border-bottom: 4px solid #2A6049;
   transition: all 0.2s ease-out;
+  color: var(--primary-color);
 }
 
-.fa-bars {
-  color: #fff;
-}
-
-.nav-links-mobile {
-  display: none;
-}
-
-.menu-icon {
-  display: none;
-}
-
-.nav-cart-icon{
-  position: relative;
-  height: 80px;
-  top: 50%;
-  
-}
-.bi-bag-fill{
-  position: absolute;
-  top:0%;
-  left: 0%;
-}
-.nav-cart-icon>P{
-  position: absolute;
-  color: var(--background-color);
-  top:0%;
-  left: 0%;
-}
+.offcanvas-end{
+  background-color: var(--background-color);
+ }
 
 @media screen and (max-width: 768px) {
-  .nav-menu {
-    display: flex;
-    flex-direction: column;
-    width: 90%;
-    height: 100vh;
-    position: absolute;
-    top: 0px;
-    right: -100%;
-    opacity: 1;
-    transition: all 0.5s ease;
-  }
-
-  .nav-menu.active {
-    background: #242222;
-    right: 0;
-    margin-right: 0;
-    opacity: 1;
-    transition: all 0.5s ease;
-    z-index: 1;
-  }
-
+  
   .nav-links {
     text-align: center;
     padding: 2rem;
@@ -155,66 +88,12 @@ body {
   }
 
   .nav-links:hover {
-    background-color: #fff;
     color: #242424;
+    color: var(--primary-color);
     border-radius: 0;
   }
 
-  .navbar-logo {
-    position: absolute;
-    top: 0;
-    left: 0;
-    transform: translate(25%, 50%);
-  }
-
-  .menu-icon {
-    display: block;
-    position: absolute;
-    top: 0;
-    right: 0;
-    transform: translate(-100%, 60%);
-    font-size: 1.8rem;
-    cursor: pointer;
-    transition: all 0.5s ease;
-  }
-
-  .menu-icon.active{
-    display: block;
-    position: absolute;
-    top: 0;
-    right: 80%;
-    transform: translate(0, 60%);
-    font-size: 1.8rem;
-    cursor: pointer;
-    z-index: 2;
-    transition: all 0.5s ease;
-  }
-
-  .fa-times {
-    color: #fff;
-    font-size: 2rem;
-  }
-
-  .nav-links-mobile {
-    display: block;
-    text-align: center;
-    margin: 2rem auto;
-    border-radius: 4px;
-    width: 80%;
-    text-decoration: none;
-    font-size: 1.5rem;
-    background-color: transparent;
-    color: #fff;
-    padding: 14px 20px;
-    border: 1px solid #fff;
-    transition: all 0.3s ease-out;
-  }
-
-  .nav-links-mobile:hover {
-    background: #fff;
-    color: #242424;
-    transition: 250ms;
-  }
+ 
 }
 /*#endregion Navbar*/
 
@@ -657,7 +536,7 @@ h1 {
 /*#region Supplier*/
 .supplier-page-container{
   display: grid;
-  grid-template-rows: 600px 1fr;
+  grid-template-rows: auto 1fr;
   grid-template-columns: 200px 1fr 300px;
   gap: 1rem;
   padding: 1rem;
@@ -677,7 +556,6 @@ h1 {
 
 .supplier-top-container>img{
   width: 100%;
-  height: 500px;
   object-fit: cover;
 }
 
@@ -730,6 +608,33 @@ h1 {
   scale: 1.1;
 }
 
+@media only screen and (max-width: 1024px) {
+  .supplier-page-container{
+    grid-template-columns: 200px 1fr;
+  }
+  .cart-preview-container{
+    display: none;
+  }
+  .supplier-top-container{
+    grid-column: span 2;
+  }
+}
+
+@media only screen and (max-width: 600px){
+  .supplier-page-container{
+    grid-template-columns: 1fr;
+  }
+  .category-displayer{
+    display: none;
+  }
+  .category-parent{
+    grid-column: 1;
+  }
+
+  .supplier-top-container{
+    width: 100%;
+  }
+}
 /*#endregion Supplier*/
 
 /*#region Product Card*/
@@ -743,7 +648,6 @@ h1 {
 }
 
 .products-container {
-
   display: flex;
   width: 100%;
   gap: 1rem;
@@ -820,18 +724,6 @@ h1 {
   box-shadow: 0 6px 20px rgba(56, 125, 255, 0.17);
   cursor: pointer;
 }
-
-@media only screen and (max-width: 1024px) {
-  .products-container{
-    columns: 1;
-    -webkit-columns: 1;
-    -moz-columns: 1;
-  }
-  .products-container{
-    columns: 1;
-    margin: auto;
-  }
-}
 /*#endregion Product Card*/
 
 /*#region Quantity Control*/
@@ -865,6 +757,16 @@ h1 {
   padding-left: 10px;
   padding-right: 10px;
 }
+
+.quantity-control-container>i{
+  border-width: 0px;
+  background-color: transparent;
+  font-size: small;
+  cursor: pointer;
+  color: var(--secondary-color);
+  padding-left: 10px;
+  padding-right: 10px;
+}
 /*#endregion Quantity Control*/
 
 /*#region Cart Preview*/
@@ -872,10 +774,13 @@ h1 {
   grid-row: 2;
   grid-column: 3;
   background-color: white;
+  position: sticky;
+  top: 100px;
   width: 300px;
   padding: 1rem;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   border-radius: 10px;
+  margin-bottom: auto;
 }
 
 .cart-preview-container>h4{
@@ -999,13 +904,216 @@ h1 {
   font-weight: bold;
 }
 
+.cart-page-products-container{
+  border: 1px solid var(--primary-color);
+  border-radius: 20px;
+  border-width: auto;
+  margin: auto;
+  margin-top: 0;
+  padding: 3rem;
+  width: 80%;
+}
+
+.cart-page-products-container>h1{
+  color: var(--primary-color);
+}
+
+.cart-page-item-preview{
+  width: 100%;
+  background-color: white;
+  border-radius: 10px;
+  justify-content: center;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.1rem;
+  padding-bottom: 0.1rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  height: auto;
+}
+
+.cart-page-location{
+  grid-column: 1;
+}
+
+
 /*#endregion Cart Page*/
 
+/*#region Floating Input*/
+.floating-label-group {
+  position: relative;
+  margin-top: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  padding: 5px;
+}
+
+.floating-label-group.with-icon {
+  padding-left: 40px;
+}
+
+.input-icon {
+  position: absolute;
+  left: 10px;
+  font-size: 20px; /* Adjust the size of the icon as needed */
+}
+
+.floating-input {
+  font-size: 14px;
+  padding: 5px 0;
+  display: block;
+  width: 100%;
+  border: none;
+  background-color: transparent;
+}
+
+.floating-input:focus {
+  outline: none;
+}
+
+.floating-label {
+  position: absolute;
+  pointer-events: none;
+  left: 35px; /* Adjust this based on icon width */
+  top: 50%;
+  transform: translateY(-50%);
+  transition: 0.2s ease all;
+  color: gray;
+}
+
+.floating-input:focus ~ .floating-label,
+.focused.floating-label {
+  top: 5px;
+  transform: translateY(0);
+  font-size: 12px;
+  color: var(--primary-color);
+}
+
+/* Reset the label position when icon is not present */
+.floating-label-group:not(.with-icon) .floating-label {
+  left: 10px;
+}
 
 
+/*#endregion Floating Input*/
 
+/*#region Login Modal*/
+.login-phone{
+  display: flex;
+  height: 70px;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
 
+.login-continue-button{
+  display: block;
+  margin: auto;
+  justify-content: center;
+  width: 90%;
+  height: 35px;
+  background-color: var(--secondary-color);
+  color: white;
+  border: 0px;
+  border-radius: 18px;
+}
 
+.text-with-lines {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
 
+.line {
+  flex-grow: 1;
+  border: none;
+  border-top: 1px solid #000;
+  margin: 0 10px;
+}
+
+.text {
+  white-space: nowrap;
+}
+
+.login-other-methods{
+  border: 1px solid gray;
+  display: flex;
+  height: 40px;
+  border-radius: 20px;
+  padding-left: 1rem;
+  align-items: center;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.login-other-methods:hover{
+  background-color: lightgrey;
+}
+
+.login-other-methods>p{
+  position: absolute;
+  left: 50%;
+  -ms-transform: translate(-50%, 0);
+  transform: translate(-50%, 0);
+  margin: auto;
+}
+
+.email-input-container>i{
+  cursor: pointer;
+  font-size: large;
+}
+
+.email-input-container>button{
+  display: block;
+  margin: auto;
+  width: 90%;
+  height: 35px;
+  border-radius: 18px;
+  border: 0px;
+  margin-top: 2rem;
+  color: white;
+  background-color: var(--secondary-color);
+}
+
+.email-input-container>button.invalid-continue-button{
+  pointer-events: none;
+  cursor: default;
+  background-color: gray;
+}
+
+.password-input-container>p:nth-of-type(2){
+  color: var(--primary-color);
+  cursor: pointer;
+  text-align: right;
+}
+
+.password-input-container>button{
+  display: block;
+  margin: auto;
+  width: 90%;
+  height: 35px;
+  border-radius: 18px;
+  border: 0px;
+  margin-top: 2rem;
+  color: white;
+  background-color: var(--secondary-color);
+}
+
+.password-input-container>button.invalid-password{
+  pointer-events: none;
+  cursor: default;
+  background-color: gray;
+}
+
+/*#endregion Login Modal*/
 
 
