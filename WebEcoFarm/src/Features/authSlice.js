@@ -1,30 +1,39 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { authApi } from "./authApi";
 
 const initialState = {
-    user: null,
-    token: null,
+    user: sessionStorage.getItem('loggedUser') !== null ? JSON.parse(sessionStorage.getItem('loggedUser')) : null,
 }
 
 const authSlice = createSlice({
     name: 'auth',
     initialState,
-    reducers: {
-        setCredentials: (state, action)=>{
-            const {user, accessToken} = action.payload;
-            state.user = user;
-            state.token = accessToken;
-        },
-        logOut: (state, action)=>{
-            state.user = null;
-            state.token = null;
-        }
-    },
+    extraReducers: (builder) => {
+        builder.addMatcher(
+            authApi.endpoints.checkToken.matchFulfilled,
+            (state, action) => {
+                state.user = action.payload;
+                sessionStorage.setItem('loggedUser', JSON.stringify(state.user));
+            }
+        );
+        builder.addMatcher(
+            authApi.endpoints.login.matchFulfilled,
+            (state, action) => {
+                state.user = action.payload;
+                sessionStorage.setItem('loggedUser', JSON.stringify(state.user));
+            }
+        );
+        builder.addMatcher(
+            authApi.endpoints.logOut.matchFulfilled,
+            (state, action) => {
+                state.user = null;
+                sessionStorage.removeItem('loggedUser');
+            }
+        );
+    }
 })
 
-export const {setCredentials, logOut } = authSlice.actions;
-
 export const selectCurrentUser = (state) => state.auth.user;
-export const selectCurrentToken = (state) => state.auth.token;
 
 export default authSlice.reducer;
 

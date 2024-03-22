@@ -6,13 +6,13 @@ public class IdentityUser
     public int Id { get; set; }
 
     // User name for this user
-    public string UserName { get; set; }
+    public string? UserName { get; set; }
 
     // Normalized version of the user name
     public string NormalizedUserName { get; set; }
 
     // Email address for the user
-    public string Email { get; set; }
+    public string? Email { get; set; }
 
     // Normalized version of the email address
     public string NormalizedEmail { get; set; }
@@ -27,7 +27,7 @@ public class IdentityUser
     public string PasswordHash { get; set; }
 
     // A telephone number for the user
-    public string PhoneNumber { get; set; }
+    public string? PhoneNumber { get; set; }
 
     // True if the phone number has been confirmed
     public bool PhoneNumberConfirmed { get; set; }

@@ -115,15 +115,16 @@ public class DbManager
                 using (SqlCommand command = new SqlCommand())
                 {
                     command.Connection = connection;
-                    command.CommandText = $"INSERT INTO {table} ({string.Join(", ", columns)}) VALUES ({string.Join(", ", columns.Select(c => "@" + c))})";
+                    command.CommandText = $"INSERT INTO {table} ({string.Join(", ", columns.Skip(1))}) VALUES ({string.Join(", ", columns.Skip(1).Select(c => "@" + c))})";
+                    command.CommandText += " SELECT SCOPE_IDENTITY()";
 
                     for (int i = 1; i < columns.Length; i++) // jump over ID column
                     {
-                        command.Parameters.AddWithValue("@" + columns[i], values[i]);
+                        command.Parameters.AddWithValue("@" + columns[i], values[i - 1]);
                     }
                     var result = command.ExecuteScalar();
-                    if (result != null && int.TryParse(result.ToString(), out int id))                   
-                        return id;                    
+                    if (result != null && int.TryParse(result.ToString(), out int id))
+                        return id;
                 }
             }
             return null;

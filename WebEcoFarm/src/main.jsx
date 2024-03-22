@@ -14,12 +14,16 @@ import cartReducer from './Features/cartSlice.js'
 import authReducer from './Features/authSlice.js'
 import { authApi } from './Features/authApi.js'
 
+import loginModalReducer from './Features/loginModalSlice.js';
+
+
 const store = configureStore({
   reducer: {
     cart: cartReducer,
     [suppliersApi.reducerPath]: suppliersApi.reducer,
     [authApi.reducerPath]: authApi.reducer,
     auth: authReducer,
+    loginModal: loginModalReducer,
 
   },
   middleware: (getDefaultMiddleware) =>

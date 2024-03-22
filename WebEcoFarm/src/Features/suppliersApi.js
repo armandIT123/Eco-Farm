@@ -14,5 +14,4 @@ export const suppliersApi = createApi({
 });
 
 
-
 export const { useGetAllSuppliersQuery } = suppliersApi;

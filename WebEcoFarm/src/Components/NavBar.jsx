@@ -3,13 +3,28 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 
-import LoginModal from '../LoginComponents/Login';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { selectCurrentUser } from '../Features/authSlice';
+
+import avatar from "../../public/avatar_male.png"
+import { openModal } from '../Features/loginModalSlice';
 
 export default function NavBar() {
 
-    const userLogged = false;
-    const [showModal, setShowModal] = useState(false);
+    const [userLogged, setUserLogged] = useState(false);
+
+    const user = useSelector(selectCurrentUser);
+    const dispatch = useDispatch();
+
+    const handleShowModal = () => {
+        dispatch(openModal());
+    }
+
+    useEffect(() => {
+        setUserLogged(user !== null);
+    }, [user]);
 
     return (
         <>
@@ -33,18 +48,14 @@ export default function NavBar() {
                                 <Nav.Link href="/descopera" className='nav-links'>Descoperă</Nav.Link>
                                 {
                                     userLogged ?
-                                        <Nav.Link href="/descopera" className='nav-links'><i className="bi bi-person-circle nav-links" /></Nav.Link> :
-                                        <i onClick={() => setShowModal(true)} className="bi bi-person-circle nav-links" />
+                                        <Nav.Link href="/profil/detalii" ><img src={avatar} height={32} /></Nav.Link> :
+                                        <i onClick={handleShowModal} className="bi bi-person-circle nav-links" />
                                 }
-
                             </Nav>
-
                         </Offcanvas.Body>
                     </Navbar.Offcanvas>
                 </Container>
             </Navbar>
-
-            <LoginModal show={showModal} onHide={() => setShowModal(false)} />
         </>
     )
 }

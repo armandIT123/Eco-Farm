@@ -1,49 +1,66 @@
 import React, { useEffect, useState } from 'react'
-import QuantityControl from './QuantityControl';
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import CartItemPreview from './CartItemPreview';
+import { selectCurrentUser } from '../Features/authSlice';
+import { openModal } from '../Features/loginModalSlice';
 
 
 export default function CartPreview() {
 
     const cart = useSelector((state) => state.cart);
     const [subTotal, setSubTotal] = useState(0);
+    const [count, setCount] = useState(0);
+    const [wait4Login, setWait4Login] = useState(false);
+
+    const user = useSelector(selectCurrentUser);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const GoToCart = () => {
+        if (user === null) {
+            dispatch(openModal());
+            setWait4Login(true);
+        }
+        else
+            navigate('/cos');
+    }
 
     useEffect(() => {
-        const subtotal = cart.cartItems.reduce((accumulator, product) => {
-            return accumulator + (product.quantity * product.price);
-        }, 0);
-        setSubTotal(subtotal);
+        if (wait4Login && user !== null) {
+            navigate('/cos');
+        }
+    }, [user])
+
+    useEffect(() => {
+        const cartSummary = cart.cartItems.reduce((accumulator, product) => {
+            if (!accumulator.uniqueProductIds.includes(product.id)) {
+                accumulator.uniqueProductIds.push(product.id);
+                accumulator.count += 1;
+            }
+            accumulator.subtotal += product.quantity * product.price;
+            return accumulator;
+        }, { subtotal: 0, count: 0, uniqueProductIds: [] });
+
+        setSubTotal(cartSummary.subtotal);
+        setCount(cartSummary.count);
     }, [cart])
 
-
     return (
-        <div className='cart-preview-container'>
-            <h4>Comand/a curent/a</h4>
+        <>
+            <div className='cart-preview-container'>
+                <h4>Comandă curentă</h4>
 
-            {cart.cartItems?.map((product, index) => (
-                <CartItemPreview key={index} product={product} />
-            ))}
-
-            <div className='cart-preview-summary'>
-                <div className='cart-preview-summary-subtotal'>
-                    <p>Subtotal</p>
-                    <p>{subTotal.toFixed(2) + " lei"}</p>
-                </div>
-                <div className='cart-preview-summary-discount'>
-                    <p>Reducere</p>
-                    <p></p>
-                </div>
-                <div className='cart-preview-summary-total'>
-                    <p>Total</p>
-                    <p></p>
-                </div>
-                <Link to="/cos">
-                    Continua catre cos
-                </Link>
+                {cart.cartItems?.map((product, index) => (
+                    <CartItemPreview key={index} product={product} />
+                ))}
+                <button className="cart-preview-button" onClick={() => GoToCart()}>
+                    Comandă {count} pentru {subTotal.toFixed(2) + " lei"}
+                </button>
             </div>
-        </div>
+            <button className="cart-preview-fixed-button" onClick={() => GoToCart()}>
+                Comandă {count} pentru {subTotal.toFixed(2) + " lei"}
+            </button>
+        </>
     )
 }

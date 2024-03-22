@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     items: [],
@@ -12,4 +12,6 @@ const suppliersSlice = createSlice({
     reducers: {},
 });
 
+export const selectSupplierById = (state, supplierId) => 
+  state.suppliers.items.find(supplier => supplier.id === supplierId);
 export default suppliersSlice.reducer;

@@ -23,7 +23,7 @@ function LoginMethod({ onSelectMethod }) {
             <h1>Bine ai venit</h1>
             <div className='login-phone'>
                 <FloatingInput label='Prefix' />
-                <FloatingInput label='Num/ar de telefon' onValueChange={handlePhoneNoChange} />
+                <FloatingInput label='Număr de telefon' onValueChange={handlePhoneNoChange} />
             </div>
             <button className='login-continue-button' onClick={() => handleContinueBtn()}>Continu/a</button>
 

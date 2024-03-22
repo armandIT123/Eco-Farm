@@ -825,22 +825,40 @@ h1 {
   font-weight: bold;
 }
 
-.cart-preview-summary{
+.cart-preview-button{
+  display: block;
+  margin: auto;
+  justify-content: center;
+  width: 90%;
+  height: 35px;
   background-color: var(--secondary-color);
-  border-radius: 5px;
-  padding: 1rem;
-  opacity: 80%;
-}
-
-.cart-preview-summary>div>p{
   color: white;
+  border: 0px;
+  border-radius: 18px;
 }
 
-.cart-preview-summary>div{
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  
+.cart-preview-fixed-button{
+  display: none;
+  margin: auto;
+  justify-content: center;
+  min-width: 70%;
+  width: max-content;
+  height: 35px;
+  background-color: var(--secondary-color);
+  color: white;
+  border: 0px;
+  border-radius: 18px;
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+@media screen and (max-width: 1024px) {
+  .cart-preview-fixed-button{
+    display: block;
+  }
 }
 
 /*#endregion Cart Preview*/
@@ -948,6 +966,7 @@ h1 {
   display: flex;
   align-items: center;
   padding: 5px;
+  height: 50px;
 }
 
 .floating-label-group.with-icon {
@@ -973,6 +992,13 @@ h1 {
   outline: none;
 }
 
+.floating-input.focused{
+  padding-bottom: 0px;
+  padding-top: 1rem;
+  font-size: 18px;
+  align-items: end;
+}
+
 .floating-label {
   position: absolute;
   pointer-events: none;
@@ -996,6 +1022,12 @@ h1 {
   left: 10px;
 }
 
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+  font-size: 20px; /* Adjust the size of the icon as needed */
+}
 
 /*#endregion Floating Input*/
 
@@ -1096,6 +1128,12 @@ h1 {
   text-align: right;
 }
 
+.password-input-container>p:nth-of-type(3){
+  color: red;
+  text-align: left;
+  padding-bottom: 0;
+}
+
 .password-input-container>button{
   display: block;
   margin: auto;
@@ -1103,7 +1141,6 @@ h1 {
   height: 35px;
   border-radius: 18px;
   border: 0px;
-  margin-top: 2rem;
   color: white;
   background-color: var(--secondary-color);
 }
@@ -1114,6 +1151,81 @@ h1 {
   background-color: gray;
 }
 
+.name-input-container>button{
+  display: block;
+  margin: auto;
+  width: 90%;
+  height: 35px;
+  border-radius: 18px;
+  margin-top: 2rem;
+  border: 0px;
+  color: white;
+  background-color: var(--secondary-color);
+}
+
+.name-input-container>button.invalid-name{
+  pointer-events: none;
+  cursor: default;
+  background-color: gray;
+}
 /*#endregion Login Modal*/
 
+/*#region Account Page*/
+.account-container{
+  display: grid;
+  grid-template-columns: 30% 80%;
+  padding: 5rem;
+  min-height: 100vh;
+}
 
+.account-sidebar{
+  grid-column: 1;
+}
+
+.account-content{
+  grid-column: 2;
+}
+
+.sidebar-element{
+  display: flex;
+  margin: auto;
+}
+
+.sidebar-element>p{
+  font-size: 18px;
+  margin-left: 1rem;
+}
+
+.sidebar-element:hover{
+  cursor: pointer;
+}
+
+.sidebar-element:hover img {
+  transform: scale(1.1);
+  transition: transform 0.3s ease;
+}
+
+.sidebar-element.selected{
+  color: var(--primary-color);
+}
+
+.profile-container{
+  max-width: 70%;
+}
+
+.logout-btn{
+  border: 1px solid gray;
+  cursor: pointer;
+  width: fit-content;
+  border-radius: 4px;
+  margin-right: 0;
+  margin-top: 1rem;
+  padding: 5px;
+  align-items: center; 
+}
+
+.logout-btn>img{
+  margin-right: 5px;
+}
+
+/*#endregion Account Page*/

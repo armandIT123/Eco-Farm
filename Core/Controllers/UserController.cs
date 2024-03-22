@@ -5,6 +5,8 @@ using System.Text;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Cryptography;
 using System.Security.Claims;
+using Core.Services;
+using Microsoft.AspNetCore.Http;
 
 namespace Core.Controllers;
 
@@ -13,135 +15,110 @@ namespace Core.Controllers;
 public class UserController : Controller
 {
     private readonly IConfiguration _configuration;
-    public UserController(IConfiguration configuration)
+    private readonly IUserService _userService;
+    private readonly IJwtService _jwtService;
+
+    public UserController(IConfiguration configuration, IUserService userService, IJwtService jwtService)
     {
         _configuration = configuration;
+        _userService = userService;
+        _jwtService = jwtService;
     }
 
+    [Route("register")]
     [HttpPost]
-    public IActionResult Register(RegisterDTO user)
+    public IActionResult Register([FromBody] RegisterDTO user)
     {
-        if (user == null)
-            return BadRequest();
+        if (user == null || string.IsNullOrWhiteSpace(user.Email) || string.IsNullOrWhiteSpace(user.Password))
+            return BadRequest("Invalid body");
 
-        CreatePasswordHash(user.Password, out string passwordHash, out string salt);
-        IdentityUser identityUser = new IdentityUser();
-        identityUser.PasswordHash = passwordHash;
-        identityUser.SecurityStamp = salt;
-        identityUser.Email = user.Email;
-        identityUser.UserName = user.Name;
+        int? id = _userService.Register(user);
 
-        try
+        if (!(id > 0))
+            return BadRequest("Could not register user");
+
+        string token = _jwtService.GenerateJwtToken(_configuration["Jwt:Key"], _configuration["Jwt:Issuer"], _configuration["Jwt:Audience"], (int)id, user.Name);
+
+        var cookieOptions = new CookieOptions
         {
-            object[] values = { identityUser.Email, identityUser.PasswordHash, identityUser.UserName };
-            int? success = DbManager.InsertAndReturnId(_configuration.GetConnectionString("SqlServerDb") ?? "", nameof(Tabels.Users), Tabels.Users, values);
+            HttpOnly = true,
+            Expires = DateTime.UtcNow.AddDays(90),
+            SameSite = SameSiteMode.None,
+            Secure = true // Use this option only if your site uses HTTPS
+        };
+        Response.Cookies.Append("authToken", token, cookieOptions);
 
-            if (success > 0)
-            {
-                string jwt = GenerateToken(user.Email);
-                return Ok(jwt);
-            }
+        return Ok(id);
+    }
 
-            return BadRequest();
-        }
-        catch (Exception ex)
+    [Route("check-auth-status")]
+    [HttpGet]
+    public IActionResult CheckAuthStatus()
+    {
+        var token = Request.Cookies["authToken"];
+        // token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxNyIsInVuaXF1ZV9uYW1lIjoic2RmZyIsIm5iZiI6MTcxMDM2OTk4MywiZXhwIjoxNzE4MTQ1OTgzLCJpYXQiOjE3MTAzNjk5ODN9.RZHLT-jmmgvLN-ro12Cdgv6o0LdE9ceONrpTWeMb6cg";
+        if (string.IsNullOrEmpty(token) || !_jwtService.ValidateToken(_configuration["Jwt:Key"] ?? "", token, out var principal))
+            return Unauthorized();
+
+        var userId = principal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (int.TryParse(userId, out var id) && _userService.GetUser(id, out IdentityUser? user))
         {
-            Logger.Insert(ex.Message, LoggerMessageType.Error, ex.StackTrace ?? nameof(UserController) + ". -->" + nameof(Register));
-            return BadRequest(ex);
+            return Ok(user);
         }
+        return NotFound();
+    }
+
+    [Route("logout")]
+    [HttpPost]
+    public IActionResult LogOut()
+    {
+        var deleteCookieOptions = new CookieOptions
+        {
+            HttpOnly = true,
+            Expires = DateTime.Now.AddDays(-1),
+            SameSite = SameSiteMode.Lax,
+            //Secure = true // Use this option only if your site uses HTTPS
+        };
+        Response.Cookies.Append("authToken", "", deleteCookieOptions);
+        return Ok();
     }
 
     [Route("CheckEmail")]
     [HttpPost]
-    public IActionResult CheckEmail([FromBody] string email)
+    public IActionResult CheckEmail([FromBody] RegisterDTO registerDto)
     {
-        return Ok(email);
-        if (string.IsNullOrEmpty(email))
+        // return Ok(email);
+        if (string.IsNullOrEmpty(registerDto.Email))
             return BadRequest(false);
 
-        bool? existingUser = DbManager.EmailExists(_configuration.GetConnectionString("SqlServerDb"), nameof(Tabels.Users), email);
+        bool? existingUser = DbManager.EmailExists(_configuration.GetConnectionString("SqlServerDb"), nameof(Tabels.Users), registerDto.Email);
         return existingUser != null ? Ok(existingUser) : BadRequest(false);
     }
 
-    [HttpGet]
-    public IActionResult Login(string email, string password)
+    [Route("login")]
+    [HttpPost]
+    public IActionResult Login([FromBody] RegisterDTO login)
     {
-        if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
+        if (string.IsNullOrEmpty(login.Email) || string.IsNullOrEmpty(login.Password))
             return BadRequest(null);
 
-        try
+        var user = _userService.Login(login.Email, login.Password);
+        if (user == null || user.Id == 0)
+            return NotFound("Email or passwords are incorect");
+        else
         {
-            string sqlFilter = $"Email={email}";
-            var values = DbManager.Select(_configuration.GetConnectionString("SqlServerDb") ?? "", nameof(Tabels.Users), Tabels.Users, sqlFilter).FirstOrDefault();
+            string token = _jwtService.GenerateJwtToken(_configuration["Jwt:Key"], _configuration["Jwt:Issuer"], _configuration["Jwt:Audience"], user.Id, user.UserName);
 
-            if (values?.Count > 0)
+            var cookieOptions = new CookieOptions
             {
-                string storedHashedPassword = values[2] as string;
-                string salt = values[3] as string;
+                HttpOnly = true,
+                Expires = DateTime.UtcNow.AddDays(90),
+                SameSite = SameSiteMode.None,
+                Secure = true
+            };
+            Response.Cookies.Append("authToken", token, cookieOptions);
 
-                if (CheckPassword(password, storedHashedPassword, salt))
-                {
-                    IdentityUser currentlyLogedUser = new IdentityUser()
-                    {
-                        Id = Convert.ToInt32(values[0]),
-                        Email = values[1] as string,
-                    };
-
-                    values = null;
-                    storedHashedPassword = null;
-                    salt = null;
-                    return Ok(currentlyLogedUser);
-                }
-                else
-                {
-                    values = null;
-                    storedHashedPassword = null;
-                    salt = null;
-                    return StatusCode(401);
-                }
-            }
-            return NotFound();
-        }
-        catch (Exception ex)
-        {
-            Logger.Insert(ex.Message, LoggerMessageType.Error, ex.StackTrace ?? nameof(UserController) + "." + nameof(Login));
-            return BadRequest();
+            return Ok(user);
         }
     }
-
-    #region Methods
-    private string GenerateToken(string email)
-    {
-        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
-        var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha512Signature);
-        var claims = new List<Claim>() { new Claim(ClaimTypes.Email, email) };
-
-        var token = new JwtSecurityToken(_configuration["Jwt:Issuer"], _configuration["Jwt:Audience"],
-            expires: DateTime.Now.AddDays(100),
-            signingCredentials: credentials,
-            claims: claims);
-
-        return new JwtSecurityTokenHandler().WriteToken(token);
-    }
-
-    private void CreatePasswordHash(string password, out string passwordHash, out string passwordSalt)
-    {
-        using (var hmac = new HMACSHA512())
-        {
-            passwordSalt = Encoding.UTF8.GetString(hmac.Key);
-            var bytesPasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
-            passwordHash = Encoding.UTF8.GetString(bytesPasswordHash);
-        }
-    }
-
-    private bool CheckPassword(string password, string hashedPassword, string passwordSalt)
-    {
-        using (var hmac = new HMACSHA512(Encoding.UTF8.GetBytes(passwordSalt)))
-        {
-            var bytesPasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
-            string passwordHash = Encoding.UTF8.GetString(bytesPasswordHash);
-            return string.Equals(hashedPassword, passwordHash);
-        }
-    }
-    #endregion
 }
