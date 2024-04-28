@@ -10,6 +10,7 @@ import suppliersReducer from './Features/suppliersSlice.js'
 import { suppliersApi } from './Features/suppliersApi.js';
 
 import cartReducer from './Features/cartSlice.js'
+import { orderApi } from './Features/orderApi.js'
 
 import authReducer from './Features/authSlice.js'
 import { authApi } from './Features/authApi.js'
@@ -20,14 +21,16 @@ import loginModalReducer from './Features/loginModalSlice.js';
 const store = configureStore({
   reducer: {
     cart: cartReducer,
-    [suppliersApi.reducerPath]: suppliersApi.reducer,
-    [authApi.reducerPath]: authApi.reducer,
     auth: authReducer,
     loginModal: loginModalReducer,
 
+    [suppliersApi.reducerPath]: suppliersApi.reducer,
+    [authApi.reducerPath]: authApi.reducer,
+    [orderApi.reducerPath]: orderApi.reducer,
+
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(authApi.middleware).concat(suppliersApi.middleware)
+    getDefaultMiddleware().concat(authApi.middleware).concat(suppliersApi.middleware).concat(orderApi.middleware)
 
 });
 

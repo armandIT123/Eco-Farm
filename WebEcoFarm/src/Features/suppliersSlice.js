@@ -14,4 +14,5 @@ const suppliersSlice = createSlice({
 
 export const selectSupplierById = (state, supplierId) => 
   state.suppliers.items.find(supplier => supplier.id === supplierId);
+  
 export default suppliersSlice.reducer;

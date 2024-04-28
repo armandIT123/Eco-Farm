@@ -36,13 +36,13 @@ export default function App() {
     if (userData) {
       setIsLoading(false);
     }
-    if (error) {
+    else if (error) {
       setIsLoading(false);
     }
   }, [userData, error]);
 
   if (isLoading) {
-    return <Spinner />
+    return <Spinner className='spinner' />
   }
 
   return (

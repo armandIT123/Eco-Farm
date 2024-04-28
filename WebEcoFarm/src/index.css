@@ -21,11 +21,10 @@ body {
   --primary-color: #2A6049;
   --secondary-color: #6f9863;  
 }
-.spinner{
-  position: fixed;
-  top: 0%;
+.spinner {
+  position: absolute;
+  top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
 }
 /*#endregion Intro*/
 
@@ -855,6 +854,19 @@ h1 {
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
+.spinner-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
 @media screen and (max-width: 1024px) {
   .cart-preview-fixed-button{
     display: block;
@@ -892,8 +904,16 @@ h1 {
 .cart-page-container{
   min-height: 100vh;
   display: grid;
-  grid-template-columns: 1fr 400px;
+  grid-template-columns: 2fr 1fr;
   margin-top: 4rem;
+}
+
+.cart-page-add-more>p{
+  color: var(--primary-color);
+}
+
+.cart-page-add-more:hover{
+  cursor: pointer;
 }
 
 .cart-page-summary{
@@ -928,8 +948,17 @@ h1 {
   border-width: auto;
   margin: auto;
   margin-top: 0;
-  padding: 3rem;
+  padding: 2rem;
+}
+
+.cart-page-first-column{
+  margin: auto;
+  margin-top: 2rem;
   width: 80%;
+}
+
+.payment-option>img{
+  margin-right: 1rem;
 }
 
 .cart-page-products-container>h1{
@@ -954,6 +983,57 @@ h1 {
   grid-column: 1;
 }
 
+.cart-page-first-column{
+  grid-column: 1;
+}
+
+.place-order-btn{
+  display: block;
+  margin: auto;
+  justify-content: center;
+  width: 90%;
+  height: 35px;
+  background-color: var(--secondary-color);
+  color: white;
+  border: 0px;
+  border-radius: 18px;
+}
+
+.place-order-btn-fixed{
+  display: none;
+  margin: auto;
+  justify-content: center;
+  min-width: 70%;
+  width: max-content;
+  height: 35px;
+  background-color: var(--secondary-color);
+  color: white;
+  border: 0px;
+  border-radius: 18px;
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+@media screen and (max-width: 600px) {
+
+  .cart-page-container{
+    grid-template-columns: 1fr;
+  }
+
+  .cart-page-summary{
+    position: static;
+    grid-column: 1;
+    margin: auto;
+    margin-top: 2rem;
+    width: 80%;
+  }
+  .place-order-btn-fixed{
+    display: none;
+  }
+}
 
 /*#endregion Cart Page*/
 
@@ -1229,3 +1309,116 @@ h1 {
 }
 
 /*#endregion Account Page*/
+
+/*#region Adress*/
+.adress-manual-container{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.adress-manual-inputs{
+  grid-column: 1;
+}
+
+.adress-manual-map-preview{
+  grid-column: 2;
+}
+
+.adress-manual-container>h1{
+  grid-column: span 2;
+  margin-top: 1rem;
+}
+.adress-manual-container>button{
+  grid-column: span 2;
+  width: 300px;
+  height: 40px;
+  border-radius: 20px;
+  border: 0px solid gray;
+  background-color: var(--secondary-color);
+  color: white;
+  justify-content: center;
+  margin: 1rem auto;
+}
+.adress-manual-inputs{
+  position: relative;
+  margin-right: 1rem;
+}
+.adress-manual-inputs>p{
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--primary-color);
+}
+.adress-manual-inputs>p:hover{
+  cursor: pointer;
+}
+
+.adress-manual-map-preview{
+  padding: 1rem;
+}
+
+.adress-map-result{
+  display: flex;
+  margin: 1rem;
+}
+
+.adress-map-map{
+  margin: 1rem;
+}
+
+.adress-map-result>img{
+  height: 32px;
+  width: 32px;
+  margin-right: 1rem;
+}
+
+.adress-map-container{
+  display: grid;
+}
+.adress-map-container>button{
+  width: 300px;
+  height: 40px;
+  border-radius: 20px;
+  border: 0px solid gray;
+  background-color: var(--secondary-color);
+  color: white;
+  justify-content: center;
+  margin: auto;
+}
+/*#endregion Adress*/
+
+/*#region Search dropdown*/
+.search-container {
+  position: relative;
+  width: 200px;
+}
+
+.results {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  position: absolute;
+  background: white;
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+  z-index: 1000;
+}
+
+.results li {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.results li:hover {
+  background-color: #f0f0f0;
+}
+
+/*#endregion Search dropdown*/
+
+
+
+

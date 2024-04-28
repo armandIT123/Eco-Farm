@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { orderApi } from "./orderApi";
 
 
 const initialState = {
@@ -33,6 +34,15 @@ const cartSlice = createSlice({
             state.cartItems = state.cartItems.filter(item => item.id !== itemId);
             localStorage.setItem('cartItems1', JSON.stringify(state.cartItems));
         }
+    },
+    extraReducers: (builder) => {
+        builder.addMatcher(
+            orderApi.endpoints.placeOrder.matchFulfilled,
+            (state, action) => {
+                state.cartItems = null;
+                localStorage.removeItem('cartItems1');
+            }
+        )
     },
 });
 

@@ -10,8 +10,11 @@ export const suppliersApi = createApi({
         getSupplierById: builder.query({
             query: (id) => "GetSupplier?supplierId=" + id,
         }),
+        getSupplierName: builder.query({
+            query: (id) => "supplier/get-supplier-name?supplierId=" + id,
+        }),
     }),
 });
 
 
-export const { useGetAllSuppliersQuery } = suppliersApi;
+export const { useGetAllSuppliersQuery, useGetSupplierNameQuery } = suppliersApi;

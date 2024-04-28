@@ -1,17 +1,7 @@
-import { useState, useEffect } from 'react';
-/*import { useSlug } from '../Utils';*/
-
 import CardItem from './CardItem';
 import Spinner from 'react-bootstrap/Spinner';
 import { useGetAllSuppliersQuery } from '../Features/suppliersApi';
-
-function useSlug(name) {
-    return name
-        .toLowerCase()
-        .trim()
-        .replace(/[^a-z0-9]+/g, '-')
-        .replace(/^-+|-+$/g, '');
-}
+import useSlug from '../Utilities/Navigation';
 
 function Cards() {
 
@@ -19,7 +9,7 @@ function Cards() {
     return (
         <>
             <div className='cards'>
-                {isLoading ? <Spinner animation="border" /> :
+                {isLoading ? <Spinner className='spinner' animation="border" /> :
                     error && <p>{"A aparut o eroare: " + error.error}</p>}
 
                 <div className='cards__container'>

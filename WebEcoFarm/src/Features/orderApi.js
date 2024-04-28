@@ -1,13 +1,13 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-export const authApi = createApi({
+export const orderApi = createApi({
     reducerPath: "orderApi",
     baseQuery: fetchBaseQuery({ baseUrl: "https://localhost:7184" }),
     endpoints: builder => ({
         
         placeOrder: builder.mutation({
             query: (order) => ({
-                url: '/',
+                url: '/order/place-order',
                 method: 'POST',
                 credentials: "include",
                 body: order
@@ -22,3 +22,7 @@ export const authApi = createApi({
         }),
     })
 })
+
+export const { 
+    usePlaceOrderMutation,
+    useGetOrdersQuery } = orderApi;

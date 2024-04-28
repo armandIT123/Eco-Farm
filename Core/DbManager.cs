@@ -137,7 +137,7 @@ public class DbManager
 
     public static bool Insert(string? connectionString, string table, string[] columns, List<object[]> valuesList) // to be tested
     {
-        if (columns == null || columns.Length == 0 || valuesList == null || valuesList.Count == 0 || valuesList.Any(v => v.Length != columns.Length))
+        if (columns == null || columns.Length == 0 || valuesList == null || valuesList.Count == 0)
             return false;
 
         try
@@ -152,15 +152,15 @@ public class DbManager
                     var valueParameters = new List<string>();
                     for (int i = 0; i < valuesList.Count; i++)
                     {
-                        var valueParams = columns.Select((c, j) => $"@{c}{i}{j}").ToArray();
+                        var valueParams = columns.Skip(1).Select((c, j) => $"@{c}{i}{j + 1}").ToArray();
                         valueParameters.Add($"({string.Join(", ", valueParams)})");
 
                         for (int j = 1; j < columns.Length; j++) // jump over ID column
                         {
-                            command.Parameters.AddWithValue($"@{columns[j]}{i}{j}", valuesList[i][j]);
+                            command.Parameters.AddWithValue($"@{columns[j]}{i}{j}", valuesList[i][j - 1]);
                         }
                     }
-                    command.CommandText = $"INSERT INTO {table} ({string.Join(", ", columns)}) VALUES {string.Join(", ", valueParameters)}";
+                    command.CommandText = $"INSERT INTO {table} ({string.Join(", ", columns.Skip(1))}) VALUES {string.Join(", ", valueParameters)}";
                     int rowsAffected = command.ExecuteNonQuery();
                 }
             }

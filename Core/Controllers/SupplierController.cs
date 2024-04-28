@@ -25,7 +25,7 @@ public class SupplierController : ControllerBase
 
         List<Supplier> suppliers = new();
 
-        foreach(var data in rawData)
+        foreach (var data in rawData)
         {
             try
             {
@@ -51,7 +51,7 @@ public class SupplierController : ControllerBase
     }
 
     [Route("GetSupplier")]
-    [HttpGet]    
+    [HttpGet]
     public IActionResult GetSupplier(int supplierId)
     {
         if (!(supplierId > 0))
@@ -84,6 +84,33 @@ public class SupplierController : ControllerBase
 
 
         return Ok(supplier);
+    }
+
+    [Route("get-supplier-name")]
+    [HttpGet]
+    public IActionResult GetSupplierName(int supplierId)
+    {
+        if (!(supplierId > 0))
+            return BadRequest("Invalid Id");
+
+        string sqlFilter = $"Id={supplierId}";
+        var rawData = DbManager.Select(_configuration.GetConnectionString("SqlServerDb") ?? "", nameof(Tabels.Suppliers), new string[] { "Name" }, sqlFilter).FirstOrDefault();
+
+        if (rawData == null || rawData.Count == 0)
+            return NotFound();
+
+        string supplierName = "";
+        try
+        {
+            supplierName = rawData[0] as string;
+        }
+        catch (Exception ex)
+        {
+            // logg exception
+        }
+
+
+        return Ok(new { supplierName = supplierName });
     }
 
     [Route("GetDescription")]
